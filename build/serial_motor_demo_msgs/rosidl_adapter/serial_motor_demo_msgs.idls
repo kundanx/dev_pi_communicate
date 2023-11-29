@@ -1,0 +1,3 @@
+/home/kuns/ROS_projects/dev_pi_communicate/build/serial_motor_demo_msgs/rosidl_adapter/serial_motor_demo_msgs:msg/MotorCommand.idl
+/home/kuns/ROS_projects/dev_pi_communicate/build/serial_motor_demo_msgs/rosidl_adapter/serial_motor_demo_msgs:msg/MotorVels.idl
+/home/kuns/ROS_projects/dev_pi_communicate/build/serial_motor_demo_msgs/rosidl_adapter/serial_motor_demo_msgs:msg/EncoderVals.idl

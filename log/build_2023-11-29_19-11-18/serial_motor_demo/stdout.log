@@ -1,0 +1,39 @@
+running egg_info
+creating ../../../build/serial_motor_demo/serial_motor_demo.egg-info
+writing ../../../build/serial_motor_demo/serial_motor_demo.egg-info/PKG-INFO
+writing dependency_links to ../../../build/serial_motor_demo/serial_motor_demo.egg-info/dependency_links.txt
+writing entry points to ../../../build/serial_motor_demo/serial_motor_demo.egg-info/entry_points.txt
+writing requirements to ../../../build/serial_motor_demo/serial_motor_demo.egg-info/requires.txt
+writing top-level names to ../../../build/serial_motor_demo/serial_motor_demo.egg-info/top_level.txt
+writing manifest file '../../../build/serial_motor_demo/serial_motor_demo.egg-info/SOURCES.txt'
+reading manifest file '../../../build/serial_motor_demo/serial_motor_demo.egg-info/SOURCES.txt'
+writing manifest file '../../../build/serial_motor_demo/serial_motor_demo.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/kuns/ROS_projects/dev_pi_communicate/build/serial_motor_demo/build
+creating /home/kuns/ROS_projects/dev_pi_communicate/build/serial_motor_demo/build/lib
+creating /home/kuns/ROS_projects/dev_pi_communicate/build/serial_motor_demo/build/lib/serial_motor_demo
+copying serial_motor_demo/driver.py -> /home/kuns/ROS_projects/dev_pi_communicate/build/serial_motor_demo/build/lib/serial_motor_demo
+copying serial_motor_demo/__init__.py -> /home/kuns/ROS_projects/dev_pi_communicate/build/serial_motor_demo/build/lib/serial_motor_demo
+copying serial_motor_demo/gui.py -> /home/kuns/ROS_projects/dev_pi_communicate/build/serial_motor_demo/build/lib/serial_motor_demo
+running install
+running install_lib
+creating /home/kuns/ROS_projects/dev_pi_communicate/install/serial_motor_demo/lib/python3.10/site-packages/serial_motor_demo
+copying /home/kuns/ROS_projects/dev_pi_communicate/build/serial_motor_demo/build/lib/serial_motor_demo/driver.py -> /home/kuns/ROS_projects/dev_pi_communicate/install/serial_motor_demo/lib/python3.10/site-packages/serial_motor_demo
+copying /home/kuns/ROS_projects/dev_pi_communicate/build/serial_motor_demo/build/lib/serial_motor_demo/__init__.py -> /home/kuns/ROS_projects/dev_pi_communicate/install/serial_motor_demo/lib/python3.10/site-packages/serial_motor_demo
+copying /home/kuns/ROS_projects/dev_pi_communicate/build/serial_motor_demo/build/lib/serial_motor_demo/gui.py -> /home/kuns/ROS_projects/dev_pi_communicate/install/serial_motor_demo/lib/python3.10/site-packages/serial_motor_demo
+byte-compiling /home/kuns/ROS_projects/dev_pi_communicate/install/serial_motor_demo/lib/python3.10/site-packages/serial_motor_demo/driver.py to driver.cpython-310.pyc
+byte-compiling /home/kuns/ROS_projects/dev_pi_communicate/install/serial_motor_demo/lib/python3.10/site-packages/serial_motor_demo/__init__.py to __init__.cpython-310.pyc
+byte-compiling /home/kuns/ROS_projects/dev_pi_communicate/install/serial_motor_demo/lib/python3.10/site-packages/serial_motor_demo/gui.py to gui.cpython-310.pyc
+running install_data
+creating /home/kuns/ROS_projects/dev_pi_communicate/install/serial_motor_demo/share/ament_index
+creating /home/kuns/ROS_projects/dev_pi_communicate/install/serial_motor_demo/share/ament_index/resource_index
+creating /home/kuns/ROS_projects/dev_pi_communicate/install/serial_motor_demo/share/ament_index/resource_index/packages
+copying resource/serial_motor_demo -> /home/kuns/ROS_projects/dev_pi_communicate/install/serial_motor_demo/share/ament_index/resource_index/packages
+copying package.xml -> /home/kuns/ROS_projects/dev_pi_communicate/install/serial_motor_demo/share/serial_motor_demo
+running install_egg_info
+Copying ../../../build/serial_motor_demo/serial_motor_demo.egg-info to /home/kuns/ROS_projects/dev_pi_communicate/install/serial_motor_demo/lib/python3.10/site-packages/serial_motor_demo-0.0.0-py3.10.egg-info
+running install_scripts
+Installing driver script to /home/kuns/ROS_projects/dev_pi_communicate/install/serial_motor_demo/lib/serial_motor_demo
+Installing gui script to /home/kuns/ROS_projects/dev_pi_communicate/install/serial_motor_demo/lib/serial_motor_demo
+writing list of installed files to '/home/kuns/ROS_projects/dev_pi_communicate/build/serial_motor_demo/install.log'
