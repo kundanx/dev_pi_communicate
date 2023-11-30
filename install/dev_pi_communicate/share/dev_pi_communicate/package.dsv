@@ -4,6 +4,3 @@ source;share/dev_pi_communicate/hook/pythonpath.sh
 source;share/dev_pi_communicate/hook/ament_prefix_path.ps1
 source;share/dev_pi_communicate/hook/ament_prefix_path.dsv
 source;share/dev_pi_communicate/hook/ament_prefix_path.sh
-source;../../build/dev_pi_communicate/share/dev_pi_communicate/hook/pythonpath_develop.ps1
-source;../../build/dev_pi_communicate/share/dev_pi_communicate/hook/pythonpath_develop.dsv
-source;../../build/dev_pi_communicate/share/dev_pi_communicate/hook/pythonpath_develop.sh

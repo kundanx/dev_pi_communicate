@@ -22,7 +22,8 @@ setup(
         'console_scripts': [
             'talker_node = dev_pi_communicate.talker_node:main',
             'publisher_node = dev_pi_communicate.publisher:main',
-            'subscriber_node = dev_pi_communicate.subscriber:main'
+            'subscriber_node = dev_pi_communicate.subscriber:main',
+            'serial_comm_node = dev_pi_communicate.serial_comm:main'
         ],
     },
 )

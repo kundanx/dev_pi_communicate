@@ -1,0 +1,37 @@
+running develop
+Removing /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/python3.10/site-packages/dev-pi-communicate.egg-link (link to .)
+running egg_info
+writing ../../build/dev_pi_communicate/dev_pi_communicate.egg-info/PKG-INFO
+writing dependency_links to ../../build/dev_pi_communicate/dev_pi_communicate.egg-info/dependency_links.txt
+writing entry points to ../../build/dev_pi_communicate/dev_pi_communicate.egg-info/entry_points.txt
+writing requirements to ../../build/dev_pi_communicate/dev_pi_communicate.egg-info/requires.txt
+writing top-level names to ../../build/dev_pi_communicate/dev_pi_communicate.egg-info/top_level.txt
+reading manifest file '../../build/dev_pi_communicate/dev_pi_communicate.egg-info/SOURCES.txt'
+writing manifest file '../../build/dev_pi_communicate/dev_pi_communicate.egg-info/SOURCES.txt'
+running build
+running build_py
+copying dev_pi_communicate/serial_comm.py -> /home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate/build/lib/dev_pi_communicate
+copying dev_pi_communicate/publisher.py -> /home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate/build/lib/dev_pi_communicate
+copying dev_pi_communicate/subscriber.py -> /home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate/build/lib/dev_pi_communicate
+running install
+running install_lib
+creating /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/python3.10/site-packages/dev_pi_communicate
+copying /home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate/build/lib/dev_pi_communicate/serial_comm.py -> /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/python3.10/site-packages/dev_pi_communicate
+copying /home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate/build/lib/dev_pi_communicate/publisher.py -> /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/python3.10/site-packages/dev_pi_communicate
+copying /home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate/build/lib/dev_pi_communicate/talker_node.py -> /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/python3.10/site-packages/dev_pi_communicate
+copying /home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate/build/lib/dev_pi_communicate/__init__.py -> /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/python3.10/site-packages/dev_pi_communicate
+copying /home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate/build/lib/dev_pi_communicate/subscriber.py -> /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/python3.10/site-packages/dev_pi_communicate
+byte-compiling /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/python3.10/site-packages/dev_pi_communicate/serial_comm.py to serial_comm.cpython-310.pyc
+byte-compiling /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/python3.10/site-packages/dev_pi_communicate/publisher.py to publisher.cpython-310.pyc
+byte-compiling /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/python3.10/site-packages/dev_pi_communicate/talker_node.py to talker_node.cpython-310.pyc
+byte-compiling /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/python3.10/site-packages/dev_pi_communicate/__init__.py to __init__.cpython-310.pyc
+byte-compiling /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/python3.10/site-packages/dev_pi_communicate/subscriber.py to subscriber.cpython-310.pyc
+running install_data
+running install_egg_info
+Copying ../../build/dev_pi_communicate/dev_pi_communicate.egg-info to /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/python3.10/site-packages/dev_pi_communicate-0.0.0-py3.10.egg-info
+running install_scripts
+Installing publisher_node script to /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/dev_pi_communicate
+Installing serial_comm_node script to /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/dev_pi_communicate
+Installing subscriber_node script to /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/dev_pi_communicate
+Installing talker_node script to /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/dev_pi_communicate
+writing list of installed files to '/home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate/install.log'

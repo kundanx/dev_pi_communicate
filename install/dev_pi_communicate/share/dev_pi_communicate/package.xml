@@ -13,7 +13,10 @@
   <test_depend>python3-pytest</test_depend>
 
   <depend>rclpy</depend>
-  <depend>std_msgs</depend>
+  <depend>struct</depend>
+  <depend>serial</depend>
+  <depend>geometry_msgs</depend>
+    <depend>std_msgs</depend>
   
 
   <export>
