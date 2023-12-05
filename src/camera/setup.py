@@ -11,7 +11,11 @@ setup(
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
     ],
-    install_requires=['setuptools'],
+    install_requires=[
+        'setuptools',
+        'ultralytics',
+        'supervision'
+        ],
     zip_safe=True,
     maintainer='apil',
     maintainer_email='078bct017.apil@pcampus.edu.np',
@@ -20,6 +24,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            'camera_node = camera.camera_node:main',
+            'obj_track_node = camera.object_tracker:main'
         ],
     },
 )

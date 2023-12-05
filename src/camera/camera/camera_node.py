@@ -32,5 +32,5 @@ def main(args=None):
     camera_node.destroy_node()
     rclpy.shutdown()
 
-if __name__ == '__main__':
-    main()
+# if __name__ == '__camera_node__':
+#     main()
