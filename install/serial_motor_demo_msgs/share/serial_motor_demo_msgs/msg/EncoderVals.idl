@@ -1,0 +1,14 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from serial_motor_demo_msgs/msg/EncoderVals.msg
+// generated code does not contain a copyright notice
+
+
+module serial_motor_demo_msgs {
+  module msg {
+    struct EncoderVals {
+      int32 mot_1_enc_val;
+
+      int32 mot_2_enc_val;
+    };
+  };
+};

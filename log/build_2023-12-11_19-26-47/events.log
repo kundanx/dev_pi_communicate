@@ -1,0 +1,127 @@
+[0.000000] (-) TimerEvent: {}
+[0.005001] (dev_pi_communicate) JobQueued: {'identifier': 'dev_pi_communicate', 'dependencies': OrderedDict()}
+[0.005526] (dev_pi_communicate) JobStarted: {'identifier': 'dev_pi_communicate'}
+[0.095740] (-) TimerEvent: {}
+[0.197108] (-) TimerEvent: {}
+[0.298590] (-) TimerEvent: {}
+[0.399770] (-) TimerEvent: {}
+[0.500895] (-) TimerEvent: {}
+[0.602213] (-) TimerEvent: {}
+[0.703544] (-) TimerEvent: {}
+[0.804929] (-) TimerEvent: {}
+[0.906026] (-) TimerEvent: {}
+[1.007353] (-) TimerEvent: {}
+[1.108381] (-) TimerEvent: {}
+[1.209541] (-) TimerEvent: {}
+[1.310793] (-) TimerEvent: {}
+[1.411993] (-) TimerEvent: {}
+[1.513177] (-) TimerEvent: {}
+[1.614295] (-) TimerEvent: {}
+[1.715502] (-) TimerEvent: {}
+[1.816809] (-) TimerEvent: {}
+[1.918294] (-) TimerEvent: {}
+[2.019965] (-) TimerEvent: {}
+[2.121223] (-) TimerEvent: {}
+[2.222371] (-) TimerEvent: {}
+[2.323732] (-) TimerEvent: {}
+[2.424960] (-) TimerEvent: {}
+[2.526216] (-) TimerEvent: {}
+[2.627344] (-) TimerEvent: {}
+[2.728594] (-) TimerEvent: {}
+[2.831484] (-) TimerEvent: {}
+[2.937387] (-) TimerEvent: {}
+[3.038683] (-) TimerEvent: {}
+[3.139909] (-) TimerEvent: {}
+[3.241228] (-) TimerEvent: {}
+[3.342441] (-) TimerEvent: {}
+[3.443901] (-) TimerEvent: {}
+[3.545111] (-) TimerEvent: {}
+[3.646575] (-) TimerEvent: {}
+[3.748061] (-) TimerEvent: {}
+[3.850688] (-) TimerEvent: {}
+[3.952035] (-) TimerEvent: {}
+[4.053367] (-) TimerEvent: {}
+[4.154641] (-) TimerEvent: {}
+[4.255933] (-) TimerEvent: {}
+[4.357561] (-) TimerEvent: {}
+[4.458917] (-) TimerEvent: {}
+[4.560114] (-) TimerEvent: {}
+[4.662691] (-) TimerEvent: {}
+[4.764270] (-) TimerEvent: {}
+[4.865118] (-) TimerEvent: {}
+[4.966188] (-) TimerEvent: {}
+[5.067569] (-) TimerEvent: {}
+[5.169338] (-) TimerEvent: {}
+[5.270438] (-) TimerEvent: {}
+[5.371286] (-) TimerEvent: {}
+[5.471938] (-) TimerEvent: {}
+[5.572768] (-) TimerEvent: {}
+[5.673735] (-) TimerEvent: {}
+[5.774996] (-) TimerEvent: {}
+[5.818923] (dev_pi_communicate) Command: {'cmd': ['/usr/bin/python3', 'setup.py', 'develop', '--editable', '--build-directory', '/home/rpi/ros-projects/dev_pi_communicate/build/dev_pi_communicate/build', '--no-deps', 'install_data'], 'cwd': '/home/rpi/ros-projects/dev_pi_communicate/build/dev_pi_communicate', 'env': {'LESSOPEN': '| /usr/bin/lesspipe %s', 'USER': 'rpi', 'SSH_CLIENT': '10.100.40.214 43142 22', 'LC_TIME': 'bho_NP', 'XDG_SESSION_TYPE': 'tty', 'SHLVL': '1', 'LD_LIBRARY_PATH': '/home/rpi/ros-projects/dev_pi_communicate/install/serial_motor_demo_msgs/lib:/home/rpi/ws/install/urg_node2/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/aarch64-linux-gnu:/opt/ros/humble/lib', 'MOTD_SHOWN': 'pam', 'HOME': '/home/rpi', 'OLDPWD': '/home/rpi', 'SSH_TTY': '/dev/pts/3', 'ROS_PYTHON_VERSION': '3', 'LC_MONETARY': 'bho_NP', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'COLCON_PREFIX_PATH': '/home/rpi/ros-projects/dev_pi_communicate/install:/home/rpi/ws/install', 'ROS_DISTRO': 'humble', 'LOGNAME': 'rpi', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'XDG_SESSION_CLASS': 'user', 'TERM': 'xterm-256color', 'XDG_SESSION_ID': '11', 'ROS_LOCALHOST_ONLY': '0', 'PATH': '/home/rpi/.local/bin:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/rpi/.fzf/bin', 'LC_ADDRESS': 'bho_NP', 'XDG_RUNTIME_DIR': '/run/user/1000', 'LANG': 'en_US.UTF-8', 'LC_TELEPHONE': 'bho_NP', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:', 'ROS_DOMAIN_ID': '95', 'AMENT_PREFIX_PATH': '/home/rpi/ros-projects/dev_pi_communicate/install/serial_motor_demo:/home/rpi/ros-projects/dev_pi_communicate/install/serial_motor_demo_msgs:/home/rpi/ros-projects/dev_pi_communicate/install/dev_pi_communicate:/home/rpi/ws/install/urg_node2:/home/rpi/ws/install/ros2_numpy:/home/rpi/ws/install/cfoaw:/opt/ros/humble', 'SHELL': '/bin/bash', 'LC_NAME': 'bho_NP', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'LC_MEASUREMENT': 'bho_NP', 'LC_IDENTIFICATION': 'bho_NP', 'PWD': '/home/rpi/ros-projects/dev_pi_communicate/build/dev_pi_communicate', 'SSH_CONNECTION': '10.100.40.214 43142 10.100.40.71 22', 'XDG_DATA_DIRS': '/usr/share/gnome:/usr/local/share:/usr/share:/var/lib/snapd/desktop', 'PYTHONPATH': '/home/rpi/ros-projects/dev_pi_communicate/build/dev_pi_communicate/prefix_override:/home/rpi/ros-projects/dev_pi_communicate/install/dev_pi_communicate/lib/python3.10/site-packages:/home/rpi/ros-projects/dev_pi_communicate/install/serial_motor_demo/lib/python3.10/site-packages:/home/rpi/ros-projects/dev_pi_communicate/install/serial_motor_demo_msgs/local/lib/python3.10/dist-packages:/home/rpi/ros-projects/dev_pi_communicate/build/dev_pi_communicate:/home/rpi/ros-projects/dev_pi_communicate/install/dev_pi_communicate/lib/python3.10/site-packages:/home/rpi/ws/install/ros2_numpy/local/lib/python3.10/dist-packages:/home/rpi/ws/install/cfoaw/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages', 'LC_NUMERIC': 'bho_NP', 'LC_PAPER': 'bho_NP', 'COLCON': '1', 'CMAKE_PREFIX_PATH': '/home/rpi/ros-projects/dev_pi_communicate/install/serial_motor_demo_msgs:/home/rpi/ws/install/urg_node2:/home/rpi/ws/install/ros2_numpy:/home/rpi/ws/install/cfoaw'}, 'shell': False}
+[5.875142] (-) TimerEvent: {}
+[5.975885] (-) TimerEvent: {}
+[6.076569] (-) TimerEvent: {}
+[6.177839] (-) TimerEvent: {}
+[6.278615] (-) TimerEvent: {}
+[6.379523] (-) TimerEvent: {}
+[6.481443] (-) TimerEvent: {}
+[6.582218] (-) TimerEvent: {}
+[6.683748] (-) TimerEvent: {}
+[6.784449] (-) TimerEvent: {}
+[6.885303] (-) TimerEvent: {}
+[6.986185] (-) TimerEvent: {}
+[7.087548] (-) TimerEvent: {}
+[7.188323] (-) TimerEvent: {}
+[7.289076] (-) TimerEvent: {}
+[7.378312] (dev_pi_communicate) StdoutLine: {'line': b'running develop\n'}
+[7.380191] (dev_pi_communicate) StderrLine: {'line': b'/usr/lib/python3/dist-packages/setuptools/command/easy_install.py:158: EasyInstallDeprecationWarning: easy_install command is deprecated. Use build and pip and other standards-based tools.\n'}
+[7.380997] (dev_pi_communicate) StderrLine: {'line': b'  warnings.warn(\n'}
+[7.386049] (dev_pi_communicate) StderrLine: {'line': b'/usr/lib/python3/dist-packages/setuptools/command/install.py:34: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.\n'}
+[7.386651] (dev_pi_communicate) StderrLine: {'line': b'  warnings.warn(\n'}
+[7.389232] (-) TimerEvent: {}
+[7.489989] (-) TimerEvent: {}
+[7.590656] (-) TimerEvent: {}
+[7.691448] (-) TimerEvent: {}
+[7.792435] (-) TimerEvent: {}
+[7.832556] (dev_pi_communicate) StderrLine: {'line': b'/usr/lib/python3/dist-packages/pkg_resources/__init__.py:116: PkgResourcesDeprecationWarning: 1.16.0-unknown is an invalid version and will not be supported in a future release\n'}
+[7.833324] (dev_pi_communicate) StderrLine: {'line': b'  warnings.warn(\n'}
+[7.834267] (dev_pi_communicate) StderrLine: {'line': b'/usr/lib/python3/dist-packages/pkg_resources/__init__.py:116: PkgResourcesDeprecationWarning: 1.1build1 is an invalid version and will not be supported in a future release\n'}
+[7.834826] (dev_pi_communicate) StderrLine: {'line': b'  warnings.warn(\n'}
+[7.835788] (dev_pi_communicate) StderrLine: {'line': b'/usr/lib/python3/dist-packages/pkg_resources/__init__.py:116: PkgResourcesDeprecationWarning: 0.1.43ubuntu1 is an invalid version and will not be supported in a future release\n'}
+[7.836337] (dev_pi_communicate) StderrLine: {'line': b'  warnings.warn(\n'}
+[7.892630] (-) TimerEvent: {}
+[7.993476] (-) TimerEvent: {}
+[8.094205] (-) TimerEvent: {}
+[8.194964] (-) TimerEvent: {}
+[8.295687] (-) TimerEvent: {}
+[8.396403] (-) TimerEvent: {}
+[8.497206] (-) TimerEvent: {}
+[8.597898] (-) TimerEvent: {}
+[8.649259] (dev_pi_communicate) StdoutLine: {'line': b'running egg_info\n'}
+[8.650328] (dev_pi_communicate) StdoutLine: {'line': b'writing dev_pi_communicate.egg-info/PKG-INFO\n'}
+[8.651628] (dev_pi_communicate) StdoutLine: {'line': b'writing dependency_links to dev_pi_communicate.egg-info/dependency_links.txt\n'}
+[8.653122] (dev_pi_communicate) StdoutLine: {'line': b'writing entry points to dev_pi_communicate.egg-info/entry_points.txt\n'}
+[8.654151] (dev_pi_communicate) StdoutLine: {'line': b'writing requirements to dev_pi_communicate.egg-info/requires.txt\n'}
+[8.654992] (dev_pi_communicate) StdoutLine: {'line': b'writing top-level names to dev_pi_communicate.egg-info/top_level.txt\n'}
+[8.664619] (dev_pi_communicate) StdoutLine: {'line': b"reading manifest file 'dev_pi_communicate.egg-info/SOURCES.txt'\n"}
+[8.669709] (dev_pi_communicate) StdoutLine: {'line': b"writing manifest file 'dev_pi_communicate.egg-info/SOURCES.txt'\n"}
+[8.676949] (dev_pi_communicate) StdoutLine: {'line': b'running build_ext\n'}
+[8.678192] (dev_pi_communicate) StdoutLine: {'line': b'Creating /home/rpi/ros-projects/dev_pi_communicate/install/dev_pi_communicate/lib/python3.10/site-packages/dev-pi-communicate.egg-link (link to .)\n'}
+[8.683174] (dev_pi_communicate) StdoutLine: {'line': b'Installing camera_node script to /home/rpi/ros-projects/dev_pi_communicate/install/dev_pi_communicate/lib/dev_pi_communicate\n'}
+[8.684138] (dev_pi_communicate) StdoutLine: {'line': b'Installing frame_publisher script to /home/rpi/ros-projects/dev_pi_communicate/install/dev_pi_communicate/lib/dev_pi_communicate\n'}
+[8.685395] (dev_pi_communicate) StdoutLine: {'line': b'Installing joy_node script to /home/rpi/ros-projects/dev_pi_communicate/install/dev_pi_communicate/lib/dev_pi_communicate\n'}
+[8.686328] (dev_pi_communicate) StdoutLine: {'line': b'Installing publisher_node script to /home/rpi/ros-projects/dev_pi_communicate/install/dev_pi_communicate/lib/dev_pi_communicate\n'}
+[8.687393] (dev_pi_communicate) StdoutLine: {'line': b'Installing serial_comm_node script to /home/rpi/ros-projects/dev_pi_communicate/install/dev_pi_communicate/lib/dev_pi_communicate\n'}
+[8.688608] (dev_pi_communicate) StdoutLine: {'line': b'Installing static_baselink_laserframe_broadcaster script to /home/rpi/ros-projects/dev_pi_communicate/install/dev_pi_communicate/lib/dev_pi_communicate\n'}
+[8.689648] (dev_pi_communicate) StdoutLine: {'line': b'Installing subscriber_node script to /home/rpi/ros-projects/dev_pi_communicate/install/dev_pi_communicate/lib/dev_pi_communicate\n'}
+[8.690675] (dev_pi_communicate) StdoutLine: {'line': b'Installing talker_node script to /home/rpi/ros-projects/dev_pi_communicate/install/dev_pi_communicate/lib/dev_pi_communicate\n'}
+[8.692310] (dev_pi_communicate) StdoutLine: {'line': b'\n'}
+[8.693310] (dev_pi_communicate) StdoutLine: {'line': b'Installed /home/rpi/ros-projects/dev_pi_communicate/build/dev_pi_communicate\n'}
+[8.694501] (dev_pi_communicate) StdoutLine: {'line': b'running install_data\n'}
+[8.698324] (-) TimerEvent: {}
+[8.799978] (-) TimerEvent: {}
+[8.848364] (dev_pi_communicate) CommandEnded: {'returncode': 0}
+[8.900134] (-) TimerEvent: {}
+[8.962643] (dev_pi_communicate) JobEnded: {'identifier': 'dev_pi_communicate', 'rc': 0}
+[8.967647] (-) EventReactorShutdown: {}

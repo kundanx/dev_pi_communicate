@@ -1,0 +1,10 @@
+[console_scripts]
+camera_node = dev_pi_communicate.camera:main
+frame_publisher = dev_pi_communicate.broadcaster:main
+joy_node = dev_pi_communicate.joy_node:main
+publisher_node = dev_pi_communicate.publisher:main
+serial_comm_node = dev_pi_communicate.serial_comm_node:main
+static_baselink_laserframe_broadcaster = dev_pi_communicate.static_tf:main
+subscriber_node = dev_pi_communicate.subscriber:main
+talker_node = dev_pi_communicate.talker_node:main
+

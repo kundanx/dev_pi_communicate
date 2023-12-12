@@ -1,0 +1,4 @@
+[console_scripts]
+driver = serial_motor_demo.driver:main
+gui = serial_motor_demo.gui:main
+

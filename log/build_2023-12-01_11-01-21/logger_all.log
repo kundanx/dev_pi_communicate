@@ -1,0 +1,136 @@
+[3.817s] DEBUG:colcon:Command line arguments: ['/usr/bin/colcon', 'build', '--symlink-install']
+[3.817s] DEBUG:colcon:Parsed command line arguments: Namespace(log_base=None, log_level=None, verb_name='build', build_base='build', install_base='install', merge_install=False, symlink_install=True, test_result_base=None, continue_on_error=False, executor='parallel', parallel_workers=4, event_handlers=None, ignore_user_meta=False, metas=['./colcon.meta'], base_paths=['.'], packages_ignore=None, packages_ignore_regex=None, paths=None, packages_up_to=None, packages_up_to_regex=None, packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_select_by_dep=None, packages_skip_by_dep=None, packages_skip_up_to=None, packages_select_build_failed=False, packages_skip_build_finished=False, packages_select_test_failures=False, packages_skip_test_passed=False, packages_select=None, packages_skip=None, packages_select_regex=None, packages_skip_regex=None, packages_start=None, packages_end=None, allow_overriding=[], cmake_args=None, cmake_target=None, cmake_target_skip_unavailable=False, cmake_clean_cache=False, cmake_clean_first=False, cmake_force_configure=False, ament_cmake_args=None, catkin_cmake_args=None, catkin_skip_building_tests=False, verb_parser=<colcon_defaults.argument_parser.defaults.DefaultArgumentsDecorator object at 0x7f3b3ac9aec0>, verb_extension=<colcon_core.verb.build.BuildVerb object at 0x7f3b3ac9a0b0>, main=<bound method BuildVerb.main of <colcon_core.verb.build.BuildVerb object at 0x7f3b3ac9a0b0>>)
+[4.002s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) check parameters
+[4.003s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) check parameters
+[4.003s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) check parameters
+[4.003s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) check parameters
+[4.003s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) discover
+[4.003s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) discover
+[4.003s] INFO:colcon.colcon_core.package_discovery:Crawling recursively for packages in '/home/kuns/ROS_projects/dev_pi_communicate'
+[4.004s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ignore', 'ignore_ament_install']
+[4.004s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore'
+[4.004s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore_ament_install'
+[4.004s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_pkg']
+[4.004s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_pkg'
+[4.005s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_meta']
+[4.005s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_meta'
+[4.005s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ros']
+[4.005s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ros'
+[4.044s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['cmake', 'python']
+[4.045s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'cmake'
+[4.045s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python'
+[4.045s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['python_setup_py']
+[4.045s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python_setup_py'
+[4.045s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extensions ['ignore', 'ignore_ament_install']
+[4.045s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extension 'ignore'
+[4.046s] Level 1:colcon.colcon_core.package_identification:_identify(build) ignored
+[4.046s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extensions ['ignore', 'ignore_ament_install']
+[4.046s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extension 'ignore'
+[4.046s] Level 1:colcon.colcon_core.package_identification:_identify(install) ignored
+[4.046s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extensions ['ignore', 'ignore_ament_install']
+[4.047s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extension 'ignore'
+[4.047s] Level 1:colcon.colcon_core.package_identification:_identify(log) ignored
+[4.047s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['ignore', 'ignore_ament_install']
+[4.047s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ignore'
+[4.047s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ignore_ament_install'
+[4.048s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['colcon_pkg']
+[4.048s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'colcon_pkg'
+[4.048s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['colcon_meta']
+[4.048s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'colcon_meta'
+[4.048s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['ros']
+[4.048s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ros'
+[4.048s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['cmake', 'python']
+[4.048s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'cmake'
+[4.049s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'python'
+[4.049s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['python_setup_py']
+[4.049s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'python_setup_py'
+[4.049s] Level 1:colcon.colcon_core.package_identification:_identify(src/dev_pi_communicate) by extensions ['ignore', 'ignore_ament_install']
+[4.049s] Level 1:colcon.colcon_core.package_identification:_identify(src/dev_pi_communicate) by extension 'ignore'
+[4.049s] Level 1:colcon.colcon_core.package_identification:_identify(src/dev_pi_communicate) by extension 'ignore_ament_install'
+[4.050s] Level 1:colcon.colcon_core.package_identification:_identify(src/dev_pi_communicate) by extensions ['colcon_pkg']
+[4.050s] Level 1:colcon.colcon_core.package_identification:_identify(src/dev_pi_communicate) by extension 'colcon_pkg'
+[4.050s] Level 1:colcon.colcon_core.package_identification:_identify(src/dev_pi_communicate) by extensions ['colcon_meta']
+[4.050s] Level 1:colcon.colcon_core.package_identification:_identify(src/dev_pi_communicate) by extension 'colcon_meta'
+[4.050s] Level 1:colcon.colcon_core.package_identification:_identify(src/dev_pi_communicate) by extensions ['ros']
+[4.050s] Level 1:colcon.colcon_core.package_identification:_identify(src/dev_pi_communicate) by extension 'ros'
+[4.060s] DEBUG:colcon.colcon_core.package_identification:Package 'src/dev_pi_communicate' with type 'ros.ament_python' and name 'dev_pi_communicate'
+[4.060s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) using defaults
+[4.061s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) discover
+[4.061s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) using defaults
+[4.061s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) discover
+[4.061s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) using defaults
+[4.384s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) check parameters
+[4.385s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) discover
+[4.499s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 359 installed packages in /opt/ros/humble
+[4.508s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) using defaults
+[4.954s] Level 5:colcon.colcon_core.verb:set package 'dev_pi_communicate' build argument 'cmake_args' from command line to 'None'
+[4.954s] Level 5:colcon.colcon_core.verb:set package 'dev_pi_communicate' build argument 'cmake_target' from command line to 'None'
+[4.954s] Level 5:colcon.colcon_core.verb:set package 'dev_pi_communicate' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[4.955s] Level 5:colcon.colcon_core.verb:set package 'dev_pi_communicate' build argument 'cmake_clean_cache' from command line to 'False'
+[4.955s] Level 5:colcon.colcon_core.verb:set package 'dev_pi_communicate' build argument 'cmake_clean_first' from command line to 'False'
+[4.955s] Level 5:colcon.colcon_core.verb:set package 'dev_pi_communicate' build argument 'cmake_force_configure' from command line to 'False'
+[4.955s] Level 5:colcon.colcon_core.verb:set package 'dev_pi_communicate' build argument 'ament_cmake_args' from command line to 'None'
+[4.955s] Level 5:colcon.colcon_core.verb:set package 'dev_pi_communicate' build argument 'catkin_cmake_args' from command line to 'None'
+[4.955s] Level 5:colcon.colcon_core.verb:set package 'dev_pi_communicate' build argument 'catkin_skip_building_tests' from command line to 'False'
+[4.955s] DEBUG:colcon.colcon_core.verb:Building package 'dev_pi_communicate' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate', 'merge_install': False, 'path': '/home/kuns/ROS_projects/dev_pi_communicate/src/dev_pi_communicate', 'symlink_install': True, 'test_result_base': None}
+[5.005s] INFO:colcon.colcon_core.executor:Executing jobs using 'parallel' executor
+[5.059s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete
+[5.060s] INFO:colcon.colcon_ros.task.ament_python.build:Building ROS package in '/home/kuns/ROS_projects/dev_pi_communicate/src/dev_pi_communicate' with build type 'ament_python'
+[5.060s] Level 1:colcon.colcon_core.shell:create_environment_hook('dev_pi_communicate', 'ament_prefix_path')
+[5.126s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_core.shell.bat': Not used on non-Windows systems
+[5.127s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/share/dev_pi_communicate/hook/ament_prefix_path.ps1'
+[5.129s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/share/dev_pi_communicate/hook/ament_prefix_path.dsv'
+[5.131s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/share/dev_pi_communicate/hook/ament_prefix_path.sh'
+[5.190s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[5.191s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[6.291s] INFO:colcon.colcon_core.task.python.build:Building Python package in '/home/kuns/ROS_projects/dev_pi_communicate/src/dev_pi_communicate'
+[6.347s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[6.347s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[7.732s] DEBUG:colcon.colcon_core.task.python.build:While undoing a previous installation files outside the Python library path are being ignored: /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/share/ament_index/resource_index/packages/dev_pi_communicate
+[7.732s] DEBUG:colcon.colcon_core.task.python.build:While undoing a previous installation files outside the Python library path are being ignored: /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/share/dev_pi_communicate/package.xml
+[7.733s] DEBUG:colcon.colcon_core.task.python.build:While undoing a previous installation files outside the Python library path are being ignored: /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/dev_pi_communicate/publisher_node
+[7.733s] DEBUG:colcon.colcon_core.task.python.build:While undoing a previous installation files outside the Python library path are being ignored: /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/dev_pi_communicate/serial_comm_node
+[7.733s] DEBUG:colcon.colcon_core.task.python.build:While undoing a previous installation files outside the Python library path are being ignored: /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/dev_pi_communicate/subscriber_node
+[7.734s] DEBUG:colcon.colcon_core.task.python.build:While undoing a previous installation files outside the Python library path are being ignored: /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/dev_pi_communicate/talker_node
+[7.746s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate': PYTHONPATH=/home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate/prefix_override:/home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py develop --editable --build-directory /home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate/build --no-deps install_data
+[9.505s] Level 1:colcon.colcon_core.shell:create_environment_hook('dev_pi_communicate', 'pythonpath_develop')
+[9.507s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate' returned '0': PYTHONPATH=/home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate/prefix_override:/home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py develop --editable --build-directory /home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate/build --no-deps install_data
+[9.559s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate/share/dev_pi_communicate/hook/pythonpath_develop.ps1'
+[9.561s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate/share/dev_pi_communicate/hook/pythonpath_develop.dsv'
+[9.562s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate/share/dev_pi_communicate/hook/pythonpath_develop.sh'
+[9.633s] Level 1:colcon.colcon_core.environment:checking '/home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate' for CMake module files
+[9.634s] Level 1:colcon.colcon_core.environment:checking '/home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate' for CMake config files
+[9.636s] Level 1:colcon.colcon_core.environment:checking '/home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib'
+[9.637s] Level 1:colcon.colcon_core.environment:checking '/home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/bin'
+[9.637s] Level 1:colcon.colcon_core.environment:checking '/home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/pkgconfig/dev_pi_communicate.pc'
+[9.638s] Level 1:colcon.colcon_core.environment:checking '/home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/python3.10/site-packages'
+[9.638s] Level 1:colcon.colcon_core.shell:create_environment_hook('dev_pi_communicate', 'pythonpath')
+[9.692s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/share/dev_pi_communicate/hook/pythonpath.ps1'
+[9.693s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/share/dev_pi_communicate/hook/pythonpath.dsv'
+[9.694s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/share/dev_pi_communicate/hook/pythonpath.sh'
+[9.696s] Level 1:colcon.colcon_core.environment:checking '/home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/bin'
+[9.696s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(dev_pi_communicate)
+[9.752s] INFO:colcon.colcon_core.shell:Creating package script '/home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/share/dev_pi_communicate/package.ps1'
+[9.756s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/share/dev_pi_communicate/package.dsv'
+[9.759s] INFO:colcon.colcon_core.shell:Creating package script '/home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/share/dev_pi_communicate/package.sh'
+[9.763s] INFO:colcon.colcon_core.shell:Creating package script '/home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/share/dev_pi_communicate/package.bash'
+[9.766s] INFO:colcon.colcon_core.shell:Creating package script '/home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/share/dev_pi_communicate/package.zsh'
+[9.769s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/share/colcon-core/packages/dev_pi_communicate)
+[9.770s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:closing loop
+[9.770s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:loop closed
+[9.770s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete finished with '0'
+[9.771s] DEBUG:colcon.colcon_core.event_reactor:joining thread
+[9.847s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.terminal_notifier': Not used on non-Darwin systems
+[9.848s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.win32': Not used on non-Windows systems
+[9.848s] INFO:colcon.colcon_notification.desktop_notification:Sending desktop notification using 'notify2'
+[9.911s] DEBUG:colcon.colcon_core.event_reactor:joined thread
+[9.968s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/kuns/ROS_projects/dev_pi_communicate/install/local_setup.ps1'
+[9.971s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/kuns/ROS_projects/dev_pi_communicate/install/_local_setup_util_ps1.py'
+[9.977s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/kuns/ROS_projects/dev_pi_communicate/install/setup.ps1'
+[10.036s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/kuns/ROS_projects/dev_pi_communicate/install/local_setup.sh'
+[10.039s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/kuns/ROS_projects/dev_pi_communicate/install/_local_setup_util_sh.py'
+[10.041s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/kuns/ROS_projects/dev_pi_communicate/install/setup.sh'
+[10.100s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/kuns/ROS_projects/dev_pi_communicate/install/local_setup.bash'
+[10.102s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/kuns/ROS_projects/dev_pi_communicate/install/setup.bash'
+[10.159s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/kuns/ROS_projects/dev_pi_communicate/install/local_setup.zsh'
+[10.161s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/kuns/ROS_projects/dev_pi_communicate/install/setup.zsh'

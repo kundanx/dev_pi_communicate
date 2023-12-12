@@ -1,0 +1,16 @@
+[2.361s] Invoking command in '/home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate': PYTHONPATH=/home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate/prefix_override:/home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py develop --editable --build-directory /home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate/build --no-deps install_data
+[3.175s] running develop
+[3.696s] running egg_info
+[3.697s] writing dev_pi_communicate.egg-info/PKG-INFO
+[3.697s] writing dependency_links to dev_pi_communicate.egg-info/dependency_links.txt
+[3.698s] writing entry points to dev_pi_communicate.egg-info/entry_points.txt
+[3.699s] writing requirements to dev_pi_communicate.egg-info/requires.txt
+[3.699s] writing top-level names to dev_pi_communicate.egg-info/top_level.txt
+[3.703s] reading manifest file 'dev_pi_communicate.egg-info/SOURCES.txt'
+[3.705s] writing manifest file 'dev_pi_communicate.egg-info/SOURCES.txt'
+[3.708s] running build_ext
+[3.709s] Creating /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/python3.10/site-packages/dev-pi-communicate.egg-link (link to .)
+[3.711s] 
+[3.711s] Installed /home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate
+[3.711s] running install_data
+[3.810s] Invoked command in '/home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate' returned '0': PYTHONPATH=/home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate/prefix_override:/home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py develop --editable --build-directory /home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate/build --no-deps install_data

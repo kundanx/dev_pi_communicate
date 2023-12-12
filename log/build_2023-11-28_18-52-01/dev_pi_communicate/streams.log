@@ -1,0 +1,27 @@
+[2.120s] Invoking command in '/home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate': PYTHONPATH=/home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate/prefix_override:/home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py develop --editable --build-directory /home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate/build --no-deps install_data
+[2.870s] running develop
+[2.872s] /usr/lib/python3/dist-packages/setuptools/command/easy_install.py:158: EasyInstallDeprecationWarning: easy_install command is deprecated. Use build and pip and other standards-based tools.
+[2.872s]   warnings.warn(
+[2.876s] /usr/lib/python3/dist-packages/setuptools/command/install.py:34: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.
+[2.876s]   warnings.warn(
+[3.367s] running egg_info
+[3.368s] creating dev_pi_communicate.egg-info
+[3.369s] writing dev_pi_communicate.egg-info/PKG-INFO
+[3.369s] writing dependency_links to dev_pi_communicate.egg-info/dependency_links.txt
+[3.370s] writing entry points to dev_pi_communicate.egg-info/entry_points.txt
+[3.370s] writing requirements to dev_pi_communicate.egg-info/requires.txt
+[3.371s] writing top-level names to dev_pi_communicate.egg-info/top_level.txt
+[3.371s] writing manifest file 'dev_pi_communicate.egg-info/SOURCES.txt'
+[3.374s] reading manifest file 'dev_pi_communicate.egg-info/SOURCES.txt'
+[3.376s] writing manifest file 'dev_pi_communicate.egg-info/SOURCES.txt'
+[3.379s] running build_ext
+[3.380s] Creating /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/python3.10/site-packages/dev-pi-communicate.egg-link (link to .)
+[3.382s] 
+[3.383s] Installed /home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate
+[3.383s] running install_data
+[3.384s] creating /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/share/ament_index
+[3.384s] creating /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/share/ament_index/resource_index
+[3.384s] creating /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/share/ament_index/resource_index/packages
+[3.385s] copying resource/dev_pi_communicate -> /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/share/ament_index/resource_index/packages
+[3.385s] copying package.xml -> /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/share/dev_pi_communicate
+[3.467s] Invoked command in '/home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate' returned '0': PYTHONPATH=/home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate/prefix_override:/home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py develop --editable --build-directory /home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate/build --no-deps install_data

@@ -1,0 +1,35 @@
+[2.884s] Invoking command in '/home/rpi/ros-projects/dev_pi_communicate/build/dev_pi_communicate': PYTHONPATH=/home/rpi/ros-projects/dev_pi_communicate/build/dev_pi_communicate/prefix_override:/home/rpi/ros-projects/dev_pi_communicate/install/dev_pi_communicate/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py develop --editable --build-directory /home/rpi/ros-projects/dev_pi_communicate/build/dev_pi_communicate/build --no-deps install_data
+[4.105s] running develop
+[4.106s] /usr/lib/python3/dist-packages/setuptools/command/easy_install.py:158: EasyInstallDeprecationWarning: easy_install command is deprecated. Use build and pip and other standards-based tools.
+[4.106s]   warnings.warn(
+[4.111s] /usr/lib/python3/dist-packages/setuptools/command/install.py:34: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.
+[4.111s]   warnings.warn(
+[4.393s] /usr/lib/python3/dist-packages/pkg_resources/__init__.py:116: PkgResourcesDeprecationWarning: 1.16.0-unknown is an invalid version and will not be supported in a future release
+[4.394s]   warnings.warn(
+[4.394s] /usr/lib/python3/dist-packages/pkg_resources/__init__.py:116: PkgResourcesDeprecationWarning: 1.1build1 is an invalid version and will not be supported in a future release
+[4.395s]   warnings.warn(
+[4.395s] /usr/lib/python3/dist-packages/pkg_resources/__init__.py:116: PkgResourcesDeprecationWarning: 0.1.43ubuntu1 is an invalid version and will not be supported in a future release
+[4.396s]   warnings.warn(
+[4.914s] running egg_info
+[4.915s] writing dev_pi_communicate.egg-info/PKG-INFO
+[4.916s] writing dependency_links to dev_pi_communicate.egg-info/dependency_links.txt
+[4.917s] writing entry points to dev_pi_communicate.egg-info/entry_points.txt
+[4.917s] writing requirements to dev_pi_communicate.egg-info/requires.txt
+[4.918s] writing top-level names to dev_pi_communicate.egg-info/top_level.txt
+[4.926s] reading manifest file 'dev_pi_communicate.egg-info/SOURCES.txt'
+[4.931s] writing manifest file 'dev_pi_communicate.egg-info/SOURCES.txt'
+[4.937s] running build_ext
+[4.938s] Creating /home/rpi/ros-projects/dev_pi_communicate/install/dev_pi_communicate/lib/python3.10/site-packages/dev-pi-communicate.egg-link (link to .)
+[4.941s] Installing camera_node script to /home/rpi/ros-projects/dev_pi_communicate/install/dev_pi_communicate/lib/dev_pi_communicate
+[4.942s] Installing frame_publisher script to /home/rpi/ros-projects/dev_pi_communicate/install/dev_pi_communicate/lib/dev_pi_communicate
+[4.943s] Installing joy_node script to /home/rpi/ros-projects/dev_pi_communicate/install/dev_pi_communicate/lib/dev_pi_communicate
+[4.944s] Installing publisher_node script to /home/rpi/ros-projects/dev_pi_communicate/install/dev_pi_communicate/lib/dev_pi_communicate
+[4.945s] Installing serial_comm_node script to /home/rpi/ros-projects/dev_pi_communicate/install/dev_pi_communicate/lib/dev_pi_communicate
+[4.945s] Installing static_baselink_laserframe_broadcaster script to /home/rpi/ros-projects/dev_pi_communicate/install/dev_pi_communicate/lib/dev_pi_communicate
+[4.946s] Installing subscriber_node script to /home/rpi/ros-projects/dev_pi_communicate/install/dev_pi_communicate/lib/dev_pi_communicate
+[4.947s] Installing talker_node script to /home/rpi/ros-projects/dev_pi_communicate/install/dev_pi_communicate/lib/dev_pi_communicate
+[4.948s] 
+[4.949s] Installed /home/rpi/ros-projects/dev_pi_communicate/build/dev_pi_communicate
+[4.949s] running install_data
+[4.949s] copying package.xml -> /home/rpi/ros-projects/dev_pi_communicate/install/dev_pi_communicate/share/dev_pi_communicate
+[5.089s] Invoked command in '/home/rpi/ros-projects/dev_pi_communicate/build/dev_pi_communicate' returned '0': PYTHONPATH=/home/rpi/ros-projects/dev_pi_communicate/build/dev_pi_communicate/prefix_override:/home/rpi/ros-projects/dev_pi_communicate/install/dev_pi_communicate/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py develop --editable --build-directory /home/rpi/ros-projects/dev_pi_communicate/build/dev_pi_communicate/build --no-deps install_data

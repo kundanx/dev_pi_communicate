@@ -1,0 +1,21 @@
+[2.534s] Invoking command in '/home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate': PYTHONPATH=/home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate/prefix_override:/home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py develop --editable --build-directory /home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate/build --no-deps install_data
+[3.391s] running develop
+[3.927s] running egg_info
+[3.928s] writing dev_pi_communicate.egg-info/PKG-INFO
+[3.929s] writing dependency_links to dev_pi_communicate.egg-info/dependency_links.txt
+[3.929s] writing entry points to dev_pi_communicate.egg-info/entry_points.txt
+[3.930s] writing requirements to dev_pi_communicate.egg-info/requires.txt
+[3.931s] writing top-level names to dev_pi_communicate.egg-info/top_level.txt
+[3.935s] reading manifest file 'dev_pi_communicate.egg-info/SOURCES.txt'
+[3.938s] writing manifest file 'dev_pi_communicate.egg-info/SOURCES.txt'
+[3.942s] running build_ext
+[3.943s] Creating /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/python3.10/site-packages/dev-pi-communicate.egg-link (link to .)
+[3.945s] Installing camera_node script to /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/dev_pi_communicate
+[3.945s] Installing publisher_node script to /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/dev_pi_communicate
+[3.945s] Installing serial_comm_node script to /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/dev_pi_communicate
+[3.946s] Installing subscriber_node script to /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/dev_pi_communicate
+[3.946s] Installing talker_node script to /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/dev_pi_communicate
+[3.947s] 
+[3.947s] Installed /home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate
+[3.947s] running install_data
+[4.050s] Invoked command in '/home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate' returned '0': PYTHONPATH=/home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate/prefix_override:/home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py develop --editable --build-directory /home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate/build --no-deps install_data

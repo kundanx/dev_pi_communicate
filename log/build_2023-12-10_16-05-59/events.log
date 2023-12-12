@@ -1,0 +1,157 @@
+[0.000000] (-) TimerEvent: {}
+[0.001784] (dev_pi_communicate) JobQueued: {'identifier': 'dev_pi_communicate', 'dependencies': OrderedDict()}
+[0.002482] (dev_pi_communicate) JobStarted: {'identifier': 'dev_pi_communicate'}
+[0.104230] (-) TimerEvent: {}
+[0.208255] (-) TimerEvent: {}
+[0.311136] (-) TimerEvent: {}
+[0.412020] (-) TimerEvent: {}
+[0.512749] (-) TimerEvent: {}
+[0.613446] (-) TimerEvent: {}
+[0.714168] (-) TimerEvent: {}
+[0.814867] (-) TimerEvent: {}
+[0.915606] (-) TimerEvent: {}
+[1.016523] (-) TimerEvent: {}
+[1.117551] (-) TimerEvent: {}
+[1.218876] (-) TimerEvent: {}
+[1.319646] (-) TimerEvent: {}
+[1.420725] (-) TimerEvent: {}
+[1.524630] (-) TimerEvent: {}
+[1.625354] (-) TimerEvent: {}
+[1.726139] (-) TimerEvent: {}
+[1.826799] (-) TimerEvent: {}
+[1.927499] (-) TimerEvent: {}
+[2.028305] (-) TimerEvent: {}
+[2.129228] (-) TimerEvent: {}
+[2.229937] (-) TimerEvent: {}
+[2.331025] (-) TimerEvent: {}
+[2.433554] (-) TimerEvent: {}
+[2.534749] (-) TimerEvent: {}
+[2.635888] (-) TimerEvent: {}
+[2.736774] (-) TimerEvent: {}
+[2.837478] (-) TimerEvent: {}
+[2.938176] (-) TimerEvent: {}
+[3.038875] (-) TimerEvent: {}
+[3.139727] (-) TimerEvent: {}
+[3.240964] (-) TimerEvent: {}
+[3.341800] (-) TimerEvent: {}
+[3.442515] (-) TimerEvent: {}
+[3.543277] (-) TimerEvent: {}
+[3.643994] (-) TimerEvent: {}
+[3.744673] (-) TimerEvent: {}
+[3.845350] (-) TimerEvent: {}
+[3.946015] (-) TimerEvent: {}
+[4.046714] (-) TimerEvent: {}
+[4.148254] (-) TimerEvent: {}
+[4.249477] (-) TimerEvent: {}
+[4.354342] (-) TimerEvent: {}
+[4.456100] (-) TimerEvent: {}
+[4.560446] (-) TimerEvent: {}
+[4.661568] (-) TimerEvent: {}
+[4.762842] (-) TimerEvent: {}
+[4.863764] (-) TimerEvent: {}
+[4.965926] (-) TimerEvent: {}
+[5.068096] (-) TimerEvent: {}
+[5.173560] (-) TimerEvent: {}
+[5.213307] (dev_pi_communicate) Command: {'cmd': ['/usr/bin/python3', 'setup.py', 'develop', '--editable', '--build-directory', '/home/rpi/ros-projects/dev_pi_communicate/build/dev_pi_communicate/build', '--no-deps', 'install_data'], 'cwd': '/home/rpi/ros-projects/dev_pi_communicate/build/dev_pi_communicate', 'env': {'LESSOPEN': '| /usr/bin/lesspipe %s', 'USER': 'rpi', 'LC_TIME': 'bho_NP', 'XDG_SESSION_TYPE': 'x11', 'SHLVL': '1', 'LD_LIBRARY_PATH': '/home/rpi/ws/install/urg_node2/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/aarch64-linux-gnu:/opt/ros/humble/lib', 'HOME': '/home/rpi', 'OLDPWD': '/home/rpi/ros-projects', 'DESKTOP_SESSION': 'ubuntu', 'ROS_PYTHON_VERSION': '3', 'GNOME_SHELL_SESSION_MODE': 'ubuntu', 'GTK_MODULES': 'gail:atk-bridge', 'LC_MONETARY': 'bho_NP', 'SYSTEMD_EXEC_PID': '2620', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'COLORTERM': 'truecolor', 'IM_CONFIG_PHASE': '1', 'COLCON_PREFIX_PATH': '/home/rpi/ws/install', 'ROS_DISTRO': 'humble', 'GTK_IM_MODULE': 'ibus', 'LOGNAME': 'rpi', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'XDG_SESSION_CLASS': 'user', 'USERNAME': 'rpi', 'TERM': 'xterm-256color', 'GNOME_DESKTOP_SESSION_ID': 'this-is-deprecated', 'ROS_LOCALHOST_ONLY': '0', 'WINDOWPATH': '2', 'PATH': '/opt/ros/humble/bin:/home/rpi/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/home/rpi/.fzf/bin', 'SESSION_MANAGER': 'local/rpi:@/tmp/.ICE-unix/2046,unix/rpi:/tmp/.ICE-unix/2046', 'XDG_MENU_PREFIX': 'gnome-', 'LC_ADDRESS': 'bho_NP', 'GNOME_TERMINAL_SCREEN': '/org/gnome/Terminal/screen/5cdc9e2f_5bca_4f5d_a1e6_cd138418e419', 'XDG_RUNTIME_DIR': '/run/user/1000', 'DISPLAY': ':1', 'LANG': 'en_US.UTF-8', 'XDG_CURRENT_DESKTOP': 'ubuntu:GNOME', 'LC_TELEPHONE': 'bho_NP', 'XMODIFIERS': '@im=ibus', 'XDG_SESSION_DESKTOP': 'ubuntu', 'XAUTHORITY': '/run/user/1000/gdm/Xauthority', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:', 'GNOME_TERMINAL_SERVICE': ':1.92', 'SSH_AGENT_LAUNCHER': 'gnome-keyring', 'SSH_AUTH_SOCK': '/run/user/1000/keyring/ssh', 'ROS_DOMAIN_ID': '95', 'AMENT_PREFIX_PATH': '/home/rpi/ws/install/urg_node2:/home/rpi/ws/install/ros2_numpy:/home/rpi/ws/install/cfoaw:/opt/ros/humble', 'SHELL': '/bin/bash', 'LC_NAME': 'bho_NP', 'QT_ACCESSIBILITY': '1', 'GDMSESSION': 'ubuntu', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'LC_MEASUREMENT': 'bho_NP', 'GPG_AGENT_INFO': '/run/user/1000/gnupg/S.gpg-agent:0:1', 'LC_IDENTIFICATION': 'bho_NP', 'QT_IM_MODULE': 'ibus', 'PWD': '/home/rpi/ros-projects/dev_pi_communicate/build/dev_pi_communicate', 'XDG_CONFIG_DIRS': '/etc/xdg/xdg-ubuntu:/etc/xdg', 'XDG_DATA_DIRS': '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop', 'PYTHONPATH': '/home/rpi/ros-projects/dev_pi_communicate/build/dev_pi_communicate/prefix_override:/home/rpi/ros-projects/dev_pi_communicate/install/dev_pi_communicate/lib/python3.10/site-packages:/home/rpi/ws/install/ros2_numpy/local/lib/python3.10/dist-packages:/home/rpi/ws/install/cfoaw/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages', 'LC_NUMERIC': 'bho_NP', 'LC_PAPER': 'bho_NP', 'COLCON': '1', 'VTE_VERSION': '6800', 'CMAKE_PREFIX_PATH': '/home/rpi/ws/install/urg_node2:/home/rpi/ws/install/ros2_numpy:/home/rpi/ws/install/cfoaw'}, 'shell': False}
+[5.274084] (-) TimerEvent: {}
+[5.378363] (-) TimerEvent: {}
+[5.480509] (-) TimerEvent: {}
+[5.581613] (-) TimerEvent: {}
+[5.682958] (-) TimerEvent: {}
+[5.784130] (-) TimerEvent: {}
+[5.884944] (-) TimerEvent: {}
+[5.985646] (-) TimerEvent: {}
+[6.086387] (-) TimerEvent: {}
+[6.187757] (-) TimerEvent: {}
+[6.289009] (-) TimerEvent: {}
+[6.395380] (-) TimerEvent: {}
+[6.496648] (-) TimerEvent: {}
+[6.597883] (-) TimerEvent: {}
+[6.701762] (-) TimerEvent: {}
+[6.802830] (-) TimerEvent: {}
+[6.903953] (-) TimerEvent: {}
+[7.008191] (-) TimerEvent: {}
+[7.113300] (-) TimerEvent: {}
+[7.216351] (-) TimerEvent: {}
+[7.318239] (-) TimerEvent: {}
+[7.421958] (-) TimerEvent: {}
+[7.525312] (-) TimerEvent: {}
+[7.626864] (-) TimerEvent: {}
+[7.728140] (-) TimerEvent: {}
+[7.831253] (-) TimerEvent: {}
+[7.933178] (-) TimerEvent: {}
+[8.034355] (-) TimerEvent: {}
+[8.138449] (-) TimerEvent: {}
+[8.240046] (-) TimerEvent: {}
+[8.300935] (dev_pi_communicate) StdoutLine: {'line': b'running develop\n'}
+[8.312536] (dev_pi_communicate) StderrLine: {'line': b'/usr/lib/python3/dist-packages/setuptools/command/easy_install.py:158: EasyInstallDeprecationWarning: easy_install command is deprecated. Use build and pip and other standards-based tools.\n'}
+[8.314571] (dev_pi_communicate) StderrLine: {'line': b'  warnings.warn(\n'}
+[8.340537] (-) TimerEvent: {}
+[8.343748] (dev_pi_communicate) StderrLine: {'line': b'/usr/lib/python3/dist-packages/setuptools/command/install.py:34: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.\n'}
+[8.345547] (dev_pi_communicate) StderrLine: {'line': b'  warnings.warn(\n'}
+[8.440810] (-) TimerEvent: {}
+[8.542905] (-) TimerEvent: {}
+[8.645948] (-) TimerEvent: {}
+[8.750086] (-) TimerEvent: {}
+[8.851223] (-) TimerEvent: {}
+[8.953313] (-) TimerEvent: {}
+[9.056385] (-) TimerEvent: {}
+[9.157519] (-) TimerEvent: {}
+[9.264361] (-) TimerEvent: {}
+[9.366235] (-) TimerEvent: {}
+[9.434574] (dev_pi_communicate) StderrLine: {'line': b'/usr/lib/python3/dist-packages/pkg_resources/__init__.py:116: PkgResourcesDeprecationWarning: 1.16.0-unknown is an invalid version and will not be supported in a future release\n'}
+[9.436334] (dev_pi_communicate) StderrLine: {'line': b'  warnings.warn(\n'}
+[9.445997] (dev_pi_communicate) StderrLine: {'line': b'/usr/lib/python3/dist-packages/pkg_resources/__init__.py:116: PkgResourcesDeprecationWarning: 1.1build1 is an invalid version and will not be supported in a future release\n'}
+[9.447539] (dev_pi_communicate) StderrLine: {'line': b'  warnings.warn(\n'}
+[9.449134] (dev_pi_communicate) StderrLine: {'line': b'/usr/lib/python3/dist-packages/pkg_resources/__init__.py:116: PkgResourcesDeprecationWarning: 0.1.43ubuntu1 is an invalid version and will not be supported in a future release\n'}
+[9.451533] (dev_pi_communicate) StderrLine: {'line': b'  warnings.warn(\n'}
+[9.466872] (-) TimerEvent: {}
+[9.569094] (-) TimerEvent: {}
+[9.670653] (-) TimerEvent: {}
+[9.772792] (-) TimerEvent: {}
+[9.874680] (-) TimerEvent: {}
+[9.979102] (-) TimerEvent: {}
+[10.085412] (-) TimerEvent: {}
+[10.187330] (-) TimerEvent: {}
+[10.288238] (-) TimerEvent: {}
+[10.389431] (-) TimerEvent: {}
+[10.492427] (-) TimerEvent: {}
+[10.595425] (-) TimerEvent: {}
+[10.696349] (-) TimerEvent: {}
+[10.797241] (-) TimerEvent: {}
+[10.898307] (-) TimerEvent: {}
+[10.999512] (-) TimerEvent: {}
+[11.103533] (-) TimerEvent: {}
+[11.206526] (-) TimerEvent: {}
+[11.301459] (dev_pi_communicate) StdoutLine: {'line': b'running egg_info\n'}
+[11.305965] (dev_pi_communicate) StdoutLine: {'line': b'writing dev_pi_communicate.egg-info/PKG-INFO\n'}
+[11.320449] (-) TimerEvent: {}
+[11.324260] (dev_pi_communicate) StdoutLine: {'line': b'writing dependency_links to dev_pi_communicate.egg-info/dependency_links.txt\n'}
+[11.330702] (dev_pi_communicate) StdoutLine: {'line': b'writing entry points to dev_pi_communicate.egg-info/entry_points.txt\n'}
+[11.332726] (dev_pi_communicate) StdoutLine: {'line': b'writing requirements to dev_pi_communicate.egg-info/requires.txt\n'}
+[11.334061] (dev_pi_communicate) StdoutLine: {'line': b'writing top-level names to dev_pi_communicate.egg-info/top_level.txt\n'}
+[11.361152] (dev_pi_communicate) StdoutLine: {'line': b"reading manifest file 'dev_pi_communicate.egg-info/SOURCES.txt'\n"}
+[11.383422] (dev_pi_communicate) StdoutLine: {'line': b"writing manifest file 'dev_pi_communicate.egg-info/SOURCES.txt'\n"}
+[11.394192] (dev_pi_communicate) StdoutLine: {'line': b'running build_ext\n'}
+[11.416163] (dev_pi_communicate) StdoutLine: {'line': b'Creating /home/rpi/ros-projects/dev_pi_communicate/install/dev_pi_communicate/lib/python3.10/site-packages/dev-pi-communicate.egg-link (link to .)\n'}
+[11.418448] (dev_pi_communicate) StdoutLine: {'line': b'Installing camera_node script to /home/rpi/ros-projects/dev_pi_communicate/install/dev_pi_communicate/lib/dev_pi_communicate\n'}
+[11.421607] (-) TimerEvent: {}
+[11.423694] (dev_pi_communicate) StdoutLine: {'line': b'Installing frame_publisher script to /home/rpi/ros-projects/dev_pi_communicate/install/dev_pi_communicate/lib/dev_pi_communicate\n'}
+[11.436157] (dev_pi_communicate) StdoutLine: {'line': b'Installing joy_node script to /home/rpi/ros-projects/dev_pi_communicate/install/dev_pi_communicate/lib/dev_pi_communicate\n'}
+[11.437777] (dev_pi_communicate) StdoutLine: {'line': b'Installing publisher_node script to /home/rpi/ros-projects/dev_pi_communicate/install/dev_pi_communicate/lib/dev_pi_communicate\n'}
+[11.438419] (dev_pi_communicate) StdoutLine: {'line': b'Installing serial_comm_node script to /home/rpi/ros-projects/dev_pi_communicate/install/dev_pi_communicate/lib/dev_pi_communicate\n'}
+[11.442311] (dev_pi_communicate) StdoutLine: {'line': b'Installing static_baselink_laserframe_broadcaster script to /home/rpi/ros-projects/dev_pi_communicate/install/dev_pi_communicate/lib/dev_pi_communicate\n'}
+[11.445674] (dev_pi_communicate) StdoutLine: {'line': b'Installing subscriber_node script to /home/rpi/ros-projects/dev_pi_communicate/install/dev_pi_communicate/lib/dev_pi_communicate\n'}
+[11.453487] (dev_pi_communicate) StdoutLine: {'line': b'Installing talker_node script to /home/rpi/ros-projects/dev_pi_communicate/install/dev_pi_communicate/lib/dev_pi_communicate\n'}
+[11.455008] (dev_pi_communicate) StdoutLine: {'line': b'\n'}
+[11.457647] (dev_pi_communicate) StdoutLine: {'line': b'Installed /home/rpi/ros-projects/dev_pi_communicate/build/dev_pi_communicate\n'}
+[11.459339] (dev_pi_communicate) StdoutLine: {'line': b'running install_data\n'}
+[11.521854] (-) TimerEvent: {}
+[11.625620] (-) TimerEvent: {}
+[11.729130] (-) TimerEvent: {}
+[11.817878] (dev_pi_communicate) CommandEnded: {'returncode': 0}
+[11.829620] (-) TimerEvent: {}
+[11.931672] (-) TimerEvent: {}
+[12.034267] (-) TimerEvent: {}
+[12.060911] (dev_pi_communicate) JobEnded: {'identifier': 'dev_pi_communicate', 'rc': 0}
+[12.068756] (-) EventReactorShutdown: {}
