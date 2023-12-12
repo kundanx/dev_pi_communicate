@@ -9,26 +9,26 @@ from ultralytics import YOLO
 import supervision as sv
 import numpy as np
 import math
+import pdb
 
 
-fx = 918.0997/2
-fy = 921.7521/2
+fx = (1.445*10**3)/2
+fy = (1.430*10**3)/2
 
-cx = 653.8172/2
-cy = 355.9298/2
+cx = (567.369)/2
+cy = (342.353)/2
 
-k1 = -0.235
-k2 = 0.8907
-k3 = -1.3046
+k1 = -0.0202
+k2 = 1.1829
+k3 = -3.9788
 
-p1 = 0.0019
-p2 = 0.0062
+p1 = -0.0113
+p2 = -0.0040
 
 intrinsic_matrix = np.array([[fx, 0, cx], [0, fy, cy], [0, 0, 1]])
 distortion_coeffs = np.array([k1, k2, p1, p2, k3])
 
 def get_center(bbox):
-
     length  = (bbox[2] - bbox[0])
     breadth = (bbox[3] - bbox[1])
 
@@ -59,24 +59,34 @@ class ObjectTracker(Node):
         super().__init__('object_tracker')
         self.image_subscription = self.create_subscription(
             Image,
-            'camera_image',  # Replace with the actual topic name
+            'camera_image',  
             self.image_callback,
-            10  # Adjust the queue size as needed
+            5 
         )
         self.publisher = self.create_publisher(Float32MultiArray, '/ball_pos_topic', 5)
+        self.undistort_pub = self.create_publisher(Image, 'undistort_image', 5)
+        self.tracked_pub = self.create_publisher(Image, 'tracked_image', 5)
+        
+        # import pdb; pdb.set_trace()
         self.bridge = CvBridge()
-        self.MODEL = 'best_new.pt'
-
+        self.model = '/home/apil/Club/Robotics/yolov8/turtlebot/src/camera/camera/best_new.pt'
+        self.model = YOLO(self.model)
+        self.box_annotator = sv.BoxAnnotator(
+        thickness=2,
+        text_thickness=1,
+        text_scale=0.5
+        )
     def image_callback(self, msg):
-        # Convert ROS image message to OpenCV image
         cv_image = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')
-        self.track_ball(cv_image)        
+        self.track_ball(cv_image)     
 
     
     def track_ball(self, frame):
-        model = YOLO(self.MODEL)
+        # model = YOLO(self.model)
         frame = cv2.undistort(frame, intrinsic_matrix, distortion_coeffs)
-        results = model.track(source=frame, persist=True)
+        undistort_frame = self.bridge.cv2_to_imgmsg(frame, encoding='bgr8')
+        self.undistort_pub.publish(undistort_frame)
+        results = self.model.track(source=frame, persist=True)
         ball_pos = Float32MultiArray()
         for result in results:
             detections = sv.Detections.from_yolov8(result)
@@ -91,9 +101,19 @@ class ObjectTracker(Node):
                     theta[detections.tracker_id[item]] = get_angle(intrinsic_matrix=intrinsic_matrix, ball_center=(x_center, y_center))
                     ball_pos.data.append(theta[detections.tracker_id[item]])
                     ball_pos.data.append((detections.xyxy[item][3]-detections.xyxy[item][1])/2)
+ 
+                labels = [
+                f"#{tracker_id} {confidence:.2f} {theta[tracker_id]}"
+                for _, confidence, _, tracker_id
+                in detections
+                ]
+                frame = self.box_annotator.annotate(scene=frame, detections=detections, labels=labels)
+
             else:
-                ball_pos.data = [0, 0]
-        ball_pos.data = [0,0]
+                ball_pos.data = [-1.0, -1.0]
+        # ball_pos.data = [0.1,0.5]
+        tracked_frame = self.bridge.cv2_to_imgmsg(frame, encoding='bgr8')
+        self.tracked_pub.publish(tracked_frame)
         self.publisher.publish(ball_pos)
 
 def main(args=None):
@@ -103,5 +123,5 @@ def main(args=None):
     object_tracker.destroy_node()
     rclpy.shutdown()
 
-# if __name__ == '__object_tracker__':
-#     main()
+if __name__ == '__main__':
+    main()

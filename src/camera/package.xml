@@ -12,14 +12,15 @@
   <test_depend>ament_pep257</test_depend>
   <test_depend>python3-pytest</test_depend>
 
-  <exec_depend>rclpy</exec_depend>
-  <exec_depend>sensor_msgs</exec_depend>
-  <exec_depend>cv2</exec_depend>
-  <exec_depend>cv_bridge</exec_depend>
-  <exec_depend>std_msgs</exec_depend>
-  <exec_depend>ultralytics</exec_depend>
-  <exec_depend>supervision</exec_depend>
-  <exec_depend>numpy</exec_depend>
+  <depend>rclpy</depend>
+  <depend>sensor_msgs</depend>
+  <depend>cv2</depend>
+  <depend>cv_bridge</depend>
+  <depend>std_msgs</depend>
+  <depend>ultralytics</depend>
+  <depend>supervision</depend>
+  <depend>numpy</depend>
+  <depend>pdb</depend>
 
   <export>
     <python_path>/media/apil/New\ Volume/venv/yolo/lib/python3.10/site-packages</python_path>

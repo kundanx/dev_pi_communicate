@@ -7,12 +7,12 @@ import cv2
 class CameraNode(Node):
     def __init__(self):
         super().__init__('camera_node')
-        self.image_publisher = self.create_publisher(Image, 'camera_image', 10)
-        self.timer = self.create_timer(0.033, self.publish_image)  # Adjust the timer rate as needed
+        self.image_publisher = self.create_publisher(Image, 'camera_image', 5)
+        self.timer = self.create_timer(0.07, self.publish_image)  # Adjust the timer rate as needed
         self.bridge = CvBridge()
 
         # OpenCV video capture (adjust the video source or file path as needed)
-        self.cap = cv2.VideoCapture(0)
+        self.cap = cv2.VideoCapture(3)
 
     def publish_image(self):
         # Capture video frame
@@ -32,5 +32,5 @@ def main(args=None):
     camera_node.destroy_node()
     rclpy.shutdown()
 
-# if __name__ == '__camera_node__':
-#     main()
+if __name__ == '__main__':
+    main()
