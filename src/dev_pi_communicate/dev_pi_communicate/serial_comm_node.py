@@ -2,16 +2,16 @@
 import rclpy
 import serial
 import struct
-import sys
 
-from pympler import asizeof
 from rclpy.node import Node 
-from std_msgs.msg import Float32
-from sensor_msgs.msg import Joy
 from geometry_msgs.msg import Twist
-from dev_pi_communicate.joy import packet_to_send
 
-START_BYTE=bytes.fromhex('A5')
+from dev_pi_communicate.joy import packet_to_send
+from dev_pi_communicate.camera import packet_to_send_camera
+
+START_BYTE = bytes.fromhex('A5')
+
+DATA_LENGTH = 10
 
 class vel_data:
     def __init__(self):
@@ -28,7 +28,7 @@ class serial_comms:
     def __init__(self, serial_port, serial_baudrate):
         self.serial = serial.Serial(serial_port, serial_baudrate)
 
-
+        
     def send_vel(self, vel_x, vel_y, vel_z,ang_x,ang_y,ang_z):
         
         #data_to_send= struct.pack("f f f", vel_x, vel_y, vel_z) #  + struct.pack("f", vel_y)+struct.pack("f",vel_z)
@@ -47,13 +47,15 @@ class serial_comms:
         self.serial.write(data_to_send)
         # return data_to_send
     
-    def send_camera_data(self, camera_data):
+    def send_camera_data(self, byte=packet_to_send_camera()):
         camera_data_to_send = [
-            # bytes(struct.pack("f", camera_data[0])),
-            bytes(struct.pack('f', camera_data))
+            bytes(struct.pack("B", byte.data_to_send_camera[0])),
+            bytes(struct.pack('f', byte.data_to_send_camera[1])),
+            bytes(struct.pack('f', byte.data_to_send_camera[2])),
+            bytes(struct.pack('f', byte.data_to_send_camera[3])),
+            bytes(struct.pack('B', byte.data_to_send_camera[4]))
         ]
         camera_data_to_send = b''.join(camera_data_to_send)
-        camera_data_to_send = START_BYTE + camera_data_to_send
         print(camera_data_to_send)
         self.serial.write(camera_data_to_send)
     
@@ -74,6 +76,25 @@ class serial_comms:
         # print(joy_data_to_send)
         self.serial.write(joy_data_to_send)
     
+    def read(self):
+        if self.serial.read(1) == START_BYTE:
+            data_str = self.serial.read(9)
+            data_str = bytes(data_str)
+                            
+            checksum = START_BYTE
+            print(data_str)
+            if data_str[0]== START_BYTE:
+                for i in range(0,7):
+                    checksum += data_str(i)
+                print(checksum)
+                if checksum == data_str[8]:
+                    return  data_str
+                            
+                    
+
+
+
+    
     def __del__(self):
         self.serial.close()
         
@@ -88,7 +109,7 @@ class Serial_comms_node(Node):
        
 
         # object of class Serial for serial transmission
-        self.serial_baudrate = 9600
+        self.serial_baudrate = 115200
         # self.serial_port='/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A50285BI-if00-port0'
         global serial_comms_interface
         self.serial_comms_interface = serial_comms( 
@@ -98,16 +119,21 @@ class Serial_comms_node(Node):
         
 
         # subsrcriber to listen data from terminal
-        self.subscriber = self.create_subscription(
+        self.cmd_vel_sub = self.create_subscription(
             Twist,
             "cmd_vel",
             self.callback, 
             10
         )
-        
-
+        # self.timer = self.create_timer(0.1, self.serial_read_callback)
+    
+    def serial_read_callback(self):
+            data = self.serial_comms_interface.read()
+            print(data)
+            data = struct.unpack('c', data)
+            
     def callback(self,msg:Twist):
-
+        
         self.data.linear_x= msg.linear.x
         self.data.linear_y= msg.linear.y
         self.data.linear_z= msg.linear.z
@@ -118,7 +144,8 @@ class Serial_comms_node(Node):
 
         self.serial_comms_interface.send_vel(self.data.linear_x, self.data.linear_y, self.data.linear_z,
                                              self.data.angular_x, self.data.angular_y, self.data.angular_z)
-        self.get_logger().info(str(self.data.linear_x))
+        self.serial_read_callback()
+        # self.get_logger().info(str(self.data.linear_x))
         
 
         

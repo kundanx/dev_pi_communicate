@@ -24,7 +24,7 @@ setup(
             'publisher_node = dev_pi_communicate.publisher:main',
             'subscriber_node = dev_pi_communicate.subscriber:main',
             'serial_comm_node = dev_pi_communicate.serial_comm_node:main',
-            'camera_node = dev_pi_communicate.camera:main',
+            'camera_node = dev_pi_communicate.camera_recieve:main',
             'static_baselink_laserframe_broadcaster = dev_pi_communicate.static_tf:main',
             'frame_publisher = dev_pi_communicate.broadcaster:main',
             'joy_node= dev_pi_communicate.joy_node:main'

@@ -1,46 +1,27 @@
 #! /usr/bin/env python3
+import struct
+START_BYTE_camera= 0b10100101
 
-import rclpy
-from rclpy.node import Node
-from std_msgs.msg import Float32
-from dev_pi_communicate.serial_comm_node import serial_comms
 
-class camera(Node):
-    
+class base_vel():
     def __init__(self):
-        super().__init__("camera_node")
+        self.vel_x = float()
+        self.vel_y = float()
+        self.omega = float()
 
-        self.ball_horz_angle = 0.0
-        self.ball_dimension = 0.0
-        self.serial_baudrate = 9600
-        self.serial_port='/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A50285BI-if00-port0'
-
-        self.serial_comms_interface = serial_comms(
-            self.serial_port,
-            self.serial_baudrate
-        )
-        self.camera_node = self.create_subscription(
-            Float32,
-            "/ball_pos_topic",
-            self.camera_callback ,
-            10
-        )
-        self.get_logger().info("camera_node started")
+class packet_to_send_camera():
+    def __init__(self):
+        self.data_to_send_camera = [0]*14
     
-    def camera_callback(self, value:Float32):
-        self.ball_horz_angle = value
-        # self.ball_dimension = data[1]
-        # print(f"{self.ball_dimension} + {self.ball_horz_angle}")
-        print(value)
-        self.serial_comms_interface.send_camera_data(value.data)
-  
-
-
-def main( args = None):
-    rclpy.init()
-    node=camera()
-    rclpy.spin(node)
-    rclpy.shutdown()
-
-if __name__ =="__main":
-    main()
+    def create_packet(self, commands=base_vel()):
+        self.data_to_send_camera[0]= START_BYTE_camera
+        self.data_to_send_camera[1]= commands.vel_x
+        self.data_to_send_camera[2]= commands.vel_y
+        self.data_to_send_camera[3]= commands.omega
+        self.data_to_send_camera[4]= self.calculate_checksum(self.data_to_send_camera)
+    
+    def calculate_checksum(self , data = []*4):
+        digest = int()
+        for i in range(1,3):
+            digest += data[i]
+        return int(digest)

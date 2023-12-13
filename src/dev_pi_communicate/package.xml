@@ -23,7 +23,7 @@
   <depend>sys</depend>
   <depend>numpy</depend>
   <depend>crcmod</depend>
-  <depend>pympler</depend>
+  
 
   <exec_depend>python3-numpy</exec_depend>
   <exec_depend>tf2_ros_py</exec_depend>
