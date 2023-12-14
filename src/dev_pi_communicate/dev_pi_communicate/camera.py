@@ -1,7 +1,8 @@
 #! /usr/bin/env python3
-import struct
-START_BYTE_camera= 0b10100101
 
+from dev_pi_communicate.crc8 import crc8
+
+START_BYTE_camera= 0b10100101
 
 class base_vel():
     def __init__(self):
@@ -25,3 +26,8 @@ class packet_to_send_camera():
         for i in range(1,3):
             digest += data[i]
         return int(digest)
+    
+    def calculate_crc(self, data=[]*4):
+        hash_func=crc8()
+        hash_func.update(data[1:-1])
+        return hash_func.digest()[0]

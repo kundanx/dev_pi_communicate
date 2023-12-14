@@ -5,9 +5,12 @@ import struct
 
 from rclpy.node import Node 
 from geometry_msgs.msg import Twist
+from geometry_msgs.msg import Point
+from nav_msgs.msg import Odometry
 
 from dev_pi_communicate.joy import packet_to_send
 from dev_pi_communicate.camera import packet_to_send_camera
+from dev_pi_communicate.crc8 import crc8
 
 START_BYTE = bytes.fromhex('A5')
 
@@ -77,22 +80,32 @@ class serial_comms:
         self.serial.write(joy_data_to_send)
     
     def read(self):
-        if self.serial.read(1) == START_BYTE:
-            data_str = self.serial.read(9)
-            data_str = bytes(data_str)
-                            
-            checksum = START_BYTE
-            print(data_str)
-            if data_str[0]== START_BYTE:
-                for i in range(0,7):
-                    checksum += data_str(i)
-                print(checksum)
-                if checksum == data_str[8]:
-                    return  data_str
-                            
-                    
+        while True:
+            start_byte_found = False
+            while not start_byte_found:
+                byte = self.serial.read(1)
+                if byte == START_BYTE:
+                    data_str = self.serial.read(9)
+                    start_byte_found=True
+                    print(data_str)
+          
+            hash = self.calculate_crc(data_str)
+            if hash == data_str[-1]:
+                return data_str
+            
+            # print(data_str)
+            # for i in range(0,7):
+            #     checksum = checksum ^ data_str[i]
+            #     print(checksum)
+            # if checksum == data_str[7]:
+            #     return  data_str
 
-
+            print("data not matched")
+    
+    def calculate_crc(self, data=[]*9):
+        hash_func=crc8()
+        hash_func.update(data[0:-1])
+        return hash_func.digest()[0]
 
     
     def __del__(self):
@@ -106,6 +119,11 @@ class Serial_comms_node(Node):
         super().__init__("serial_comm_node")
         self.declare_parameter('usb_serial_port')
         self.data= vel_data()
+      
+
+        self.recieved_data_pub = self.create_publisher(Point,'/recieved_data_topic', 10)
+        self.create_timer(0.5, self.serial_read_callback)
+        self.get_logger().info("Recieving data")
        
 
         # object of class Serial for serial transmission
@@ -129,8 +147,15 @@ class Serial_comms_node(Node):
     
     def serial_read_callback(self):
             data = self.serial_comms_interface.read()
+            data= struct.unpack('BBBBBBBBB', data)
+
+            odometry_data = Point()
+            odometry_data.x=float(data[0])
+            odometry_data.y=float(data[1])
+            odometry_data.z=float(data[2])
+
+            self.recieved_data_pub.publish(odometry_data)
             print(data)
-            data = struct.unpack('c', data)
             
     def callback(self,msg:Twist):
         
@@ -143,13 +168,7 @@ class Serial_comms_node(Node):
         self.data.angular_z=msg.angular.z
 
         self.serial_comms_interface.send_vel(self.data.linear_x, self.data.linear_y, self.data.linear_z,
-                                             self.data.angular_x, self.data.angular_y, self.data.angular_z)
-        self.serial_read_callback()
-        # self.get_logger().info(str(self.data.linear_x))
-        
-
-        
-    
+                                             self.data.angular_x, self.data.angular_y, self.data.angular_z)    
 
 def main(args=None):
     rclpy.init()

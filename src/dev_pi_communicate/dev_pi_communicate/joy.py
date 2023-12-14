@@ -3,7 +3,7 @@
 # from dev_pi_communicate.crc8 import crc8
 import struct
 
-
+from dev_pi_communicate.crc8 import crc8
 START_BYTE_JOY= 0b10100101
 
 class joy_buttons():
@@ -117,7 +117,7 @@ class packet_to_send():
         self.byte[7] = int(joy_bt.axis_right_LR)
         self.byte[8] = int(joy_bt.axis_right_UD)
 
-        self.byte[9] = (self.calculate_checksum(self.byte) & 0xFF)
+        self.byte[9] = (self.calculate_crc(self.byte) & 0xFF)
         print(self.byte)
         
 
@@ -126,5 +126,9 @@ class packet_to_send():
         for i in range(0,8):
             digest += data[i]
         return digest
-      
+    
+    def calculate_crc(self, data=[]*10):
+        hash_func=crc8()
+        hash_func.update(data[1:-1])
+        return hash_func.digest()[0]
 
