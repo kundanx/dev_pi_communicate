@@ -4,7 +4,7 @@
 import struct
 
 from dev_pi_communicate.crc8 import crc8
-START_BYTE_JOY= 0b10100101
+START_BYTE= 0b10100101
 
 class joy_buttons():
     def __init__(self):
@@ -47,7 +47,7 @@ def map(value, min_input, max_input, min_output, max_output):
     return (value*(max_output-min_output)/(max_input - min_input))
 
 
-class packet_to_send():
+class packet_to_send_joy():
     def __init__(self):
         self.payloadMask = bytes([
             0b00000001,
@@ -69,13 +69,13 @@ class packet_to_send():
             0b10111111,
             0b01111111
         ])
-        self.byte = [0]*10
+        self.byte = [0]*9
     
     def create_packet(self,joy_bt=joy_buttons()):
 
 
         # assign start byte
-        self.byte[0] = START_BYTE_JOY
+        self.byte[0] = START_BYTE
         # crc_value = crc8()
         
         # byte 1
@@ -117,18 +117,4 @@ class packet_to_send():
         self.byte[7] = int(joy_bt.axis_right_LR)
         self.byte[8] = int(joy_bt.axis_right_UD)
 
-        self.byte[9] = (self.calculate_crc(self.byte) & 0xFF)
-        print(self.byte)
-        
-
-    def calculate_checksum(self , data = []*10):
-        digest = int()
-        for i in range(0,8):
-            digest += data[i]
-        return digest
-    
-    def calculate_crc(self, data=[]*10):
-        hash_func=crc8()
-        hash_func.update(data[1:-1])
-        return hash_func.digest()[0]
 

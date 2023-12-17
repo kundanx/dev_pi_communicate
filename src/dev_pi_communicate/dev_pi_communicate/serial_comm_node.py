@@ -8,7 +8,7 @@ from geometry_msgs.msg import Twist
 from geometry_msgs.msg import Point
 from nav_msgs.msg import Odometry
 
-from dev_pi_communicate.joy import packet_to_send
+from dev_pi_communicate.joy import packet_to_send_joy
 from dev_pi_communicate.camera import packet_to_send_camera
 from dev_pi_communicate.crc8 import crc8
 
@@ -62,7 +62,7 @@ class serial_comms:
         print(camera_data_to_send)
         self.serial.write(camera_data_to_send)
     
-    def send_joy_data(self, data= packet_to_send()):
+    def send_joy_data(self, data= packet_to_send_joy()):
         joy_data_to_send =[
             bytes(struct.pack("B",data.byte[0])),
             bytes(struct.pack("B",data.byte[1])),
@@ -76,7 +76,7 @@ class serial_comms:
             bytes(struct.pack("B",data.byte[9]))
         ]
         joy_data_to_send= b''.join(joy_data_to_send)
-        # print(joy_data_to_send)
+        #  print(joy_data_to_send)
         self.serial.write(joy_data_to_send)
     
     def read(self):
@@ -92,15 +92,14 @@ class serial_comms:
             hash = self.calculate_crc(data_str)
             if hash == data_str[-1]:
                 return data_str
-            
-            # print(data_str)
-            # for i in range(0,7):
-            #     checksum = checksum ^ data_str[i]
-            #     print(checksum)
-            # if checksum == data_str[7]:
-            #     return  data_str
 
             print("data not matched")
+
+    def calc_checksum(self, data=[]):
+        for i in range(0,len(data)):
+            checksum = checksum ^ data[i]
+        return checksum
+
     
     def calculate_crc(self, data=[]*9):
         hash_func=crc8()
