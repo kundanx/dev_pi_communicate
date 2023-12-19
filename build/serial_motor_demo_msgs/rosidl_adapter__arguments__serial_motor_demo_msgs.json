@@ -1,8 +1,0 @@
-{
-  "package_name": "serial_motor_demo_msgs",
-  "non_idl_tuples": [
-    "/home/kuns/ROS_projects/dev_pi_communicate/src/serial_motor_demo/serial_motor_demo_msgs:msg/MotorCommand.msg",
-    "/home/kuns/ROS_projects/dev_pi_communicate/src/serial_motor_demo/serial_motor_demo_msgs:msg/MotorVels.msg",
-    "/home/kuns/ROS_projects/dev_pi_communicate/src/serial_motor_demo/serial_motor_demo_msgs:msg/EncoderVals.msg"
-  ]
-}

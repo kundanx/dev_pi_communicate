@@ -1,6 +1,0 @@
-setup.py
-serial_motor_demo_msgs/__init__.py
-serial_motor_demo_msgs.egg-info/PKG-INFO
-serial_motor_demo_msgs.egg-info/SOURCES.txt
-serial_motor_demo_msgs.egg-info/dependency_links.txt
-serial_motor_demo_msgs.egg-info/top_level.txt
