@@ -25,15 +25,16 @@ setup(
     entry_points={
         'console_scripts': [
             
-            'publisher_node = dev_pi_communicate.publisher:main',
-            'subscriber_node = dev_pi_communicate.subscriber:main',
+            'publisher_node = scripts.publisher:main',
+            'subscriber_node = scripts.subscriber:main',
 
-            'static_baselink_laserframe_broadcaster = dev_pi_communicate.static_tf:main',
+            'serial_comm_node = scripts.serial_comm_node:main',
+            'camera_node = scripts.camera_node:main',
+            'joy_node= scripts.joy_node:main',
+            'teleop_key_node = scripts.teleop_key_node:main',
 
-            'serial_comm_node = dev_pi_communicate.test:main',
-            'camera_node = dev_pi_communicate.camera_node:main',
-            'joy_node= dev_pi_communicate.joy_node:main',
-            'teleop_key_node = dev_pi_communicate.teleop_key_node:main'
+            'odom_base_tf = transforms.odom_baseFootprint_tf:main',
+            'baseframe_tf = transforms.baseLink_to_laser_frame_tf:main'
         ],
     },
 )

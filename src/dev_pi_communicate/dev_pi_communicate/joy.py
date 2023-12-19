@@ -39,12 +39,11 @@ class joy_buttons():
         self.axis_left_UD = (self.axis_left_UD * 126)
         self.axis_right_LR = -(self.axis_right_LR * 126)
         self.axis_right_UD = (self.axis_right_UD * 126)
-
         self.axis_LT = map(self.axis_LT, 1, -1, 0 , 255)
-        self.axis_LT = map(self.axis_RT, 1, -1, 0 , 255)
+        self.axis_RT = map(self.axis_RT, 1, -1, 0 , 255)
 
 def map(value, min_input, max_input, min_output, max_output):
-    return (value*(max_output-min_output)/(max_input - min_input))
+    return ((value-1)*max_output)/(max_input - min_input)
 
 
 class packet_to_send_joy():
@@ -108,9 +107,8 @@ class packet_to_send_joy():
             self.byte[1]  &= self.payload_antimask[7]
 
         self.byte[2] = 0b00000000
-
-        self.byte[3] = 0 #(int(joy_bt.axis_LT)  & 0xFF)
-        self.byte[4] = 0 #(int(joy_bt.axis_RT) & 0xFF)
+        self.byte[3] = int(joy_bt.axis_LT) & 0xFF 
+        self.byte[4] = int(joy_bt.axis_RT) & 0xFF
 
         self.byte[5] = int(joy_bt.axis_left_LR)  
         self.byte[6] = int(joy_bt.axis_left_UD)

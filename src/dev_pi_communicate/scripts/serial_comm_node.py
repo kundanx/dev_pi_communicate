@@ -3,7 +3,7 @@ import rclpy
 import struct
 
 from rclpy.node import Node 
-from geometry_msgs.msg import Point
+from geometry_msgs.msg import Pose
 
 from dev_pi_communicate import serial_come
 
@@ -13,28 +13,36 @@ class Serial_comms_node(Node):
     
     def __init__(self):
 
-        self.recieved_data_pub = self.create_publisher(Point,'/recieved_data_topic', 10)
+        super().__init__("serial_comm_node")
+
+        self.recieved_data_pub = self.create_publisher(Pose,'/base_odom_topic', 10)
         self.create_timer(0.5, self.serial_read_callback)
         self.get_logger().info("Recieving data")
         
         
     # callback function to read data from serial port
     def serial_read_callback(self):
+            
             data = serial_come.serial_port.read()
-            data= struct.unpack('BBBBBBBBB', data)
+            print(data)
+            dist_x, dist_y, theta, hash= struct.unpack('fffc', data)
 
-            odometry_data = Point()
-            odometry_data.x=float(data[0])
-            odometry_data.y=float(data[1])
-            odometry_data.z=float(data[2])
+            odometry_data = Pose()
+            odometry_data.orientation.x = dist_x
+            odometry_data.orientation.y=dist_y
+            odometry_data.orientation.w=theta
 
             self.recieved_data_pub.publish(odometry_data)
-            print(data)   
+            print(" ")
+            # serial_come.serial_port.kill()
+            # self.get_logger().info(str(odometry_data))
+    
 
 def main(args=None):
     rclpy.init()
     serial_node = Serial_comms_node()
     rclpy.spin(serial_node)
+    serial_come.serial_port.kill()  
     rclpy.shutdown()
    
 if __name__ =='__main':

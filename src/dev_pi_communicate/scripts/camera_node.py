@@ -5,12 +5,12 @@ from rclpy.node import Node
 
 from std_msgs.msg import Float32MultiArray
 
-from dev_pi_communicate.serial_comm_node import serial_comms
+from dev_pi_communicate import serial_come
+from dev_pi_communicate.test1 import serial_comms
 from dev_pi_communicate.camera import base_vel
 from dev_pi_communicate.camera import packet_to_send_camera
 
 BALL_PIXELS = 140
-
 
 class camera(Node):
     
@@ -19,16 +19,11 @@ class camera(Node):
 
         self.ball_horz_angle = 0.0
         self.ball_dimension = 0.0
-        self.serial_baudrate = 115200
+
         self.base_vel = base_vel()
         self.packet_to_send = packet_to_send_camera()
 
-        self.serial_port='/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A50285BI-if00-port0'
-
-        self.serial_comms_interface = serial_comms(
-            self.serial_port,
-            self.serial_baudrate
-        )
+        
         self.camera_node = self.create_subscription(
             Float32MultiArray,
             "/ball_pos_topic",
@@ -42,15 +37,15 @@ class camera(Node):
         self.ball_dimension = msg.data[1]
         self.compute_velocity()
         self.packet_to_send.create_packet(self.base_vel)
-        self.serial_comms_interface.send_camera_data(self.packet_to_send)
+        serial_come.serial_port.send_camera_data(self.packet_to_send)
     
 
     def compute_velocity(self):
         self.base_vel.vel_x = 0.0
-        if self.ball_horz_angle > 5:
+        if self.ball_horz_angle >= 5:
             self.base_vel.omega = 1
             self.base_vel.vel_y= 0.0
-        elif self.ball_horz_angle < -5:
+        elif self.ball_horz_angle <= -5:
             self.base_vel.omega = -1
             self.base_vel.vel_y= 0.0
         elif self.ball_horz_angle > 0 and self.ball_horz_angle < 5:
@@ -60,7 +55,7 @@ class camera(Node):
             self.base_vel.omega = -0.5
             self.base_vel.vel_y= 0.0
 
-        if self.ball_horz_angle > -0.5 and self.ball_horz_angle < 0.5:
+        if self.ball_horz_angle >= -0.5 and self.ball_horz_angle <= 0.5:
             self.base_vel.omega = -0.5
             if self.ball_dimension < 90:
                 self.base_vel.vel_y = 1.0

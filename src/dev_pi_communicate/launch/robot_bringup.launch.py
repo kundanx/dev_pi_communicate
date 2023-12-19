@@ -18,7 +18,7 @@ def generate_launch_description():
     # serial comms to read from STM32 
     serial_comms_node= Node(
         package='dev_pi_communicate',
-        executable='test.py',
+        executable='serial_comm_node.py',
         output='screen'
     )
 

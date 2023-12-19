@@ -20,29 +20,35 @@ class serial_comms:
 
     def write_data(self,data):
         self.serial.write(data)
+        self.serial.reset_output_buffer()
         
     
     def read(self):
+        
         while True:
+            print("here")
             start_byte_found = False
             while not start_byte_found:
                 byte = self.serial.read(1)
-                if byte == START_BYTE:
-                    data_str = self.serial.read(9)
+                print(byte)
+                if int.from_bytes(byte, 'big') == START_BYTE:
+                    print("new data")
+                    data_str = self.serial.read(13)
                     start_byte_found=True
-                    print(data_str)
           
             hash = self.calc_crc(data_str)
             if hash == data_str[-1]:
+                self.serial.reset_input_buffer()
                 return data_str
             print("data not matched")
+
 
     def calc_checksum(self, data=[]):
         for i in range(0,len(data)):
             checksum = checksum ^ data[i]
         return checksum
 
-    def calc_crc(self, data=[]*9):
+    def calc_crc(self, data=[]*23):
         hash_func=crc8()
         hash_func.update(data[0:-1])
         return hash_func.digest()[0]
@@ -83,6 +89,7 @@ class send_data_to_serial_port():
             bytes(struct.pack('B', hash))   
         ]
         camera_data= b''.join(camera_data)
+        print("ok")
         print(camera_data)
         self.usb_port.write_data(camera_data)   
         
@@ -98,16 +105,16 @@ class send_data_to_serial_port():
             bytes(struct.pack("b",data.byte[7])),
             bytes(struct.pack("b",data.byte[8]))
         ]
-        joy_data=b''.join(joy_data)
+        joy_data = b''.join(joy_data)
         hash=self.calculate_crc(joy_data)
         joy_data=[joy_data,
-                  hash
+            bytes(struct.pack('B', hash)) 
+        
         ]
         joy_data=b''.join(joy_data)
+        print(joy_data)
         self.usb_port.write_data(joy_data)
-
-
-    
+ 
     def calculate_checksum(self , data = []):
         digest = int()
         for i in range(1,len(data)):
@@ -118,6 +125,10 @@ class send_data_to_serial_port():
         hash_func=crc8()
         hash_func.update(data[1:])
         return hash_func.digest()[0]
+    def read(self):
+        return(self.usb_port.read())
+    def kill(self):
+        self.usb_port.__del__()
 
 serial_port= send_data_to_serial_port(serial_port_address, serial_baudrate)
 

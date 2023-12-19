@@ -4,10 +4,11 @@ import sys
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import Joy
-from dev_pi_communicate import serial_come
 from dev_pi_communicate.joy import joy_buttons
 from dev_pi_communicate.joy import packet_to_send_joy
+from dev_pi_communicate import serial_come
 
+    
 
 class joy_node(Node):
     def __init__(self):
@@ -16,6 +17,15 @@ class joy_node(Node):
         self.get_logger().info("Recieving command")
 
         self.packet_to_send = packet_to_send_joy()
+
+        # object of class Serial for serial transmission
+        # self.serial_baudrate = 115200
+        # # self.serial_port='/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A50285BI-if00-port0'
+        # global serial_comms_interface
+        # self.serial_comms_interface = serial_comms( 
+        #     '/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A50285BI-if00-port0',
+        #     self.serial_baudrate
+        # )
     
     def recieve_callback(self, msg:Joy):
         joy_bt= joy_buttons()
@@ -41,7 +51,7 @@ class joy_node(Node):
 
         joy_bt.mapping()
         self.packet_to_send.create_packet(joy_bt)
-        self.serial_comms_interface.send_joy_data(self.packet_to_send)
+        serial_come.serial_port.send_joy_data(self.packet_to_send)
 
         
         
