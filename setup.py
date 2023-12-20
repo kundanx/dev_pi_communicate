@@ -33,8 +33,8 @@ setup(
             'joy_node= scripts.joy_node:main',
             'teleop_key_node = scripts.teleop_key_node:main',
 
-            'odom_base_tf = transforms.odom_baseFootprint_tf:main',
-            'baseframe_tf = transforms.baseLink_to_laser_frame_tf:main'
+            'odomFrame_baseFootprint_tf = transforms.odomFrame_baseFootprint_tf:main',
+            'baseLink_laserFrame_tf = transforms.baseLink_laserFrame_tf:main'
         ],
     },
 )

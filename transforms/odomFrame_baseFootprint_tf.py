@@ -1,4 +1,4 @@
-#! iusr/bin/env python3
+#! /usr/bin/env python3
 
 import math
 import numpy as np
@@ -39,7 +39,7 @@ def quaternion_from_euler(ai, aj, ak):
 class odom_base_tf(Node):
 
     def __init__(self):
-        super().__init__('odom_base_tf')
+        super().__init__('odom_base_footprint_tf2_broadcaster')
 
         # Initialize the transform broadcaster
         self.tf_broadcaster = TransformBroadcaster(self)
@@ -78,6 +78,7 @@ class odom_base_tf(Node):
 
         # Send the transformation
         self.tf_broadcaster.sendTransform(t)
+        self.get_logger().info(str("Odom to base_Footprint transform published."))
 
 def main():
     rclpy.init()

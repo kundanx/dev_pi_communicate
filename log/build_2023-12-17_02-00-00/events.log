@@ -1,0 +1,121 @@
+[0.000000] (-) TimerEvent: {}
+[0.000963] (camera) JobQueued: {'identifier': 'camera', 'dependencies': OrderedDict()}
+[0.001074] (dev_pi_communicate) JobQueued: {'identifier': 'dev_pi_communicate', 'dependencies': OrderedDict()}
+[0.001220] (camera) JobStarted: {'identifier': 'camera'}
+[0.098782] (-) TimerEvent: {}
+[0.199317] (-) TimerEvent: {}
+[0.299973] (-) TimerEvent: {}
+[0.308792] (dev_pi_communicate) JobStarted: {'identifier': 'dev_pi_communicate'}
+[0.400254] (-) TimerEvent: {}
+[0.501523] (-) TimerEvent: {}
+[0.603106] (-) TimerEvent: {}
+[0.704232] (-) TimerEvent: {}
+[0.804878] (-) TimerEvent: {}
+[0.905633] (-) TimerEvent: {}
+[1.006298] (-) TimerEvent: {}
+[1.106913] (-) TimerEvent: {}
+[1.207555] (-) TimerEvent: {}
+[1.308119] (-) TimerEvent: {}
+[1.408678] (-) TimerEvent: {}
+[1.509385] (-) TimerEvent: {}
+[1.610001] (-) TimerEvent: {}
+[1.710812] (-) TimerEvent: {}
+[1.811469] (-) TimerEvent: {}
+[1.912761] (-) TimerEvent: {}
+[2.013917] (-) TimerEvent: {}
+[2.114558] (-) TimerEvent: {}
+[2.215161] (-) TimerEvent: {}
+[2.315749] (-) TimerEvent: {}
+[2.416357] (-) TimerEvent: {}
+[2.517003] (-) TimerEvent: {}
+[2.617766] (-) TimerEvent: {}
+[2.718590] (-) TimerEvent: {}
+[2.819392] (-) TimerEvent: {}
+[2.920006] (-) TimerEvent: {}
+[3.021009] (-) TimerEvent: {}
+[3.124637] (-) TimerEvent: {}
+[3.225571] (-) TimerEvent: {}
+[3.326177] (-) TimerEvent: {}
+[3.427895] (-) TimerEvent: {}
+[3.531719] (-) TimerEvent: {}
+[3.632688] (-) TimerEvent: {}
+[3.734104] (-) TimerEvent: {}
+[3.835402] (-) TimerEvent: {}
+[3.935979] (-) TimerEvent: {}
+[4.036542] (-) TimerEvent: {}
+[4.137485] (-) TimerEvent: {}
+[4.238577] (-) TimerEvent: {}
+[4.339895] (-) TimerEvent: {}
+[4.446247] (-) TimerEvent: {}
+[4.547827] (-) TimerEvent: {}
+[4.585868] (camera) Command: {'cmd': ['/usr/bin/python3', 'setup.py', 'develop', '--editable', '--build-directory', '/home/kuns/ROS_projects/dev_pi_communicate/build/camera/build', '--no-deps', 'install_data'], 'cwd': '/home/kuns/ROS_projects/dev_pi_communicate/build/camera', 'env': {'LESSOPEN': '| /usr/bin/lesspipe %s', 'LANGUAGE': 'en_GB:en', 'USER': 'kuns', 'LC_TIME': 'en_GB.UTF-8', 'XDG_SESSION_TYPE': 'wayland', 'STM32CubeMX_PATH': '/home/kuns/STM32CubeMX', 'SHLVL': '1', 'LD_LIBRARY_PATH': '/home/kuns/ROS_projects/dev_pi_communicate/install/serial_motor_demo_msgs/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib', 'HOME': '/home/kuns', 'OLDPWD': '/home/kuns', 'DESKTOP_SESSION': 'ubuntu', 'ROS_PYTHON_VERSION': '3', 'GNOME_SHELL_SESSION_MODE': 'ubuntu', 'GTK_MODULES': 'gail:atk-bridge', 'LC_MONETARY': 'en_GB.UTF-8', 'SYSTEMD_EXEC_PID': '1961', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'COLORTERM': 'truecolor', 'IM_CONFIG_PHASE': '1', 'WAYLAND_DISPLAY': 'wayland-0', 'COLCON_PREFIX_PATH': '/home/kuns/ROS_projects/dev_pi_communicate/install', 'ROS_DISTRO': 'humble', 'LOGNAME': 'kuns', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'XDG_SESSION_CLASS': 'user', 'USERNAME': 'kuns', 'TERM': 'xterm-256color', 'GNOME_DESKTOP_SESSION_ID': 'this-is-deprecated', 'RMW_FASTRTPS_USE_UDP': '1', 'ROS_LOCALHOST_ONLY': '0', 'PATH': '/opt/ros/humble/bin:/home/kuns/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin', 'SESSION_MANAGER': 'local/kundan-pc:@/tmp/.ICE-unix/1930,unix/kundan-pc:/tmp/.ICE-unix/1930', 'PAPERSIZE': 'a4', 'XDG_MENU_PREFIX': 'gnome-', 'LC_ADDRESS': 'en_GB.UTF-8', 'GNOME_TERMINAL_SCREEN': '/org/gnome/Terminal/screen/168d942e_7820_4cc3_9198_98da899caa7c', 'GNOME_SETUP_DISPLAY': ':1', 'XDG_RUNTIME_DIR': '/run/user/1000', 'DISPLAY': ':0', 'LANG': 'en_GB.UTF-8', 'XDG_CURRENT_DESKTOP': 'ubuntu:GNOME', 'LC_TELEPHONE': 'en_GB.UTF-8', 'RMW_IMPLEMENTATION': 'rmw_fastrtps_cpp', 'XMODIFIERS': '@im=ibus', 'XDG_SESSION_DESKTOP': 'ubuntu', 'XAUTHORITY': '/run/user/1000/.mutter-Xwaylandauth.YYVUF2', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:', 'GNOME_TERMINAL_SERVICE': ':1.100', 'SSH_AGENT_LAUNCHER': 'gnome-keyring', 'SSH_AUTH_SOCK': '/run/user/1000/keyring/ssh', 'ROS_DOMAIN_ID': '1', 'AMENT_PREFIX_PATH': '/home/kuns/ROS_projects/dev_pi_communicate/install/serial_motor_demo:/home/kuns/ROS_projects/dev_pi_communicate/install/serial_motor_demo_msgs:/home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate:/home/kuns/ROS_projects/dev_pi_communicate/install/camera:/opt/ros/humble', 'SHELL': '/bin/bash', 'LC_NAME': 'en_GB.UTF-8', 'QT_ACCESSIBILITY': '1', 'GDMSESSION': 'ubuntu', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'LC_MEASUREMENT': 'en_GB.UTF-8', 'LC_IDENTIFICATION': 'en_GB.UTF-8', 'QT_IM_MODULE': 'ibus', 'PWD': '/home/kuns/ROS_projects/dev_pi_communicate/build/camera', 'XDG_CONFIG_DIRS': '/etc/xdg/xdg-ubuntu:/etc/xdg', 'XDG_DATA_DIRS': '/usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop', 'PYTHONPATH': '/home/kuns/ROS_projects/dev_pi_communicate/build/camera/prefix_override:/home/kuns/ROS_projects/dev_pi_communicate/install/camera/lib/python3.10/site-packages:/home/kuns/ROS_projects/dev_pi_communicate/install/serial_motor_demo/lib/python3.10/site-packages:/home/kuns/ROS_projects/dev_pi_communicate/install/serial_motor_demo_msgs/local/lib/python3.10/dist-packages:/home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate:/home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/python3.10/site-packages:/home/kuns/ROS_projects/dev_pi_communicate/build/camera:/home/kuns/ROS_projects/dev_pi_communicate/install/camera/lib/python3.10/site-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages', 'LC_NUMERIC': 'en_GB.UTF-8', 'LC_PAPER': 'en_GB.UTF-8', 'COLCON': '1', 'VTE_VERSION': '6800', 'CMAKE_PREFIX_PATH': '/home/kuns/ROS_projects/dev_pi_communicate/install/serial_motor_demo_msgs'}, 'shell': False}
+[4.647971] (-) TimerEvent: {}
+[4.742942] (dev_pi_communicate) Command: {'cmd': ['/usr/bin/python3', 'setup.py', 'develop', '--editable', '--build-directory', '/home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate/build', '--no-deps', 'install_data'], 'cwd': '/home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate', 'env': {'LESSOPEN': '| /usr/bin/lesspipe %s', 'LANGUAGE': 'en_GB:en', 'USER': 'kuns', 'LC_TIME': 'en_GB.UTF-8', 'XDG_SESSION_TYPE': 'wayland', 'STM32CubeMX_PATH': '/home/kuns/STM32CubeMX', 'SHLVL': '1', 'LD_LIBRARY_PATH': '/home/kuns/ROS_projects/dev_pi_communicate/install/serial_motor_demo_msgs/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib', 'HOME': '/home/kuns', 'OLDPWD': '/home/kuns', 'DESKTOP_SESSION': 'ubuntu', 'ROS_PYTHON_VERSION': '3', 'GNOME_SHELL_SESSION_MODE': 'ubuntu', 'GTK_MODULES': 'gail:atk-bridge', 'LC_MONETARY': 'en_GB.UTF-8', 'SYSTEMD_EXEC_PID': '1961', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'COLORTERM': 'truecolor', 'IM_CONFIG_PHASE': '1', 'WAYLAND_DISPLAY': 'wayland-0', 'COLCON_PREFIX_PATH': '/home/kuns/ROS_projects/dev_pi_communicate/install', 'ROS_DISTRO': 'humble', 'LOGNAME': 'kuns', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'XDG_SESSION_CLASS': 'user', 'USERNAME': 'kuns', 'TERM': 'xterm-256color', 'GNOME_DESKTOP_SESSION_ID': 'this-is-deprecated', 'RMW_FASTRTPS_USE_UDP': '1', 'ROS_LOCALHOST_ONLY': '0', 'PATH': '/opt/ros/humble/bin:/home/kuns/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin', 'SESSION_MANAGER': 'local/kundan-pc:@/tmp/.ICE-unix/1930,unix/kundan-pc:/tmp/.ICE-unix/1930', 'PAPERSIZE': 'a4', 'XDG_MENU_PREFIX': 'gnome-', 'LC_ADDRESS': 'en_GB.UTF-8', 'GNOME_TERMINAL_SCREEN': '/org/gnome/Terminal/screen/168d942e_7820_4cc3_9198_98da899caa7c', 'GNOME_SETUP_DISPLAY': ':1', 'XDG_RUNTIME_DIR': '/run/user/1000', 'DISPLAY': ':0', 'LANG': 'en_GB.UTF-8', 'XDG_CURRENT_DESKTOP': 'ubuntu:GNOME', 'LC_TELEPHONE': 'en_GB.UTF-8', 'RMW_IMPLEMENTATION': 'rmw_fastrtps_cpp', 'XMODIFIERS': '@im=ibus', 'XDG_SESSION_DESKTOP': 'ubuntu', 'XAUTHORITY': '/run/user/1000/.mutter-Xwaylandauth.YYVUF2', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:', 'GNOME_TERMINAL_SERVICE': ':1.100', 'SSH_AGENT_LAUNCHER': 'gnome-keyring', 'SSH_AUTH_SOCK': '/run/user/1000/keyring/ssh', 'ROS_DOMAIN_ID': '1', 'AMENT_PREFIX_PATH': '/home/kuns/ROS_projects/dev_pi_communicate/install/serial_motor_demo:/home/kuns/ROS_projects/dev_pi_communicate/install/serial_motor_demo_msgs:/home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate:/home/kuns/ROS_projects/dev_pi_communicate/install/camera:/opt/ros/humble', 'SHELL': '/bin/bash', 'LC_NAME': 'en_GB.UTF-8', 'QT_ACCESSIBILITY': '1', 'GDMSESSION': 'ubuntu', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'LC_MEASUREMENT': 'en_GB.UTF-8', 'LC_IDENTIFICATION': 'en_GB.UTF-8', 'QT_IM_MODULE': 'ibus', 'PWD': '/home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate', 'XDG_CONFIG_DIRS': '/etc/xdg/xdg-ubuntu:/etc/xdg', 'XDG_DATA_DIRS': '/usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop', 'PYTHONPATH': '/home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate/prefix_override:/home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/python3.10/site-packages:/home/kuns/ROS_projects/dev_pi_communicate/install/serial_motor_demo/lib/python3.10/site-packages:/home/kuns/ROS_projects/dev_pi_communicate/install/serial_motor_demo_msgs/local/lib/python3.10/dist-packages:/home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate:/home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/python3.10/site-packages:/home/kuns/ROS_projects/dev_pi_communicate/build/camera:/home/kuns/ROS_projects/dev_pi_communicate/install/camera/lib/python3.10/site-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages', 'LC_NUMERIC': 'en_GB.UTF-8', 'LC_PAPER': 'en_GB.UTF-8', 'COLCON': '1', 'VTE_VERSION': '6800', 'CMAKE_PREFIX_PATH': '/home/kuns/ROS_projects/dev_pi_communicate/install/serial_motor_demo_msgs'}, 'shell': False}
+[4.748634] (-) TimerEvent: {}
+[4.849585] (-) TimerEvent: {}
+[4.950204] (-) TimerEvent: {}
+[5.050831] (-) TimerEvent: {}
+[5.151557] (-) TimerEvent: {}
+[5.252195] (-) TimerEvent: {}
+[5.352869] (-) TimerEvent: {}
+[5.454083] (-) TimerEvent: {}
+[5.554863] (-) TimerEvent: {}
+[5.656080] (-) TimerEvent: {}
+[5.756806] (-) TimerEvent: {}
+[5.778236] (camera) StdoutLine: {'line': b'running develop\n'}
+[5.856958] (-) TimerEvent: {}
+[5.859093] (dev_pi_communicate) StdoutLine: {'line': b'running develop\n'}
+[5.957098] (-) TimerEvent: {}
+[6.057653] (-) TimerEvent: {}
+[6.158194] (-) TimerEvent: {}
+[6.258721] (-) TimerEvent: {}
+[6.359249] (-) TimerEvent: {}
+[6.390491] (camera) StdoutLine: {'line': b'running egg_info\n'}
+[6.391081] (camera) StdoutLine: {'line': b'writing camera.egg-info/PKG-INFO\n'}
+[6.391675] (camera) StdoutLine: {'line': b'writing dependency_links to camera.egg-info/dependency_links.txt\n'}
+[6.392125] (camera) StdoutLine: {'line': b'writing entry points to camera.egg-info/entry_points.txt\n'}
+[6.392797] (camera) StdoutLine: {'line': b'writing requirements to camera.egg-info/requires.txt\n'}
+[6.393117] (camera) StdoutLine: {'line': b'writing top-level names to camera.egg-info/top_level.txt\n'}
+[6.398719] (camera) StdoutLine: {'line': b"reading manifest file 'camera.egg-info/SOURCES.txt'\n"}
+[6.400776] (camera) StdoutLine: {'line': b"writing manifest file 'camera.egg-info/SOURCES.txt'\n"}
+[6.405121] (camera) StdoutLine: {'line': b'running build_ext\n'}
+[6.405826] (camera) StdoutLine: {'line': b'Creating /home/kuns/ROS_projects/dev_pi_communicate/install/camera/lib/python3.10/site-packages/camera.egg-link (link to .)\n'}
+[6.407952] (camera) StdoutLine: {'line': b'Installing camera_node script to /home/kuns/ROS_projects/dev_pi_communicate/install/camera/lib/camera\n'}
+[6.408453] (camera) StdoutLine: {'line': b'Installing obj_track_node script to /home/kuns/ROS_projects/dev_pi_communicate/install/camera/lib/camera\n'}
+[6.408960] (camera) StdoutLine: {'line': b'\n'}
+[6.409372] (camera) StdoutLine: {'line': b'Installed /home/kuns/ROS_projects/dev_pi_communicate/build/camera\n'}
+[6.409725] (camera) StdoutLine: {'line': b'running install_data\n'}
+[6.457296] (dev_pi_communicate) StdoutLine: {'line': b'running egg_info\n'}
+[6.457879] (dev_pi_communicate) StdoutLine: {'line': b'writing dev_pi_communicate.egg-info/PKG-INFO\n'}
+[6.458416] (dev_pi_communicate) StdoutLine: {'line': b'writing dependency_links to dev_pi_communicate.egg-info/dependency_links.txt\n'}
+[6.458950] (dev_pi_communicate) StdoutLine: {'line': b'writing entry points to dev_pi_communicate.egg-info/entry_points.txt\n'}
+[6.459379] (-) TimerEvent: {}
+[6.460557] (dev_pi_communicate) StdoutLine: {'line': b'writing requirements to dev_pi_communicate.egg-info/requires.txt\n'}
+[6.460958] (dev_pi_communicate) StdoutLine: {'line': b'writing top-level names to dev_pi_communicate.egg-info/top_level.txt\n'}
+[6.466921] (dev_pi_communicate) StdoutLine: {'line': b"reading manifest file 'dev_pi_communicate.egg-info/SOURCES.txt'\n"}
+[6.470563] (dev_pi_communicate) StdoutLine: {'line': b"writing manifest file 'dev_pi_communicate.egg-info/SOURCES.txt'\n"}
+[6.474792] (dev_pi_communicate) StdoutLine: {'line': b'running build_ext\n'}
+[6.475428] (dev_pi_communicate) StdoutLine: {'line': b'Creating /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/python3.10/site-packages/dev-pi-communicate.egg-link (link to .)\n'}
+[6.477909] (dev_pi_communicate) StdoutLine: {'line': b'Installing camera_node script to /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/dev_pi_communicate\n'}
+[6.479096] (dev_pi_communicate) StdoutLine: {'line': b'Installing joy_node script to /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/dev_pi_communicate\n'}
+[6.479747] (dev_pi_communicate) StdoutLine: {'line': b'Installing publisher_node script to /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/dev_pi_communicate\n'}
+[6.480126] (dev_pi_communicate) StdoutLine: {'line': b'Installing serial_comm_node script to /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/dev_pi_communicate\n'}
+[6.480395] (dev_pi_communicate) StdoutLine: {'line': b'Installing static_baselink_laserframe_broadcaster script to /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/dev_pi_communicate\n'}
+[6.480848] (dev_pi_communicate) StdoutLine: {'line': b'Installing subscriber_node script to /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/dev_pi_communicate\n'}
+[6.481271] (dev_pi_communicate) StdoutLine: {'line': b'Installing teleop_key_node script to /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/lib/dev_pi_communicate\n'}
+[6.481656] (dev_pi_communicate) StdoutLine: {'line': b'\n'}
+[6.481902] (dev_pi_communicate) StdoutLine: {'line': b'Installed /home/kuns/ROS_projects/dev_pi_communicate/build/dev_pi_communicate\n'}
+[6.482139] (dev_pi_communicate) StdoutLine: {'line': b'running install_data\n'}
+[6.482371] (dev_pi_communicate) StdoutLine: {'line': b'creating /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/share/dev_pi_communicate/launch\n'}
+[6.482610] (dev_pi_communicate) StdoutLine: {'line': b'copying launch/online_async_launch.py -> /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/share/dev_pi_communicate/launch\n'}
+[6.482863] (dev_pi_communicate) StdoutLine: {'line': b'copying launch/robot_bringup.launch.py -> /home/kuns/ROS_projects/dev_pi_communicate/install/dev_pi_communicate/share/dev_pi_communicate/launch\n'}
+[6.521559] (camera) CommandEnded: {'returncode': 0}
+[6.560238] (-) TimerEvent: {}
+[6.660931] (-) TimerEvent: {}
+[6.763032] (-) TimerEvent: {}
+[6.788959] (camera) JobEnded: {'identifier': 'camera', 'rc': 0}
+[6.792555] (dev_pi_communicate) CommandEnded: {'returncode': 0}
+[6.863233] (-) TimerEvent: {}
+[6.964340] (-) TimerEvent: {}
+[7.037396] (dev_pi_communicate) JobEnded: {'identifier': 'dev_pi_communicate', 'rc': 0}
+[7.039218] (-) EventReactorShutdown: {}

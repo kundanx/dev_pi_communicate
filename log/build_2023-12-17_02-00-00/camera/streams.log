@@ -1,0 +1,18 @@
+[4.587s] Invoking command in '/home/kuns/ROS_projects/dev_pi_communicate/build/camera': PYTHONPATH=/home/kuns/ROS_projects/dev_pi_communicate/build/camera/prefix_override:/home/kuns/ROS_projects/dev_pi_communicate/install/camera/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py develop --editable --build-directory /home/kuns/ROS_projects/dev_pi_communicate/build/camera/build --no-deps install_data
+[5.777s] running develop
+[6.390s] running egg_info
+[6.390s] writing camera.egg-info/PKG-INFO
+[6.391s] writing dependency_links to camera.egg-info/dependency_links.txt
+[6.391s] writing entry points to camera.egg-info/entry_points.txt
+[6.392s] writing requirements to camera.egg-info/requires.txt
+[6.392s] writing top-level names to camera.egg-info/top_level.txt
+[6.398s] reading manifest file 'camera.egg-info/SOURCES.txt'
+[6.400s] writing manifest file 'camera.egg-info/SOURCES.txt'
+[6.404s] running build_ext
+[6.405s] Creating /home/kuns/ROS_projects/dev_pi_communicate/install/camera/lib/python3.10/site-packages/camera.egg-link (link to .)
+[6.407s] Installing camera_node script to /home/kuns/ROS_projects/dev_pi_communicate/install/camera/lib/camera
+[6.407s] Installing obj_track_node script to /home/kuns/ROS_projects/dev_pi_communicate/install/camera/lib/camera
+[6.408s] 
+[6.408s] Installed /home/kuns/ROS_projects/dev_pi_communicate/build/camera
+[6.409s] running install_data
+[6.521s] Invoked command in '/home/kuns/ROS_projects/dev_pi_communicate/build/camera' returned '0': PYTHONPATH=/home/kuns/ROS_projects/dev_pi_communicate/build/camera/prefix_override:/home/kuns/ROS_projects/dev_pi_communicate/install/camera/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py develop --editable --build-directory /home/kuns/ROS_projects/dev_pi_communicate/build/camera/build --no-deps install_data
