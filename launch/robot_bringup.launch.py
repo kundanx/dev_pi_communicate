@@ -18,21 +18,21 @@ def generate_launch_description():
     # serial comms to read from STM32 
     serial_comms_node= Node(
         package='dev_pi_communicate',
-        executable='serial_comm_node.py',
+        executable='serial_comm_node',
         output='screen'
     )
 
     # interface camera
     camera_node= Node(
         package='dev_pi_communicate',
-        executable='camera_node.py',
+        executable='camera_node',
         output='screen'
     )
 
     #control robot using joy stick
     joy_node= Node(
         package='dev_pi_communicate',
-        executable='joy_node.py',
+        executable='joy_node',
         output='screen'
     )
 

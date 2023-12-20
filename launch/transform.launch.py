@@ -10,13 +10,13 @@ def generate_launch_description():
     # Base_link to laser_frame tranformation
     baseLink_laserFrame_tf= Node(
         package='dev_pi_communicate',
-        executable='baseLink_laserFrame_tf.py',
+        executable='baseLink_laserFrame_tf',
         output= 'screen'
     )
     # Odom_Frame to Base_Footprint transformation
     odomFrame_baseFootprint_tf= Node(
         package='dev_pi_communicate',
-        executable='odomFrame_baseFootprint_tf.py',
+        executable='odomFrame_baseFootprint_tf',
         output='screen'
     )
 
