@@ -1,0 +1,108 @@
+\hypertarget{classdev__pi__communicate_1_1crc8_1_1crc8}{}\doxysection{dev\+\_\+pi\+\_\+communicate.\+crc8.\+crc8 Class Reference}
+\label{classdev__pi__communicate_1_1crc8_1_1crc8}\index{dev\_pi\_communicate.crc8.crc8@{dev\_pi\_communicate.crc8.crc8}}
+
+
+Inheritance diagram for dev\+\_\+pi\+\_\+communicate.\+crc8.\+crc8\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=232pt]{classdev__pi__communicate_1_1crc8_1_1crc8__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for dev\+\_\+pi\+\_\+communicate.\+crc8.\+crc8\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=232pt]{classdev__pi__communicate_1_1crc8_1_1crc8__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{classdev__pi__communicate_1_1crc8_1_1crc8_a378554a130b2ed3048fb6ac72b70c162}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, initial\+\_\+string=b\textquotesingle{}\textquotesingle{}, initial\+\_\+start=0x00)
+\item 
+def \mbox{\hyperlink{classdev__pi__communicate_1_1crc8_1_1crc8_a0971ffdc4da325058737805820790e54}{update}} (self, bytes\+\_\+)
+\item 
+def \mbox{\hyperlink{classdev__pi__communicate_1_1crc8_1_1crc8_a5e30714b0aadc0e7e07d959fb1cc3a61}{digest}} (self)
+\item 
+def \mbox{\hyperlink{classdev__pi__communicate_1_1crc8_1_1crc8_af48a23dcde895af14cb216b0e6bf5174}{hexdigest}} (self)
+\item 
+def \mbox{\hyperlink{classdev__pi__communicate_1_1crc8_1_1crc8_a7e74666e32506e436ff4e3cf1d1deae8}{copy}} (self)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classdev__pi__communicate_1_1crc8_1_1crc8_a4246aaac6c5406f0e4d57d1bf6774837}\label{classdev__pi__communicate_1_1crc8_1_1crc8_a4246aaac6c5406f0e4d57d1bf6774837}} 
+int {\bfseries digest\+\_\+size} = 1
+\item 
+\mbox{\Hypertarget{classdev__pi__communicate_1_1crc8_1_1crc8_a41eea56678d803d2b80f10d98db626db}\label{classdev__pi__communicate_1_1crc8_1_1crc8_a41eea56678d803d2b80f10d98db626db}} 
+int {\bfseries block\+\_\+size} = 1
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classdev__pi__communicate_1_1crc8_1_1crc8_a378554a130b2ed3048fb6ac72b70c162}\label{classdev__pi__communicate_1_1crc8_1_1crc8_a378554a130b2ed3048fb6ac72b70c162}} 
+\index{dev\_pi\_communicate.crc8.crc8@{dev\_pi\_communicate.crc8.crc8}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!dev\_pi\_communicate.crc8.crc8@{dev\_pi\_communicate.crc8.crc8}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily def dev\+\_\+pi\+\_\+communicate.\+crc8.\+crc8.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{initial\+\_\+string = {\ttfamily b\textquotesingle{}\textquotesingle{}},  }\item[{}]{initial\+\_\+start = {\ttfamily 0x00} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Create a new crc8 hash instance.\end{DoxyVerb}
+ 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classdev__pi__communicate_1_1crc8_1_1crc8_a7e74666e32506e436ff4e3cf1d1deae8}\label{classdev__pi__communicate_1_1crc8_1_1crc8_a7e74666e32506e436ff4e3cf1d1deae8}} 
+\index{dev\_pi\_communicate.crc8.crc8@{dev\_pi\_communicate.crc8.crc8}!copy@{copy}}
+\index{copy@{copy}!dev\_pi\_communicate.crc8.crc8@{dev\_pi\_communicate.crc8.crc8}}
+\doxysubsubsection{\texorpdfstring{copy()}{copy()}}
+{\footnotesize\ttfamily def dev\+\_\+pi\+\_\+communicate.\+crc8.\+crc8.\+copy (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Return a copy ("clone") of the hash object.
+
+This can be used to efficiently compute the digests of strings that
+share a common initial substring.
+\end{DoxyVerb}
+ \mbox{\Hypertarget{classdev__pi__communicate_1_1crc8_1_1crc8_a5e30714b0aadc0e7e07d959fb1cc3a61}\label{classdev__pi__communicate_1_1crc8_1_1crc8_a5e30714b0aadc0e7e07d959fb1cc3a61}} 
+\index{dev\_pi\_communicate.crc8.crc8@{dev\_pi\_communicate.crc8.crc8}!digest@{digest}}
+\index{digest@{digest}!dev\_pi\_communicate.crc8.crc8@{dev\_pi\_communicate.crc8.crc8}}
+\doxysubsubsection{\texorpdfstring{digest()}{digest()}}
+{\footnotesize\ttfamily def dev\+\_\+pi\+\_\+communicate.\+crc8.\+crc8.\+digest (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Return the digest of the bytes passed to the update() method so far.
+
+This is a string of digest_size bytes which may contain non-ASCII
+characters, including null bytes.
+\end{DoxyVerb}
+ \mbox{\Hypertarget{classdev__pi__communicate_1_1crc8_1_1crc8_af48a23dcde895af14cb216b0e6bf5174}\label{classdev__pi__communicate_1_1crc8_1_1crc8_af48a23dcde895af14cb216b0e6bf5174}} 
+\index{dev\_pi\_communicate.crc8.crc8@{dev\_pi\_communicate.crc8.crc8}!hexdigest@{hexdigest}}
+\index{hexdigest@{hexdigest}!dev\_pi\_communicate.crc8.crc8@{dev\_pi\_communicate.crc8.crc8}}
+\doxysubsubsection{\texorpdfstring{hexdigest()}{hexdigest()}}
+{\footnotesize\ttfamily def dev\+\_\+pi\+\_\+communicate.\+crc8.\+crc8.\+hexdigest (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Return digest() as hexadecimal string.
+
+Like digest() except the digest is returned as a string of double
+length, containing only hexadecimal digits. This may be used to
+exchange the value safely in email or other non-binary environments.
+\end{DoxyVerb}
+ \mbox{\Hypertarget{classdev__pi__communicate_1_1crc8_1_1crc8_a0971ffdc4da325058737805820790e54}\label{classdev__pi__communicate_1_1crc8_1_1crc8_a0971ffdc4da325058737805820790e54}} 
+\index{dev\_pi\_communicate.crc8.crc8@{dev\_pi\_communicate.crc8.crc8}!update@{update}}
+\index{update@{update}!dev\_pi\_communicate.crc8.crc8@{dev\_pi\_communicate.crc8.crc8}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily def dev\+\_\+pi\+\_\+communicate.\+crc8.\+crc8.\+update (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{bytes\+\_\+ }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Update the hash object with the string arg.
+
+Repeated calls are equivalent to a single call with the concatenation
+of all the arguments: m.update(a); m.update(b) is equivalent
+to m.update(a+b).
+\end{DoxyVerb}
+ 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+dev\+\_\+pi\+\_\+communicate/crc8.\+py\end{DoxyCompactItemize}
