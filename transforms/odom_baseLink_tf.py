@@ -39,7 +39,7 @@ def quaternion_from_euler(ai, aj, ak):
 class odom_base_tf(Node):
 
     def __init__(self):
-        super().__init__('odom_base_footprint_tf2_broadcaster')
+        super().__init__('odom_base_link_tf2_broadcaster')
 
         # Initialize the transform broadcaster
         self.tf_broadcaster = TransformBroadcaster(self)
@@ -58,8 +58,8 @@ class odom_base_tf(Node):
         # Read message content and assign it to
         # corresponding tf variables
         t.header.stamp = self.get_clock().now().to_msg()
-        t.header.frame_id = 'odom_frame'
-        t.child_frame_id = 'base_footprint'
+        t.header.frame_id = 'odom'
+        t.child_frame_id = 'base_link'
 
         # RObot moves only in 2D, thus we get x and y translation
         # coordinates from the message and set the z coordinate to 0
@@ -78,7 +78,7 @@ class odom_base_tf(Node):
 
         # Send the transformation
         self.tf_broadcaster.sendTransform(t)
-        self.get_logger().info(str("Odom to base_Footprint transform published."))
+        self.get_logger().info(str("Odom to base_link transform published."))
 
 def main():
     rclpy.init()

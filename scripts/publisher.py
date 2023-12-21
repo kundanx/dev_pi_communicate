@@ -21,9 +21,9 @@ class publisher(Node):
 
     def send_velocity_command(self):
         self.counter += 0.01
-        self.data.position.x = self.counter
-        self.data.position.y = self.counter
-        self.data.position.z = self.counter
+        self.data.position.x = 1.0
+        self.data.position.y = 1.0
+        self.data.position.z = 1.0
         self.data.orientation.x = 0.0
         self.data.orientation.y = 0.0
         self.data.orientation.z = 0.0

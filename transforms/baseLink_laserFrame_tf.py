@@ -38,7 +38,7 @@ def quaternion_from_euler(ai, aj, ak):
 class StaticFramePublisher(Node):
   
     def __init__(self, transformation):
-        super().__init__('static_base_footprint_tf2_broadcaster')
+        super().__init__('baseLink_laser_tf2_broadcaster')
 
         self.tf_static_broadcaster = StaticTransformBroadcaster(self)
 
@@ -49,7 +49,7 @@ class StaticFramePublisher(Node):
         t = TransformStamped()
 
         t.header.stamp = self.get_clock().now().to_msg()
-        t.header.frame_id = 'base_footprint'
+        t.header.frame_id = 'base_link'
         t.child_frame_id = 'laser_frame'
 
         t.transform.translation.x = 0.0
@@ -62,7 +62,7 @@ class StaticFramePublisher(Node):
         t.transform.rotation.w = quat[3]
 
         self.tf_static_broadcaster.sendTransform(t)
-        self.get_logger().info(str("Base_Footprint to laser_frame transform published."))
+        self.get_logger().info(str("Base_Link to laser_frame transform published."))
 
 
 
