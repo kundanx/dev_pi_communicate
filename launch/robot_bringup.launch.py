@@ -57,7 +57,7 @@ def generate_launch_description():
     # run the node
     return LaunchDescription([
         joystick_controller,
-        serial_comms_node,
+        # serial_comms_node,
         # camera_node,
         # teleop_key_node,
         joy_node,
