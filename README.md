@@ -5,7 +5,7 @@
 This is a ROS2 package for controlling our robot. It contains multiple nodes and topics.
 The executables and transforms are listed as follows:
 
-### Executables
+## Executables
     joy_node: To receive the data from joystick controller and generate the necessary command for stm32
     camera_node: To receive the data from camera and generate the necessary command for stm32
     serial_comm_node: To recieve data from stm32 serially
@@ -13,7 +13,7 @@ The executables and transforms are listed as follows:
     publisher_node: practice node for publishing immediate data
     subscriber_node: practice node for receiving immediate data
 
-### Transforms
+## Transforms
     map->base_link
     odom->base_link
     base_link->laser_frame
@@ -32,8 +32,8 @@ The executables and transforms are listed as follows:
 ## ***Resources***
 
 **Links**:
-    https://docs.ros.org/en/humble/index.html
-    https://github.com/SteveMacenski/slam_toolbox
-    https://navigation.ros.org/
+- https://docs.ros.org/en/humble/index.html
+- https://github.com/SteveMacenski/slam_toolbox
+- https://navigation.ros.org/
 
 
