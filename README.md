@@ -1,11 +1,11 @@
 # DEV_PI_COMMUNICATE
 ..
-## Introduction
+## **Introduction**
 
 This is a ROS2 package for controlling our robot. It contains multiple nodes and topics.
 The executables and transforms are listed as follows:
 
-### Executables:-
+### Executables
     joy_node: To receive the data from joystick controller and generate the necessary command for stm32
     camera_node: To receive the data from camera and generate the necessary command for stm32
     serial_comm_node: To recieve data from stm32 serially
@@ -13,13 +13,13 @@ The executables and transforms are listed as follows:
     publisher_node: practice node for publishing immediate data
     subscriber_node: practice node for receiving immediate data
 
-### Transforms:-
+### Transforms
     map->base_link
     odom->base_link
     base_link->laser_frame
     (If you launch slam_toolbox package, it will create map->odom transform)
 
-## How to use
+## **How to use**
  
  * Create a workspace and src directory inside the ws.
  * Navigate to the src directory and clone this repo.
@@ -29,7 +29,8 @@ The executables and transforms are listed as follows:
     * ros2 launch dev_pi_communicate robot_bringup.launch.py 
     * ros2 launch slam_toolbox online_async_launch.py slam_params_file:=./src/dev_pi_communicate/parameter_files/mapper_params_online_async.yaml 
 
-## *Resources*
+## ***Resources***
+
 **Links**:
     https://docs.ros.org/en/humble/index.html
     https://github.com/SteveMacenski/slam_toolbox
