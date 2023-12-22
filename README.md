@@ -1,23 +1,24 @@
 # DEV_PI_COMMUNICATE
-..
+--- 
+
 ## **Introduction**
 
 This is a ROS2 package for controlling our robot. It contains multiple nodes and topics.
 The executables and transforms are listed as follows:
 
 * **Executables:**
-    joy_node: To receive the data from joystick controller and generate the necessary command for stm32
-    camera_node: To receive the data from camera and generate the necessary command for stm32
-    serial_comm_node: To recieve data from stm32 serially
-    teleop_key_node: To control the bot from teleop_twist_keyboard
-    publisher_node: practice node for publishing immediate data
-    subscriber_node: practice node for receiving immediate data
+1. joy_node: To receive the data from joystick controller and generate the necessary command for stm32
+2. camera_node: To receive the data from camera and generate the necessary command for stm32
+3. serial_comm_node: To recieve data from stm32 serially
+4. teleop_key_node: To control the bot from teleop_twist_keyboard
+5. publisher_node: practice node for publishing immediate data
+5. subscriber_node: practice node for receiving immediate data
 
 * **Transforms:**
-    map->base_link
-    odom->base_link
-    base_link->laser_frame
-    (If you launch slam_toolbox package, it will create map->odom transform)
+1. map->base_link
+2. odom->base_link
+3. base_link->laser_frame
+* (If you launch slam_toolbox package, it will create map->odom transform)
 
 ## **How to use**
  
@@ -35,5 +36,9 @@ The executables and transforms are listed as follows:
 - https://docs.ros.org/en/humble/index.html
 - https://github.com/SteveMacenski/slam_toolbox
 - https://navigation.ros.org/
+
+## Images
+
+![FIRST MAP OF GAMEFEILD!](/docs/Screenshot%20from%202023-12-21%2014-33-36.png "map")
 
 
