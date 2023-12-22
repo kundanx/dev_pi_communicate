@@ -17,8 +17,8 @@ The executables and transforms are listed as follows:
 * **Transforms:**
 1. map->base_link
 2. odom->base_link
-3. base_link->laser_frame
-* (If you launch slam_toolbox package, it will create map->odom transform)
+3. base_link->laser_frame  
+  (If you launch slam_toolbox package, it will create map->odom transform)
 
 ## **How to use**
  
