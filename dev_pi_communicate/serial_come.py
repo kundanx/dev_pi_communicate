@@ -33,7 +33,7 @@ class serial_comms:
                 print(byte)
                 if int.from_bytes(byte, 'big') == START_BYTE:
                     print("new data")
-                    data_str = self.serial.read(13)
+                    data_str = self.serial.read(25)
                     start_byte_found=True
           
             hash = self.calc_crc(data_str)

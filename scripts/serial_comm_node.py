@@ -25,11 +25,15 @@ class Serial_comms_node(Node):
             
             data = serial_come.serial_port.read()
             print(data)
-            dist_x, dist_y, theta, hash= struct.unpack('fffc', data)
+            dist_x, dist_y, theta, vel_x, vel_y, omega, hash= struct.unpack('ffffffc', data)
 
             odometry_data = Pose()
-            odometry_data.orientation.x = dist_x
-            odometry_data.orientation.y=dist_y
+            odometry_data.position.x = dist_x
+            odometry_data.position.y=dist_y
+            odometry_data.position.z=0.0
+            odometry_data.orientation.x=0.0
+            odometry_data.orientation.y=0.0
+            odometry_data.orientation.z=0.0
             odometry_data.orientation.w=theta
 
             self.recieved_data_pub.publish(odometry_data)

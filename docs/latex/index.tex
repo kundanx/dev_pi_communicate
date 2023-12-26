@@ -1,0 +1,18 @@
+\label{index_md__home_kuns_ROS_projects_dev_pi_communicate_src_dev_pi_communicate_README}%
+\Hypertarget{index_md__home_kuns_ROS_projects_dev_pi_communicate_src_dev_pi_communicate_README}%
+.. \hypertarget{index_autotoc_md1}{}\doxysection{Introduction}\label{index_autotoc_md1}
+This is a ROS2 package for controlling our robot. It contains multiple nodes and topics. The executables and transforms are listed as follows\+:
+
+
+\begin{DoxyItemize}
+\item Executables\+:-\/ joy\+\_\+node\+: To receive the data from joystick controller and generate the necessary command for stm32 camera\+\_\+node\+: To receive the data from camera and generate the necessary command for stm32 serial\+\_\+comm\+\_\+node\+: To recieve data from stm32 serially teleop\+\_\+key\+\_\+node\+: To control the bot from teleop\+\_\+twist\+\_\+keyboard publisher\+\_\+node\+: practice node for publishing immediate data subscriber\+\_\+node\+: practice node for receiving immediate data
+\item Transforms\+:-\/ map-\/$>$base\+\_\+link odom-\/$>$base\+\_\+link base\+\_\+link-\/$>$laser\+\_\+frame (If you launch slam\+\_\+toolbox package, it will create map-\/$>$odom transform)
+\end{DoxyItemize}\hypertarget{index_autotoc_md2}{}\doxysection{How to use}\label{index_autotoc_md2}
+
+\begin{DoxyItemize}
+\item Create a workspace and src directory inside the ws.
+\item Navigate to the src directory and clone this repo.
+\item come out of the directory and run\+: \char`\"{}colcon build -\/-\/symlink-\/install\char`\"{} to build the package.
+\item run\+: \char`\"{}source install/local\+\_\+install.\+bash\char`\"{} to source the built ws"{}.
+\item Execute following commands\+: \textquotesingle{}ros2 launch \mbox{\hyperlink{namespacedev__pi__communicate}{dev\+\_\+pi\+\_\+communicate}} \mbox{\hyperlink{robot__bringup_8launch_8py}{robot\+\_\+bringup.\+launch.\+py}}\textquotesingle{} , \textquotesingle{}ros2 launch slam\+\_\+toolbox \mbox{\hyperlink{online__async__launch_8py}{online\+\_\+async\+\_\+launch.\+py}} slam\+\_\+params\+\_\+file\+:=./src/my\+\_\+bot/parameter\+\_\+files/mapper\+\_\+params\+\_\+online\+\_\+async.yaml \textquotesingle{} 
+\end{DoxyItemize}
