@@ -62,7 +62,7 @@ class StaticFramePublisher(Node):
         t.transform.rotation.w = quat[3]
 
         self.tf_static_broadcaster.sendTransform(t)
-        self.get_logger().info(str("Base_Link to laser_frame transform published."))
+        # self.get_logger().info(str("Base_Link to laser_frame transform published."))
 
 
 

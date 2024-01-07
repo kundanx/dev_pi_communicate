@@ -30,6 +30,11 @@ The executables and transforms are listed as follows:
  * Execute following commands:
     * ros2 launch dev_pi_communicate robot_bringup.launch.py 
     * ros2 launch slam_toolbox online_async_launch.py slam_params_file:=./src/dev_pi_communicate/parameter_files/mapper_params_online_async.yaml 
+    * ros2 launch nav2_bringup navigation_launch.py
+    * To save the map: ros2 run nav2_map_server map_saver_cli -f /filename
+    * To publishe the saved map: 
+      - ros2 run nav2_map_server map_server --ros-args -p yaml_filename:=/mapper.yaml
+      - ros2 run nav2_util lifecycle_bringup map_server -> this will configure the inactive node (map_server) to active state
 
 ## ***Resources***
 

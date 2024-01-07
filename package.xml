@@ -17,6 +17,7 @@
   <depend>serial</depend>
   <depend>math</depend>
   <depend>numpy</depend>
+  <depend>time</depend>
 
   <depend>geometry_msgs</depend>
   <depend>std_msgs</depend>

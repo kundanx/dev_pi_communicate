@@ -49,7 +49,7 @@ class odom_base_tf(Node):
             Pose,
             'base_odom_topic',
             self.handle_odom,
-            1)
+            50)
         self.subscription  # prevent unused variable warning
 
     def handle_odom(self, msg:Pose):
@@ -78,7 +78,7 @@ class odom_base_tf(Node):
 
         # Send the transformation
         self.tf_broadcaster.sendTransform(t)
-        self.get_logger().info(str("Odom to base_link transform published."))
+        # self.get_logger().info(str("Odom to base_link transform published."))
 
 def main():
     rclpy.init()

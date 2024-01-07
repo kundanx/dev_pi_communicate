@@ -20,16 +20,24 @@ def generate_launch_description():
     )
 
     # joy_node from joy package to interface joystick_contr
-    joystick_controller=Node(
+    joy_node=Node(
         package='joy',
         executable='joy_node',
         output='screen'
     )
 
+
     # serial comms to read from STM32 
     serial_comms_node= Node(
         package='dev_pi_communicate',
         executable='serial_comm_node',
+        output='screen'
+    )
+
+    # control robot using PS4
+    ps4_node= Node(
+        package='dev_pi_communicate',
+        executable='ps4_node',
         output='screen'
     )
 
@@ -40,26 +48,11 @@ def generate_launch_description():
         output='screen'
     )
 
-    #control robot using joy stick
-    joy_node= Node(
-        package='dev_pi_communicate',
-        executable='joy_node',
-        output='screen'
-    )
-
-    # control robot using teleop_twist_key
-    teleop_key_node= Node(
-        package='dev_pi_communicate',
-        executable='teleop_key_node',
-        output='screen'
-    )
-
     # run the node
     return LaunchDescription([
-        joystick_controller,
-        # serial_comms_node,
-        # camera_node,
-        # teleop_key_node,
         joy_node,
+        ps4_node,
         tf
+        # serial_comms_node
+        # camera_node,
     ])

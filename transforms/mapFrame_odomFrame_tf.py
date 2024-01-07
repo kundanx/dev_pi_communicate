@@ -49,7 +49,7 @@ class map_odom_tf(Node):
             PoseWithCovariance,
             '/pose',
             self.handle_map,
-            1)
+            10)
         self.subscription  # prevent unused variable warning
         self.get_logger().info(str("map to odom transform published."))
 

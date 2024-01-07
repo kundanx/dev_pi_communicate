@@ -9,6 +9,8 @@ from rclpy.node import Node
 from tf2_ros import TransformBroadcaster
 from geometry_msgs.msg import TransformStamped
 from geometry_msgs.msg import Pose
+from geometry_msgs.msg import PoseWithCovariance
+from geometry_msgs.msg import PoseWithCovarianceStamped
 
 
 
@@ -46,13 +48,13 @@ class map_base_tf(Node):
 
         # callback function on each message
         self.subscription = self.create_subscription(
-            Pose,
-            'base_odom_topic',
+            PoseWithCovarianceStamped,
+            '/amcl_pose',
             self.handle_map,
             1)
         self.subscription  # prevent unused variable warning
 
-    def handle_map(self, msg):
+    def handle_map(self, msg:PoseWithCovarianceStamped):
         t = TransformStamped()
 
         # Read message content and assign it to
@@ -63,14 +65,14 @@ class map_base_tf(Node):
 
         # RObot moves only in 2D, thus we get x and y translation
         # coordinates from the message and set the z coordinate to 0
-        t.transform.translation.x = msg.position.x
-        t.transform.translation.y = msg.position.y
+        t.transform.translation.x = msg.pose.pose.position.x
+        t.transform.translation.y = msg.pose.pose.position.y
         t.transform.translation.z = 0.0
 
         # For the same reason, robot can only rotate around one axis
         # and this why we set rotation in x and y to 0 and obtain
         # rotation in z axis from the message
-        q = quaternion_from_euler(0, 0, msg.orientation.w)
+        q = quaternion_from_euler(0, 0, msg.pose.pose.orientation.w)
         t.transform.rotation.x = q[0]
         t.transform.rotation.y = q[1]
         t.transform.rotation.z = q[2]
@@ -78,7 +80,7 @@ class map_base_tf(Node):
 
         # Send the transformation
         self.tf_broadcaster.sendTransform(t)
-        self.get_logger().info(str("map to baseLink transform published."))
+        # self.get_logger().info(str("map to baseLink transform published."))
 
 def main():
     rclpy.init()
