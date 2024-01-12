@@ -72,11 +72,11 @@ class map_base_tf(Node):
         # For the same reason, robot can only rotate around one axis
         # and this why we set rotation in x and y to 0 and obtain
         # rotation in z axis from the message
-        q = quaternion_from_euler(0, 0, msg.pose.pose.orientation.w)
-        t.transform.rotation.x = q[0]
-        t.transform.rotation.y = q[1]
-        t.transform.rotation.z = q[2]
-        t.transform.rotation.w = q[3]
+        # q = quaternion_from_euler(0, 0, msg.pose.pose.orientation.w)
+        t.transform.rotation.x = msg.pose.pose.orientation.x
+        t.transform.rotation.y = msg.pose.pose.orientation.y
+        t.transform.rotation.z = msg.pose.pose.orientation.z
+        t.transform.rotation.w = msg.pose.pose.orientation.w
 
         # Send the transformation
         self.tf_broadcaster.sendTransform(t)

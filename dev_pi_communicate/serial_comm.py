@@ -25,12 +25,16 @@ class serial_comms:
 
     def write_data(self,data):
         self.serial.write(data)
+        print(data)
+        # print("sent")
         self.serial.reset_output_buffer()
         
     
     def read_data(self):   
-        while True:
-            print("here")
+       
+        # if self.serial.in_waiting >= 26:
+        while True :
+            # print("here")
             start_byte_found = False
             while not start_byte_found:
                 byte = self.serial.read(1)
@@ -43,12 +47,14 @@ class serial_comms:
                     # self.start_time = self.current_time
                     data_str = self.serial.read(25)
                     start_byte_found=True
-          
+           
             hash = self.calc_crc(data_str)
             if hash == data_str[-1]:
                 self.serial.reset_input_buffer()
+                # print("recieved")
                 return data_str
             print("data not matched")
+            print(data_str)
 
 
     def calc_checksum(self, data=[]):
@@ -56,7 +62,7 @@ class serial_comms:
             checksum = checksum ^ data[i]
         return checksum
 
-    def calc_crc(self, data=[]*23):
+    def calc_crc(self, data=[]):
         hash_func=crc8()
         hash_func.update(data[0:-1])
         return hash_func.digest()[0]

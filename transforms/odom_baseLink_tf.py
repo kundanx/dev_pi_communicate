@@ -70,7 +70,7 @@ class odom_base_tf(Node):
         # For the same reason, robot can only rotate around one axis
         # and this why we set rotation in x and y to 0 and obtain
         # rotation in z axis from the message
-        q = quaternion_from_euler(0, 0, msg.orientation.w)
+        q = quaternion_from_euler(0, 0, msg.orientation.w) # msg.pose.orientation.w is acutally yaw angle comming from base bluepill
         t.transform.rotation.x = q[0]
         t.transform.rotation.y = q[1]
         t.transform.rotation.z = q[2]
