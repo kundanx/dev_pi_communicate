@@ -22,16 +22,16 @@ def joy_callback(msg):
     vy = map_value(msg.axes[1], -1.0,  1.0, -MAX_VELOCITY, MAX_VELOCITY) * speedFactor  # Y-axis of left joystick
     
     # Map L2 and R2 to omega
-    w = map_value(msg.axes[2] - msg.axes[5], -2.0, 2.0, MAX_OMEGA, -MAX_OMEGA) * speedFactor  # L2 - R2
+    w = map_value(msg.axes[5] - msg.axes[4], -1.0, 1.0, MAX_OMEGA, -MAX_OMEGA) * speedFactor  # L2 - R2
 
-    if ((msg.axes[6] != 0) | (msg.axes[7] != 0)):
-        vy = msg.axes[7] * MAX_VELOCITY * speedFactor
-        vx = -msg.axes[6] * MAX_VELOCITY * speedFactor
+    # if ((msg.axes[6] != 0) | (msg.axes[7] != 0)):
+    #     vy = msg.axes[7] * MAX_VELOCITY * speedFactor
+    #     vx = -msg.axes[6] * MAX_VELOCITY * speedFactor
 
     if (msg.buttons[10]):
         isEmergencyBrake = True
 
-    if (msg.buttons[4] and msg.buttons[5] and msg.buttons[10]):
+    if (msg.buttons[4] and msg.buttons[6] and msg.buttons[10]):
         isEmergencyBrake = False
 
     if (isEmergencyBrake):
@@ -59,7 +59,7 @@ def main():
 
     global pub
     pub = node.create_publisher(Float32MultiArray, '/cmd_robot_vel', 10)
-    sub = node.create_subscription(Joy, '/joy', joy_callback, 10)
+    sub = node.create_subscription(Joy, '/esp32_joy_topic', joy_callback, 10)
 
     rclpy.spin(node)
     rclpy.shutdown()
