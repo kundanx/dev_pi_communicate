@@ -1,17 +1,44 @@
 #! /usr/bin/env python3
-
+import math
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String
+from nav_msgs.msg import Odometry
 
 class subscriber(Node):
     def __init__(self):
         super().__init__("subscriber_node")
-        self.subscriber_node = self.create_subscription(String, "/string_topic", self.recieve_callback, 10)
+        self.subscriber_node = self.create_subscription(Odometry, "/odometry/filtered", self.recieve_callback, 10)
         self.get_logger().info("Recieving command")
     
-    def recieve_callback(self, msg:String):
-        self.get_logger().info(str(msg))
+    def recieve_callback(self, msg:Odometry):
+        q =[msg.pose.pose.orientation.x,
+            msg.pose.pose.orientation.y,
+            msg.pose.pose.orientation.z,
+            msg.pose.pose.orientation.w]
+        
+        rpy= self.quaternon_to_rollpitchyaw(q)
+        yaw= rpy[2]*180/math.pi
+        self.get_logger().info(f"{yaw=}")
+    
+    def quaternon_to_rollpitchyaw(self,q):
+
+        # roll (x-axis rotation)
+        sinr_cosp = 2 * (q[3] * q[0] + q[1] * q[2])
+        cosr_cosp = 1 - 2 * (q[0] * q[0] + q[1] * q[1])
+        roll = math.atan2(sinr_cosp, cosr_cosp)
+
+        # pitch (y-axis rotation)
+        sinp = math.sqrt(1 + 2 * (q[3] * q[1] - q[0] * q[2]))
+        cosp = math.sqrt(1 - 2 * (q[3] * q[1] - q[0] * q[2]))
+        pitch = 2 * math.atan2(sinp, cosp) -math.pi / 2 
+
+        #  yaw (z-axis rotation)
+        siny_cosp = 2 * (q[3] * q[2] + q[0] * q[1])
+        cosy_cosp = 1 - 2 * (q[1] * q[1] + q[2] * q[2])
+        yaw = math.atan2(siny_cosp, cosy_cosp)
+
+        return roll, pitch, yaw
 
 def main(args=None):
     rclpy.init()

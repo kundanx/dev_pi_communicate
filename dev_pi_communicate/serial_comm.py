@@ -25,7 +25,7 @@ class serial_comms:
 
     def write_data(self,data):
         self.serial.write(data)
-        print(data)
+        # print(data)
         # print("sent")
         self.serial.reset_output_buffer()
         

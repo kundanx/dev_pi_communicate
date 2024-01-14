@@ -32,6 +32,7 @@ setup(
             'camera_node = scripts.camera_node:main',
             'joy_node= scripts.joy_node:main',
             'ps4_node= scripts.ps4_node:main',
+            'nav2_cmd_vel= scripts.nav2_cmd_vel:main',
             'teleop_key_node = scripts.teleop_key_node:main',
 
             'odom_baseLink_tf = transforms.odom_baseLink_tf:main',

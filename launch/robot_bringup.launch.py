@@ -56,6 +56,13 @@ def generate_launch_description():
         output='screen'
     )
 
+    # nav2 cmd_vel to serial_node
+    nav2_cmd_vel_node=Node(
+        package='dev_pi_communicate',
+        executable='nav2_cmd_vel',
+        output='screen'
+    )
+
     # interface camera
     camera_node= Node(
         package='dev_pi_communicate',
@@ -77,7 +84,8 @@ def generate_launch_description():
         # joy_node,
         # ds4_driver,
         # micro_ros,
-        ps4_node,
+        # ps4_node,
+        nav2_cmd_vel_node,
         tf,
         serial_comms_node
         # camera_node,
