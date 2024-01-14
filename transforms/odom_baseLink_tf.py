@@ -9,6 +9,7 @@ from rclpy.node import Node
 from tf2_ros import TransformBroadcaster
 from geometry_msgs.msg import TransformStamped
 from geometry_msgs.msg import Pose
+from nav_msgs.msg import Odometry
 
 
 
@@ -46,13 +47,14 @@ class odom_base_tf(Node):
 
         # callback function on each message
         self.subscription = self.create_subscription(
-            Pose,
-            'base_odom_topic',
+            Odometry,
+            'odometry/filtered', #base_odom_topic'
             self.handle_odom,
             50)
+        
         self.subscription  # prevent unused variable warning
 
-    def handle_odom(self, msg:Pose):
+    def handle_odom(self, msg:Odometry):
         t = TransformStamped()
 
         # Read message content and assign it to
@@ -63,18 +65,18 @@ class odom_base_tf(Node):
 
         # RObot moves only in 2D, thus we get x and y translation
         # coordinates from the message and set the z coordinate to 0
-        t.transform.translation.x = msg.position.x
-        t.transform.translation.y = msg.position.y
+        t.transform.translation.x = msg.pose.pose.position.x
+        t.transform.translation.y = msg.pose.pose.position.y
         t.transform.translation.z = 0.0
 
         # For the same reason, robot can only rotate around one axis
         # and this why we set rotation in x and y to 0 and obtain
         # rotation in z axis from the message
-        q = quaternion_from_euler(0, 0, msg.orientation.w) # msg.pose.orientation.w is acutally yaw angle comming from base bluepill
-        t.transform.rotation.x = q[0]
-        t.transform.rotation.y = q[1]
-        t.transform.rotation.z = q[2]
-        t.transform.rotation.w = q[3]
+        # q = quaternion_from_euler(0, 0, msg.orientation.w) # msg.pose.orientation.w is acutally yaw angle comming from base bluepill
+        t.transform.rotation.x = msg.pose.pose.orientation.x
+        t.transform.rotation.y = msg.pose.pose.orientation.y
+        t.transform.rotation.z = msg.pose.pose.orientation.z
+        t.transform.rotation.w = msg.pose.pose.orientation.w
 
         # Send the transformation
         self.tf_broadcaster.sendTransform(t)
