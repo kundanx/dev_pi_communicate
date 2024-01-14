@@ -30,12 +30,13 @@ class Serial_comms_node(Node):
         # Subscriber to joystick data
         self.sub_joy = self.create_subscription(
             Float32MultiArray,
-            "/cmd_robot_vel",
+            "/cmd_robot_vel", #/cmd_robot_vel
             self.send_joy_data,
             10 )
         
         #  Odom data publisher
         self.recieved_data_pub = self.create_publisher(Pose,'/base_odom_topic', 20)
+        self.odom_publisher_ = self.create_publisher(Odometry, 'freewheel/odom', 10)
 
         self.create_timer(0.1, self.serial_read_callback)
         self.last_sent_time = time.time()
@@ -45,8 +46,27 @@ class Serial_comms_node(Node):
     # Read callback function
     def serial_read_callback(self):
             
-            _data = self.usb_port.read_data()
+            # data = self.usb_port.read_data()
+            # # print(data)
+            # dist_x, dist_y, theta, vel_x, vel_y, omega, hash= struct.unpack('ffffffc', data)
 
+            # odometry_data = Pose()
+            # odometry_data.position.x = dist_x
+            # odometry_data.position.y=dist_y
+            # odometry_data.position.z=0.0
+            # odometry_data.orientation.x=0.0
+            # odometry_data.orientation.y=0.0
+            # odometry_data.orientation.z=0.0
+            # odometry_data.orientation.w=theta
+
+            # self.recieved_data_pub.publish(odometry_data)
+            # # print(" ")
+            # # serial_come.serial_port.kill()
+            # self.get_logger().info(str(odometry_data))
+
+        # ---------------------------------------------------------------------------------------------
+
+            _data = self.usb_port.read_data()
             if (time.time() - self.last_sent_time > 0.05):
                 # data = [x, y, theta, vx, vy, omega]
                 data = struct.unpack("ffffff", _data[0:24])
@@ -83,8 +103,8 @@ class Serial_comms_node(Node):
                 self.odom_publisher_.publish(odom_msg)
                 self.odom_seq += 1
                 self.last_sent_time = time.time()
-                self.get_logger().info('"%f %f %f %f %f %f"'
-                                    %(data[0], data[1], data[2], data[3], data[4], data[5]))
+                # self.get_logger().info('"%f %f %f %f %f %f"'
+                                    # %(data[0], data[1], data[2], data[3], data[4], data[5]))
                 
 
     # Joystick read callback function
@@ -136,6 +156,25 @@ class Serial_comms_node(Node):
 
         return qw, qx, qy, qz
     
+    def quaternon_to_rollpitchyaw(self,q):
+
+        # roll (x-axis rotation)
+        sinr_cosp = 2 * (q[3] * q[0] + q[1] * q[2])
+        cosr_cosp = 1 - 2 * (q[0] * q[0] + q[1] * q[1])
+        roll = math.atan2(sinr_cosp, cosr_cosp)
+
+        # pitch (y-axis rotation)
+        sinp = math.sqrt(1 + 2 * (q[3] * q[1] - q[0] * q[2]))
+        cosp = math.sqrt(1 - 2 * (q[3] * q[1] - q[0] * q[2]))
+        pitch = 2 * math.atan2(sinp, cosp) -math.pi / 2 
+
+        #  yaw (z-axis rotation)
+        siny_cosp = 2 * (q[3] * q[2] + q[0] * q[1])
+        cosy_cosp = 1 - 2 * (q[1] * q[1] + q[2] * q[2])
+        yaw = math.atan2(siny_cosp, cosy_cosp)
+
+        return roll, pitch, yaw
+
 
 def main(args=None):
     rclpy.init()
