@@ -1,0 +1,18 @@
+scan_to_scan_filter_chain:
+  ros__parameters:
+    filter1:
+      name: range
+      type: laser_filters/LaserScanRangeFilter
+      params:
+        use_message_range_limits: false
+        lower_threshold: 0.5
+        upper_threshold: 10.0
+        lower_replacement_value: .inf    # if not specified defaults to NaN
+        upper_replacement_value: .inf     # if not specified defaults to NaN
+    filter2:
+      name: angle
+      type: laser_filters/LaserScanAngularBoundsFilter
+      params:
+        lower_angle: -1.57
+        upper_angle:  3.14
+        
