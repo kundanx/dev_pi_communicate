@@ -20,73 +20,77 @@ def generate_launch_description():
         PythonLaunchDescriptionSource([tf_path])
     )
 
-    # joy_node from joy package to interface joystick_contr
-    param_file= os.path.join(get_package_share_directory('dev_pi_communicate'),'parameter_files','joy-params.yaml')
-    joy_node=Node(
-        package='joy',
-        executable='joy_node',
-        output='screen'
-        # parameters=[ "deadzone: 0.5",
-        #     "autorepeat_rate: 50",
-        #     "sticky_buttons: false",
-        #     "coalesce_interval_ms: 20"
-        #     ]
-    )
-
     # ds4_node from ds4_driver package to interface joystick contro
     ds4_path = os.path.join(get_package_share_directory('ds4_driver'),'launch/ds4_driver.launch.xml')
     ds4_driver=IncludeLaunchDescription(
         XMLLaunchDescriptionSource([ds4_path],)
     )
 
-
-    # serial comms to read from STM32 
-    serial_comms_node= Node(
-        package='dev_pi_communicate',
-        executable='serial_comm_node',
-        output='screen'
+    laser_filter= Node(
+        package='laser_filters',
+        executable='scan_to_scan_filter_chain',
+        parameters=[
+            PathJoinSubstitution([
+                get_package_share_directory("dev_pi_communicate"),
+                "config", "laser_filter.config",
+            ]),
+        ]
     )
 
 
+    # serial comms to read from bluepill
+    serial_rx_node= Node(
+        package='dev_pi_communicate',
+        executable='serial_rx_node',
+        output='screen'
+    )
 
-    # control robot using PS4
+    # serial comms to write to STM32 
+    serial_tx_node= Node(
+        package='dev_pi_communicate',
+        executable='serial_tx_node',
+        output='screen'
+    )
+
+    esp_joy_node= Node(
+        package='dev_pi_communicate',
+        executable='esp_joy_uart_node',
+        output='screen'
+    )
+
     ps4_node= Node(
         package='dev_pi_communicate',
         executable='ps4_node',
         output='screen'
     )
 
-    # nav2 cmd_vel to serial_node
+    pico_imu_node= Node(
+        package='dev_pi_communicate',
+        executable='pico_imu_uart_node',
+        output='screen'
+    )
+
     nav2_cmd_vel_node=Node(
         package='dev_pi_communicate',
         executable='nav2_cmd_vel',
         output='screen'
     )
 
-    # interface camera
     camera_node= Node(
         package='dev_pi_communicate',
         executable='camera_node',
         output='screen'
     )
 
-    micro_ros = Node(
-        package= 'micro_ros_agent',
-        executable='micro_ros_agent',
-        output= 'screen',
-        parameters=[
-            {'transport':'serial'},
-            {'dev':'/dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_Controller_0001-if00-port0'}     
-        ]
-    )
-    # run the node
+
     return LaunchDescription([
-        # joy_node,
-        # ds4_driver,
-        # micro_ros,
-        # ps4_node,
-        nav2_cmd_vel_node,
+        
+        pico_imu_node,
+        esp_joy_node,
+        ps4_node,
         tf,
-        serial_comms_node
+        # laser_filter
+        # nav2_cmd_vel_node,
+        # serial_comms_node
         # camera_node,
     ])
