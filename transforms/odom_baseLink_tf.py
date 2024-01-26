@@ -47,14 +47,14 @@ class odom_base_tf(Node):
 
         # callback function on each message
         self.subscription = self.create_subscription(
-            Odometry,
+            Pose,
             'odometry/filtered', #base_odom_topic'
             self.handle_odom,
             50)
         
         self.subscription  # prevent unused variable warning
 
-    def handle_odom(self, msg:Odometry):
+    def handle_odom(self, msg:Pose):
         t = TransformStamped()
 
         # Read message content and assign it to
@@ -73,8 +73,8 @@ class odom_base_tf(Node):
         # and this why we set rotation in x and y to 0 and obtain
         # rotation in z axis from the message
         # q = quaternion_from_euler(0, 0, msg.orientation.w) # msg.pose.orientation.w is acutally yaw angle comming from base bluepill
-        t.transform.rotation.x = msg.pose.pose.orientation.x
-        t.transform.rotation.y = msg.pose.pose.orientation.y
+        t.transform.rotation.x = msg.pose.pose.orientation.y
+        t.transform.rotation.y = -msg.pose.pose.orientation.x
         t.transform.rotation.z = msg.pose.pose.orientation.z
         t.transform.rotation.w = msg.pose.pose.orientation.w
 

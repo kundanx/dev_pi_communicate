@@ -4,14 +4,17 @@ import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String
 from nav_msgs.msg import Odometry
+from sensor_msgs.msg import Imu
 
 class subscriber(Node):
     def __init__(self):
         super().__init__("subscriber_node")
-        self.subscriber_node = self.create_subscription(Odometry, "/odometry/filtered", self.recieve_callback, 10)
-        self.get_logger().info("Recieving command")
+        self.subscriber_to_filter_node = self.create_subscription(Odometry, "/odometry/filtered", self.recieve_callback_filter, 10)
+        self.subscriber_to_imu_node = self.create_subscription (Imu, "/imu/data", self.recieve_callback_imu, 10)
+        self.subscriber_to_freewheel_node = self.create_subscription(Odometry, "/freewheel/odom", self.recieve_callback_freewheel, 10)
+        self.get_logger().info("Quaternion to RollPitchYaw....")
     
-    def recieve_callback(self, msg:Odometry):
+    def recieve_callback_filter(self, msg:Odometry):
         q =[msg.pose.pose.orientation.x,
             msg.pose.pose.orientation.y,
             msg.pose.pose.orientation.z,
@@ -19,7 +22,27 @@ class subscriber(Node):
         
         rpy= self.quaternon_to_rollpitchyaw(q)
         yaw= rpy[2]*180/math.pi
-        self.get_logger().info(f"{yaw=}")
+        self.get_logger().info(f"yaw form filter: {yaw}")
+    
+    def recieve_callback_imu(self, msg:Imu):
+        q =[msg.orientation.x,
+            msg.orientation.y,
+            msg.orientation.z,
+            msg.orientation.w]
+        
+        rpy= self.quaternon_to_rollpitchyaw(q)
+        yaw= rpy[2]*180/math.pi
+        self.get_logger().info(f"yaw from Imu: {yaw}")
+    
+    def recieve_callback_freewheel(self, msg:Odometry):
+        q =[msg.pose.pose.orientation.x,
+            msg.pose.pose.orientation.y,
+            msg.pose.pose.orientation.z,
+            msg.pose.pose.orientation.w]
+        
+        rpy= self.quaternon_to_rollpitchyaw(q)
+        yaw= rpy[2]*180/math.pi
+        self.get_logger().info(f"yaw from Freewheel: {yaw}")
     
     def quaternon_to_rollpitchyaw(self,q):
 

@@ -29,16 +29,22 @@ The executables and transforms are listed as follows:
  * run: "source install/local_install.bash" to source the built ws".
  * Execute following commands:
     * ros2 launch dev_pi_communicate robot_bringup.launch.py 
-    * ros2 launch slam_toolbox online_async_launch.py slam_params_file:=./src/dev_pi_communicate/config/mapper_params_online_async.yaml 
-    * ros2 launch nav2_bringup navigation_launch.py
+    * ros2 run dev_pi_communicate serial_comm_node 
     * To save the map: 
       - ros2 run nav2_map_server map_saver_cli -f /filename
-    * To publishe the saved map: 
-      - ros2 run nav2_map_server map_server --ros-args -p yaml_filename:=/mapper.yaml
-      - ros2 run nav2_util lifecycle_bringup map_server -> this will configure the inactive node (map_server) to active state
-      
+    * To publish the saved map: 
+      - ros2 run nav2_map_server map_server --ros-args -p yaml_filename:=./ros-projects/dev_pi_communicate/new_map.yaml
+      - ros2 run nav2_util lifecycle_bringup map_server 
+    * To launch amcl:
+      - ros2 run nav2_amcl amcl --params-file ~/ros-projects/dev_pi_communicate/src/dev_pi_communicate/config/nav2_amcl.yaml 
+      -ros2 run nav2_util lifecycle_bringup amcl
+    * ros2 launch nav2_bringup navigation_launch.py params_file:=./ros-projects/dev_pi_communicate/src/dev_pi_communicate/config/ nav2_params.yaml
     * To run micro_ros client:
       - ros2 run micro_ros_agent micro_ros_agent serial --dev /dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_Controller_0001-if00-port0
+    * To launch EKF:
+      -ros2 launch robot_localization ekf.launch.py
+    * To launch SLAM_TOOLBOX(To create new map)
+      - ros2 launch slam_toolbox online_async_launch.py slam_params_file:=./src/dev_pi_communicate/config/mapper_params_online_async.yaml 
 
 ## ***Resources***
 

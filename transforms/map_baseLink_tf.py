@@ -46,12 +46,20 @@ class map_base_tf(Node):
         # Initialize the transform broadcaster
         self.tf_broadcaster = TransformBroadcaster(self)
 
-        # callback function on each message
+        # cfor NAV2
         self.subscription = self.create_subscription(
             PoseWithCovarianceStamped,
             '/amcl_pose',
             self.handle_map,
             1)
+        
+        # for SLAM_TOOLBOX
+        # self.subscription = self.create_subscription(
+        #     PoseWithCovarianceStamped,
+        #     '/pose',
+        #     self.handle_map,
+        #     1)
+        
         self.subscription  # prevent unused variable warning
 
     def handle_map(self, msg:PoseWithCovarianceStamped):

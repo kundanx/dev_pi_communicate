@@ -2,25 +2,25 @@ rosbag2_bagfile_information:
   version: 5
   storage_identifier: sqlite3
   duration:
-    nanoseconds: 41000185208
+    nanoseconds: 350268001236
   starting_time:
-    nanoseconds_since_epoch: 1704793895245975958
-  message_count: 1095
+    nanoseconds_since_epoch: 1705659780177121863
+  message_count: 2018
   topics_with_message_count:
     - topic_metadata:
-        name: /joy
-        type: sensor_msgs/msg/Joy
+        name: /cmd_vel
+        type: geometry_msgs/msg/Twist
         serialization_format: cdr
         offered_qos_profiles: "- history: 1\n  depth: 1\n  reliability: 1\n  durability: 2\n  deadline:\n    sec: 9223372036\n    nsec: 854775807\n  lifespan:\n    sec: 9223372036\n    nsec: 854775807\n  liveliness: 1\n  liveliness_lease_duration:\n    sec: 9223372036\n    nsec: 854775807\n  avoid_ros_namespace_conventions: false"
-      message_count: 1095
+      message_count: 2018
   compression_format: ""
   compression_mode: ""
   relative_file_paths:
-    - data_0.db3
+    - cmd_vel_from_nav2_0.db3
   files:
-    - path: data_0.db3
+    - path: cmd_vel_from_nav2_0.db3
       starting_time:
-        nanoseconds_since_epoch: 1704793895245975958
+        nanoseconds_since_epoch: 1705659780177121863
       duration:
-        nanoseconds: 41000185208
-      message_count: 1095
+        nanoseconds: 350268001236
+      message_count: 2018

@@ -1,9 +1,13 @@
+#! /usr/bin/env python3
+
+# This node recieves data from esp_joy_uart_node and computes the velocity command and publishes to serial_tx_node
+
 import rclpy
 from sensor_msgs.msg import Joy
-from std_msgs.msg import Float32MultiArray
+from std_msgs.msg import Float64MultiArray
 
-MAX_VELOCITY = 1.0
-MAX_OMEGA = 1.5
+MAX_VELOCITY = 0.5
+MAX_OMEGA = 0.5
 
 isEmergencyBrake = False
 
@@ -18,20 +22,20 @@ def joy_callback(msg):
         speedFactor = 1.0
 
     # Map left joystick to velocity_x and velocity_y
-    vx = map_value(msg.axes[0], -1.0, 1.0, MAX_VELOCITY, -MAX_VELOCITY) * speedFactor   # X-axis of left joystick
+    vx = map_value(msg.axes[0], -1.0, 1.0, -MAX_VELOCITY, MAX_VELOCITY) * speedFactor   # X-axis of left joystick
     vy = map_value(msg.axes[1], -1.0,  1.0, -MAX_VELOCITY, MAX_VELOCITY) * speedFactor  # Y-axis of left joystick
     
     # Map L2 and R2 to omega
-    w = map_value(msg.axes[5] - msg.axes[4], -1.0, 1.0, MAX_OMEGA, -MAX_OMEGA) * speedFactor  # L2 - R2
+    w = map_value(msg.axes[4] - msg.axes[5], -1.0, 1.0, -MAX_OMEGA, MAX_OMEGA) * speedFactor  # L2 - R2
 
     # if ((msg.axes[6] != 0) | (msg.axes[7] != 0)):
     #     vy = msg.axes[7] * MAX_VELOCITY * speedFactor
     #     vx = -msg.axes[6] * MAX_VELOCITY * speedFactor
 
-    if (msg.buttons[10]):
+    if (msg.buttons[13]):
         isEmergencyBrake = True
 
-    if (msg.buttons[4] and msg.buttons[6] and msg.buttons[10]):
+    if (msg.buttons[8] and msg.buttons[9] and msg.buttons[13]):
         isEmergencyBrake = False
 
     if (isEmergencyBrake):
@@ -42,7 +46,7 @@ def joy_callback(msg):
 
 
 def set_speed(vx, vy, w):
-    twist_array = Float32MultiArray()
+    twist_array = Float64MultiArray()
     twist_array.data = [vx, vy, w]
     # print(twist_array.data[0], twist_array.data[1], twist_array.data[2])
     pub.publish(twist_array)
@@ -58,8 +62,8 @@ def main():
     node = rclpy.create_node('ps4_controller')
 
     global pub
-    pub = node.create_publisher(Float32MultiArray, '/cmd_robot_vel', 10)
-    sub = node.create_subscription(Joy, '/esp32_joy_topic', joy_callback, 10)
+    pub = node.create_publisher(Float64MultiArray, '/cmd_robot_vel', 10)
+    sub = node.create_subscription(Joy, '/joy', joy_callback, 10)
 
     rclpy.spin(node)
     rclpy.shutdown()
