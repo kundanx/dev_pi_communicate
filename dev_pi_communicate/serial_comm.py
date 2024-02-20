@@ -52,6 +52,7 @@ class serial_comms:
             if hash == data_str[-1]:
                 
                 self.serial.reset_input_buffer()
+                # print(data_str)
                 # print("recieved")
                 return data_str
             count += 1

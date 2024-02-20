@@ -47,14 +47,14 @@ class odom_base_tf(Node):
 
         # callback function on each message
         self.subscription = self.create_subscription(
-            Pose,
+            Odometry,
             'odometry/filtered', #base_odom_topic'
             self.handle_odom,
             50)
         
         self.subscription  # prevent unused variable warning
 
-    def handle_odom(self, msg:Pose):
+    def handle_odom(self, msg:Odometry):
         t = TransformStamped()
 
         # Read message content and assign it to

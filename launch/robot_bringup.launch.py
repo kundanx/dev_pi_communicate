@@ -21,10 +21,27 @@ def generate_launch_description():
     )
 
     # ds4_node from ds4_driver package to interface joystick contro
-    ds4_path = os.path.join(get_package_share_directory('ds4_driver'),'launch/ds4_driver.launch.xml')
-    ds4_driver=IncludeLaunchDescription(
-        XMLLaunchDescriptionSource([ds4_path],)
+    # ds4_path = os.path.join(get_package_share_directory('ds4_driver'),'launch/ds4_driver.launch.xml')
+    # ds4_driver=IncludeLaunchDescription(
+    #     XMLLaunchDescriptionSource([ds4_path],)
+    # )
+
+    ekf_pkg_path = os.path.join(get_package_share_directory('robot_localization'),'launch/ekf.launch.py')
+    ekf_pkg=IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([ekf_pkg_path])
     )
+
+    # rplidar=Node(
+    #     package='rplidar_ros',
+    #     executable='rplidar_composition',
+    #     parameters=[
+    #         PathJoinSubstitution([
+    #             get_package_share_directory("dev_pi_communicate"),
+    #             "config", "rplidar.config",
+    #         ]),
+    #     ],
+    #     output="screen"
+    # )
 
     laser_filter= Node(
         package='laser_filters',
@@ -64,9 +81,9 @@ def generate_launch_description():
         output='screen'
     )
 
-    pico_imu_node= Node(
+    imu_uart_node= Node(
         package='dev_pi_communicate',
-        executable='pico_imu_uart_node',
+        executable='imu_uart_node',
         output='screen'
     )
 
@@ -76,21 +93,16 @@ def generate_launch_description():
         output='screen'
     )
 
-    camera_node= Node(
-        package='dev_pi_communicate',
-        executable='camera_node',
-        output='screen'
-    )
-
-
     return LaunchDescription([
-        
-        pico_imu_node,
-        esp_joy_node,
-        ps4_node,
+        imu_uart_node,
+        serial_rx_node,
+        serial_tx_node,
+        # esp_joy_node,
+        # ps4_node,
+        ekf_pkg,
         tf,
-        # laser_filter
-        # nav2_cmd_vel_node,
-        # serial_comms_node
-        # camera_node,
+        laser_filter,
+        nav2_cmd_vel_node
+        # rplidar,
+
     ])

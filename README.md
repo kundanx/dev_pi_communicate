@@ -28,7 +28,10 @@ The executables and transforms are listed as follows:
  * come out of the directory and run: "colcon build --symlink-install" to build the package.
  * run: "source install/local_install.bash" to source the built ws".
  * Execute following commands:
-    * ros2 launch dev_pi_communicate robot_bringup.launch.py 
+ ```
+    ros2 launch dev_pi_communicate robot_bringup.launch.py 
+  ```
+``` 
     * ros2 run dev_pi_communicate serial_comm_node 
     * To save the map: 
       - ros2 run nav2_map_server map_saver_cli -f /filename
@@ -45,6 +48,9 @@ The executables and transforms are listed as follows:
       -ros2 launch robot_localization ekf.launch.py
     * To launch SLAM_TOOLBOX(To create new map)
       - ros2 launch slam_toolbox online_async_launch.py slam_params_file:=./src/dev_pi_communicate/config/mapper_params_online_async.yaml 
+    * To run laser filter node:
+      - ros2 run laser_filters scan_to_scan_filter_chain --ros-args --params-file /home/rpi/ros-projects/dev_pi_communicate/src/dev_pi_communicate/config/laser_filter.yaml
+```
 
 ## ***Resources***
 

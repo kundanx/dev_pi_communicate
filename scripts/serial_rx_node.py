@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-# This node reads the data from usb serial port and publish the data to ekf filter package through
+# This node reads the odom data from bluepill and publish the data to ekf filter package through
 # freewheel/odom topic
 
 import rclpy
