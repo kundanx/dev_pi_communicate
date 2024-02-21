@@ -91,6 +91,6 @@ The executables and transforms are listed as follows:
 
 ## Images
 
-![FIRST MAP OF GAMEFEILD!](/docs/Screenshot from 2024-02-21 11-03-53.png "map")
+![MAP OF GAMEFEILD!](/docs/Screenshot-from-2024-02-21-11-03-53.png "map")
 
 
