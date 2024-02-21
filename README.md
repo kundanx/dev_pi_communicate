@@ -26,15 +26,15 @@ The executables and transforms are listed as follows:
  
   * Create a workspace and src directory inside the ws.
   * Navigate to the src directory and clone this repo.
-  * come out of the directory and run:
+  * come out of the directory and build the package:
   ```
-    "colcon build --symlink-install" to build the package.
+    colcon build --symlink-install
   ```
-  * run:
+  * Source the package:
   ```
-    "source install/setup.bash" to source the built ws".
+    source install/setup.bash
   ```
-  * Execute following commands:
+  ### Execute following commands:
   ```
     ros2 launch dev_pi_communicate robot_bringup.launch.py 
   ```
