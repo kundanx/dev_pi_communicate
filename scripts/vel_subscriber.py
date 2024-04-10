@@ -4,6 +4,7 @@
 
 import rclpy
 import math
+from math import pi
 from rclpy.node import Node
 from nav_msgs.msg import Odometry
 from geometry_msgs.msg import Twist
@@ -13,6 +14,7 @@ class subscriber(Node):
     def __init__(self):
         super().__init__("odometry_checker_node")
         self.yaw =[0.0]*3
+        self.sum = [0.0]*3
         self.subscription = self.create_subscription(
             Odometry,
             'odometry/filtered', #base_odom_topic'
@@ -33,9 +35,10 @@ class subscriber(Node):
         self.get_logger().info("Subrcribed to odometry/filtered")
 
     def print(self):
-        print(f"yaw_odom:{self.yaw[0]}, yaw_imu:{self.yaw[1]}, yaw_filter:{self.yaw[0]}")
+        print(f"yaw_odom:{self.sum[0]* 180/3.145}, yaw_imu:{self.sum[1]* 180/3.145}, yaw_filter:{self.sum[0]* 180/3.145}")
     
     def call_back_o(self,msg:Odometry ):
+        
         q =[0]*4
 
         q[0]= msg.pose.pose.orientation.x
@@ -44,8 +47,9 @@ class subscriber(Node):
         q[3]= msg.pose.pose.orientation.w
         
         rpy = self.quaternon_to_rollpitchyaw(q)
-        self.yaw[2]=rpy[2]* 180/3.145
-    
+        self.sum[2]= self.sum[2] + self.angleChange(rpy[2], self.yaw[2])
+        self.yaw[2]=rpy[2]
+     
     def call_back_i(self,msg:Imu ):
  
         q =[0]*4
@@ -56,7 +60,8 @@ class subscriber(Node):
         q[3]= msg.orientation.w
         
         rpy = self.quaternon_to_rollpitchyaw(q)
-        self.yaw[1]=rpy[2]* 180/3.145
+        self.sum[1] = self.sum[1]+ self.angleChange(rpy[2], self.yaw[1])
+        self.yaw[1]= rpy[2]
 
     def call_back_f(self,msg:Odometry ):
        
@@ -68,7 +73,8 @@ class subscriber(Node):
         q[3]= msg.pose.pose.orientation.w
         
         rpy = self.quaternon_to_rollpitchyaw(q)
-        self.yaw[0]=rpy[2] * 180/3.145
+        self.sum[0] =self.sum[0]+ self.angleChange(rpy[2], self.yaw[0])
+        self.yaw[0]= rpy[2]
 
     def quaternon_to_rollpitchyaw(self,q):
 
@@ -88,7 +94,17 @@ class subscriber(Node):
         yaw = math.atan2(siny_cosp, cosy_cosp)
 
         return roll, pitch, yaw
-        
+    
+    def angleChange(self,curr, prev):
+        change = 0
+        if (prev > pi/2) and (curr < -pi/2):
+            change = (pi - prev) + (pi + curr)
+        elif (prev < -pi/2) and (curr > pi/2):
+            change = -(pi + prev) - (pi - curr)
+        else:
+            change = curr - prev
+        return change
+            
 
 def main(args=None):
     rclpy.init()

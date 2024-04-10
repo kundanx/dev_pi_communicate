@@ -12,6 +12,7 @@ from math import sin, cos, radians
 from rclpy.node import Node 
 from nav_msgs.msg import Odometry
 from std_msgs.msg import Float64MultiArray
+from std_msgs.msg import UInt8
 
 from dev_pi_communicate.crc8 import crc8
 from dev_pi_communicate.serial_comm import serial_comms
@@ -28,7 +29,7 @@ class Serial_comms_TX_node(Node):
         super().__init__("serial_comm_TX_node")
 
         self.usb_port2 = serial_comms(serial_port_address_FTDI, serial_baudrate)
-
+        self.motor_switch= 0
         # Subscriber to joystick data
         self.sub_joy = self.create_subscription(
             Float64MultiArray,
@@ -36,7 +37,17 @@ class Serial_comms_TX_node(Node):
             self.send_joy_data,
             10 )
         
+        self.subscription_2 = self.create_subscription(
+            UInt8,
+            "/cmd_robot_vel", #/cmd_robot_vel
+            self.subs_callback_2,
+            10 )
+
         self.get_logger().info("Transmission ready...")
+
+    def subs_callback_2(self, msg:UInt8):
+        self.motor_switch = msg
+
         
     # Joystick read callback function
     def send_joy_data(self,msg:Float64MultiArray):
@@ -46,7 +57,8 @@ class Serial_comms_TX_node(Node):
             bytes(struct.pack("B",START_BYTE)),
             bytes(struct.pack("d",msg.data[0])),
             bytes(struct.pack("d",msg.data[1])),
-            bytes(struct.pack("d",msg.data[2]))
+            bytes(struct.pack("d",msg.data[2])),
+            bytes(struct.pack("B",self.motor_switch))
         ]
         joy_data = b''.join(joy_data)
         hash=self.calculate_crc(joy_data)
@@ -66,6 +78,8 @@ class Serial_comms_TX_node(Node):
         hash_func=crc8()
         hash_func.update(data[1:])
         return hash_func.digest()[0]
+    
+
     
 
 def main(args=None):

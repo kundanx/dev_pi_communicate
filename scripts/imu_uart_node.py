@@ -30,7 +30,7 @@ class pico_imu_node(Node):
         
         #  Odom data publisher
         self.imu_publisher = self.create_publisher(Imu, 'imu/data', 10)
-        self.create_timer(0.04, self.serial_read_callback)
+        self.create_timer(0.05, self.serial_read_callback)
         self.start = time.time()
         self.get_logger().info("Recieving imu data")
         

@@ -52,9 +52,9 @@ class StaticFramePublisher(Node):
         t.header.frame_id = 'base_link'
         t.child_frame_id = 'laser_frame'
 
-        t.transform.translation.x = 0.0
+        t.transform.translation.x = 0.28
         t.transform.translation.y = 0.0
-        t.transform.translation.z = 1.0
+        t.transform.translation.z = 0.21
         quat = quaternion_from_euler( 0.0, 0.0, 0.0 )
         t.transform.rotation.x = quat[0]
         t.transform.rotation.y = quat[1]

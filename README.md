@@ -44,7 +44,7 @@ The executables and transforms are listed as follows:
   ```
   * To publish the saved map: 
   ```
-    ros2 run nav2_map_server map_server --ros-args -p yaml_filename:=./ros-projects/dev_pi_communicate/new_map.yaml
+    ros2 run nav2_map_server map_server --ros-args -p yaml_filename:=./ros-projects/dev_pi_communicate/maps/good_map.yaml
   ```
   ```  
     ros2 run nav2_util lifecycle_bringup map_server 

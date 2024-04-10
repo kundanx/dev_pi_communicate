@@ -16,13 +16,13 @@ class publisher(Node):
         super().__init__("publisher_node")
         self.data = Pose()
         self.counter =0.0
-        self.cmd_pub = self.create_publisher(Pose,"/odometry/filtered", 10)
-        self.create_timer(0.01, self.send_velocity_command)
+        self.cmd_pub = self.create_publisher(Pose,"/ball_pose_topic", 10)
+        self.create_timer(0.05, self.send_velocity_command)
         self.get_logger().info("Publishing command...")
 
     def send_velocity_command(self):
         self.data = Pose()
-        print("here")
+        # print("here")
         # self.data.pose.pose.position.x=0.0
         # self.data.position.y = 0.4
         # self.data.position.z = 0.0
@@ -30,8 +30,8 @@ class publisher(Node):
         # self.data.orientation.y = 0.0
         # self.data.orientation.z = 0.0
         # self.data.orientation.w = 1.0
-        self.data.position.x = 0.0
-        self.data.position.y = 0.0
+        self.data.position.x = 1.5
+        self.data.position.y = -0.8
         self.data.position.z = 0.0
         self.data.orientation.x=0.0
         self.data.orientation.y = 0.0
