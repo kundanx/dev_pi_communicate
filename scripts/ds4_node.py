@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-# This node recieves data from esp_joy_uart_node and computes the velocity command and publishes to serial_tx_node
+# This node recieves data from ds4_uart_node and computes the velocity command and publishes to serial_tx_node
 
 import rclpy
 from sensor_msgs.msg import Joy
@@ -59,7 +59,7 @@ def map_value(value, min_value, max_value, new_min, new_max):
 
 def main():
     rclpy.init()
-    node = rclpy.create_node('ps4_controller')
+    node = rclpy.create_node('ds4_controller')
 
     global pub
     pub = node.create_publisher(Float64MultiArray, '/cmd_robot_vel', 10)

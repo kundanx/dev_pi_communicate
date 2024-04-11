@@ -26,35 +26,37 @@ class pico_imu_node(Node):
 
         super().__init__("imu_uart_node")
 
-        self.pico_usb = serial.Serial(esp_address, serial_baudrate)
+        self.pico_usb = serial.Serial(esp_address, serial_baudrate, timeout=1.0)
         
         #  Odom data publisher
         self.imu_publisher = self.create_publisher(Imu, 'imu/data', 10)
         self.create_timer(0.05, self.serial_read_callback)
         self.start = time.time()
-        self.get_logger().info("Recieving imu data")
+        self.get_logger().info("Recieving imu data ..")
         
     # Read callback function
     def serial_read_callback(self):
+        # print("here")
         count = 0
         while True:
             start_byte_found = False
             while not start_byte_found:
                 byte = self.pico_usb.read(1)
-                # print(byte)
+                # self.get_logger().info(byte)
                 if int.from_bytes(byte, 'big') == START_BYTE:
                     data_str = self.pico_usb.read(rx_data_size-1)
                     start_byte_found=True
            
             hash = self.calc_crc(data_str)
-            if hash != data_str[-1]:
-                count += 1
-                print(f"data not matched,count: {count}")
-                print(data_str)
+            if hash == data_str[-1]:
+                self.pico_usb.reset_input_buffer()
+                # print(data_str)
+                self.process_data(data_str)
+                return 
                 
-            self.pico_usb.reset_input_buffer()
+            count += 1
+            print(f"data not matched,count: {count}")
             # print(data_str)
-            self.process_data(data_str)
     
     def process_data(self,data_):
         imu_msg = Imu()
@@ -113,9 +115,7 @@ class pico_imu_node(Node):
         # Publish message
         self.imu_publisher.publish(imu_msg)
 
-  
 
-       
 
     def calc_checksum(self, data=[]):
         for i in range(0,len(data)):

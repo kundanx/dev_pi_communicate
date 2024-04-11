@@ -61,15 +61,15 @@ def generate_launch_description():
         output='screen'
     )
 
-    esp_joy_node= Node(
+    ds4_uart_node= Node(
         package='dev_pi_communicate',
-        executable='esp_joy_uart_node',
+        executable='ds4_uart_node',
         output='screen'
     )
 
-    ps4_node= Node(
+    ds4_node= Node(
         package='dev_pi_communicate',
-        executable='ps4_node',
+        executable='ds4_node',
         output='screen'
     )
 
@@ -88,13 +88,13 @@ def generate_launch_description():
     return LaunchDescription([
         imu_uart_node,
         serial_rx_node,
-        serial_tx_node,
-        # esp_joy_node,
-        # ps4_node,
+        # serial_tx_node,
+        ds4_uart_node,
+        ds4_node,
         ekf_pkg,
-        tf,
+        tf
         # laser_filter,
-        nav2_cmd_vel_node
+        # nav2_cmd_vel_node
         # rplidar,
 
     ])

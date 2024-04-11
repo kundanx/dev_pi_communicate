@@ -37,11 +37,11 @@ class Serial_comms_TX_node(Node):
             self.send_joy_data,
             10 )
         
-        self.subscription_2 = self.create_subscription(
-            UInt8,
-            "/cmd_robot_vel", #/cmd_robot_vel
-            self.subs_callback_2,
-            10 )
+        # self.subscription_2 = self.create_subscription(
+        #     UInt8,
+        #     "/cmd_robot_vel", #/cmd_robot_vel
+        #     self.subs_callback_2,
+        #     10 )
 
         self.get_logger().info("Transmission ready...")
 
@@ -51,14 +51,14 @@ class Serial_comms_TX_node(Node):
         
     # Joystick read callback function
     def send_joy_data(self,msg:Float64MultiArray):
-        # print("here recieve")
+        print("here recieve")
         # print(f"{msg.data[0]=}\n{msg.data[1]=}\n{msg.data[2]=}")
         joy_data=[
             bytes(struct.pack("B",START_BYTE)),
             bytes(struct.pack("d",msg.data[0])),
             bytes(struct.pack("d",msg.data[1])),
             bytes(struct.pack("d",msg.data[2])),
-            bytes(struct.pack("B",self.motor_switch))
+            # bytes(struct.pack("B",self.motor_switch))
         ]
         joy_data = b''.join(joy_data)
         hash=self.calculate_crc(joy_data)

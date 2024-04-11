@@ -47,18 +47,18 @@ class map_base_tf(Node):
         self.tf_broadcaster = TransformBroadcaster(self)
 
         # cfor NAV2
-        self.subscription = self.create_subscription(
-            PoseWithCovarianceStamped,
-            '/amcl_pose',
-            self.handle_map,
-            1)
-        
-        # for SLAM_TOOLBOX
         # self.subscription = self.create_subscription(
         #     PoseWithCovarianceStamped,
-        #     '/pose',
+        #     '/amcl_pose',
         #     self.handle_map,
         #     1)
+        
+        # for SLAM_TOOLBOX
+        self.subscription = self.create_subscription(
+            PoseWithCovarianceStamped,
+            '/pose',
+            self.handle_map,
+            1)
         
         self.subscription  # prevent unused variable warning
 
@@ -85,7 +85,7 @@ class map_base_tf(Node):
         t.transform.rotation.y = msg.pose.pose.orientation.y
         t.transform.rotation.z = msg.pose.pose.orientation.z
         t.transform.rotation.w = msg.pose.pose.orientation.w
-
+        
         # Send the transformation
         self.tf_broadcaster.sendTransform(t)
         # self.get_logger().info(str("map to baseLink transform published."))

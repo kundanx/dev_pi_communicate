@@ -77,7 +77,7 @@ class Serial_comms_RX_node(Node):
                 self.odom_seq += 1
                 self.last_sent_time = time.time()
                 # self.get_logger().info('"%f %f %f %f %f %f"'
-                #                       %(data[0], data[1], data[2]*180/math.pi, data[3], data[4], data[5]))
+                #                        %(data[0], data[1], data[2]*180/math.pi, data[3], data[4], data[5]))
                 # print(f"pos_x:{data[0]}, pos_y:{data[1]}, yaw:{data[2]*180/math.pi}, backcount:{data[6]}, right_count:{data[7]}, left_count:{data[8]}")
                 
         

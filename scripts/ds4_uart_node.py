@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-# Node which recieves joy data from esp32 serially through gpio 14(TXD) and 15(RXD) and publish to ps4_node
+# Node which recieves joy data from picow/esp32 serially  and publish to ds4_node
 
 import rclpy
 import serial
@@ -12,9 +12,10 @@ from rclpy.node import Node
 from dev_pi_communicate.crc8 import crc8
 from sensor_msgs.msg import Joy
 
-START_BYTE= 0b10100101
+START_BYTE= 0xA5
 serial_baudrate = 115200
-serial_port_address='/dev/ttyS0'
+pi_uart_address='/dev/ttyS0'                  # through gpio 14(TXD) and 15(RXD)
+serial_port_address='/dev/serial/by-id/usb-Raspberry_Pi_Pico_E6614103E74E4E36-if00' # through usb port
 rx_data_size = 10
 d_band = 30
 
@@ -28,13 +29,13 @@ payloadMask =[
     0b01000000, # Triangle
     0b10000000] # Square
 
-class esp_joy_node(Node):
+class ds4_joy_node(Node):
     
     def __init__(self):
 
-        super().__init__("esp_joy_node")
+        super().__init__("ds4_joy_node")
 
-        self.esp_uart = serial.Serial(serial_port_address, serial_baudrate)
+        self.ds4_uart = serial.Serial(pi_uart_address, serial_baudrate)
         
         #  Odom data publisher
         self.joy_publisher = self.create_publisher(Joy, '/joy', 10)
@@ -49,37 +50,40 @@ class esp_joy_node(Node):
             # print("here")
             start_byte_found = False
             while not start_byte_found:
-                byte = self.esp_uart.read(1)
-                # print(byte)
+                byte = self.ds4_uart.read(1)
                 if int.from_bytes(byte, 'big') == START_BYTE:
-                    
-                    data_str = self.esp_uart.read(rx_data_size-1)
+                    data_str = self.ds4_uart.read(rx_data_size-1)
                     start_byte_found=True
            
             hash = self.calc_crc(data_str)
-            if hash != data_str[-1]:
-                count += 1
-                print(f"data not matched,count: {count}")
-                print(data_str)
+            if hash == data_str[-1]:
+                self.ds4_uart.reset_input_buffer()
+                # print("Recieved")
+                self.process_data(data_str)
+                return
+
+            count += 1
+            print(f"data not matched,count: {count}")
+            print(data_str)
                 
-            self.esp_uart.reset_input_buffer()
-            # print("Recieved")
-            self.process_data(data_str)
     
     def process_data(self,data_):
         joy_msg = Joy()
-        joy_msg.header.frame_id="joy_esp"
+        joy_msg.header.frame_id="joy_ds4"
         joy_msg.header.stamp=self.get_clock().now().to_msg()
         joy_msg.axes = [0.0]*6
         joy_msg.buttons = [0]*14
 
-        buttons_1, buttons_2, LT, RT, LStickY, LStickX, RStickY, RStickX, hash= struct.unpack("BBBBBBBBB", data_[0:])
-        
-        # converting into signed interger
-        LStickX = ctypes.c_int8(LStickX).value
-        LStickY = ctypes.c_int8(LStickY).value
-        RStickX = ctypes.c_int8(RStickX).value
-        RStickY = ctypes.c_int8(RStickY).value
+        LStickY, LStickX, RStickY, RStickX, LT, RT, buttons_1, buttons_2, hash= struct.unpack("bbbbBBBBB", data_[0:])
+      
+
+        #### If using esp32 instead of picow
+        # buttons_1, buttons_2, LT, RT, LStickY, LStickX, RStickY, RStickX, hash= struct.unpack("BBBBBBBBB", data_[0:])
+        # # converting into signed interger
+        # LStickX = ctypes.c_int8(LStickX).value
+        # LStickY = ctypes.c_int8(LStickY).value
+        # RStickX = ctypes.c_int8(RStickX).value
+        # RStickY = ctypes.c_int8(RStickY).value
 
         #  introducing dead band
         if LStickX >= -d_band and LStickX <= d_band:
@@ -159,7 +163,7 @@ class esp_joy_node(Node):
 
 def main(args=None):
     rclpy.init()
-    serial_node = esp_joy_node()
+    serial_node = ds4_joy_node()
     try:
         rclpy.spin(serial_node)
     except KeyboardInterrupt:  

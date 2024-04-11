@@ -19,7 +19,7 @@ rx_data_size= 38
 
 class serial_comms:
     def __init__(self, serial_port, serial_baudrate):
-        self.serial = serial.Serial(serial_port, serial_baudrate)
+        self.serial = serial.Serial(serial_port, serial_baudrate, timeout=1.0)
         self.start_time = time.time()
         self.start_time_ns = time.monotonic_ns()
 

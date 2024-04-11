@@ -31,10 +31,10 @@ setup(
 
             'serial_rx_node = scripts.serial_rx_node:main',
             'serial_tx_node = scripts.serial_tx_node:main',
-            'esp_joy_uart_node = scripts.esp_joy_uart_node:main',
+            'ds4_uart_node = scripts.ds4_uart_node:main',
             'imu_uart_node = scripts.imu_uart_node:main',
 
-            'ps4_node= scripts.ps4_node:main',
+            'ds4_node= scripts.ds4_node:main',
             'nav2_cmd_vel= scripts.nav2_cmd_vel:main',
             'camera_node = scripts.camera_node:main',
             
