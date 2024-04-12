@@ -86,12 +86,12 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
-        imu_uart_node,
+        # imu_uart_node,
         serial_rx_node,
-        # serial_tx_node,
+        serial_tx_node,
         ds4_uart_node,
         ds4_node,
-        ekf_pkg,
+        # ekf_pkg,
         tf
         # laser_filter,
         # nav2_cmd_vel_node

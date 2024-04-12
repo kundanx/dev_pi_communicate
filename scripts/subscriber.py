@@ -9,6 +9,7 @@ from sensor_msgs.msg import Imu
 class subscriber(Node):
     def __init__(self):
         super().__init__("subscriber_node")
+        self.yaw = [0]*3
         self.subscriber_to_filter_node = self.create_subscription(Odometry, "/odometry/filtered", self.recieve_callback_filter, 10)
         self.subscriber_to_imu_node = self.create_subscription (Imu, "/imu/data", self.recieve_callback_imu, 10)
         self.subscriber_to_freewheel_node = self.create_subscription(Odometry, "/freewheel/odom", self.recieve_callback_freewheel, 10)
@@ -21,8 +22,8 @@ class subscriber(Node):
             msg.pose.pose.orientation.w]
         
         rpy= self.quaternon_to_rollpitchyaw(q)
-        yaw= rpy[2]*180/math.pi
-        self.get_logger().info(f"yaw form filter: {yaw}")
+        self.yaw[2]= rpy[2]*180/math.pi
+        self.get_logger().info(f"imu: {self.yaw[0]}, freewheel: {self.yaw[1]}, filter: {self.yaw[2]}")
     
     def recieve_callback_imu(self, msg:Imu):
         q =[msg.orientation.x,
@@ -31,8 +32,8 @@ class subscriber(Node):
             msg.orientation.w]
         
         rpy= self.quaternon_to_rollpitchyaw(q)
-        yaw= rpy[2]*180/math.pi
-        self.get_logger().info(f"yaw from Imu: {yaw}")
+        self.yaw[0]= rpy[2]*180/math.pi
+        # self.get_logger().info(f"yaw from Imu: {yaw}")
     
     def recieve_callback_freewheel(self, msg:Odometry):
         q =[msg.pose.pose.orientation.x,
@@ -41,8 +42,8 @@ class subscriber(Node):
             msg.pose.pose.orientation.w]
         
         rpy= self.quaternon_to_rollpitchyaw(q)
-        yaw= rpy[2]*180/math.pi
-        self.get_logger().info(f"yaw from Freewheel: {yaw}")
+        self.yaw[1]= rpy[2]*180/math.pi
+        # self.get_logger().info(f"yaw from Freewheel: {yaw}")
     
     def quaternon_to_rollpitchyaw(self,q):
 

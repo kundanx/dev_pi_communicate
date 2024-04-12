@@ -18,6 +18,7 @@ from dev_pi_communicate.serial_comm import serial_comms
 
 START_BYTE= 0b10100101
 serial_baudrate = 115200
+rx_data_size = 38
 serial_port_address_FTDI='/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A50285BI-if00-port0'
 serial_port_address_black='/dev/serial/by-id/usb-1a86_USB2.0-Serial-if00-port0'
 
@@ -26,11 +27,10 @@ class Serial_comms_RX_node(Node):
     def __init__(self):
 
         super().__init__("serial_comm_RX_node")
-        self.usb_port1 = serial_comms(serial_port_address_black, serial_baudrate)
+        self.usb_port1 = serial_comms(serial_port_address_black, serial_baudrate,rx_data_size)
         
         #  Odom data publisher
         self.odom_publisher_ = self.create_publisher(Odometry, 'freewheel/odom', 10)
-        self.create_timer(0.05, self.serial_read_callback)
 
         self.last_sent_time = time.time()
         self.odom_seq = 0
@@ -40,7 +40,10 @@ class Serial_comms_RX_node(Node):
     def serial_read_callback(self):
             
             _data = self.usb_port1.read_data()
-            if (time.time() - self.last_sent_time > 0.05):
+            if _data == None:
+                return 
+            print(_data)
+            if (time.time() - self.last_sent_time >= 0.03):
                 # data = [x, y, theta, vx, vy, omega,B_count, R_count, L_count]
                 data = struct.unpack("ffffffiii", _data[0:-1])
                 odom_msg = Odometry()
@@ -79,7 +82,9 @@ class Serial_comms_RX_node(Node):
                 # self.get_logger().info('"%f %f %f %f %f %f"'
                 #                        %(data[0], data[1], data[2]*180/math.pi, data[3], data[4], data[5]))
                 # print(f"pos_x:{data[0]}, pos_y:{data[1]}, yaw:{data[2]*180/math.pi}, backcount:{data[6]}, right_count:{data[7]}, left_count:{data[8]}")
-                
+    def close(self):
+        self.usb_port1.close_port()
+        return
         
 
     def calculate_checksum(self , data = []):
@@ -133,10 +138,14 @@ class Serial_comms_RX_node(Node):
 def main(args=None):
     rclpy.init()
     node = Serial_comms_RX_node()
-    try:
-        rclpy.spin(node)
-    except KeyboardInterrupt:  
-        pass
+    while True:
+        try:
+            node.serial_read_callback()
+        except KeyboardInterrupt:  
+            node.close()
+            node.destroy_node()
+            rclpy.try_shutdown()
+            pass
     rclpy.shutdown()
    
 if __name__ =='__main':

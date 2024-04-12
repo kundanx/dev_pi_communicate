@@ -51,7 +51,7 @@ class Serial_comms_TX_node(Node):
         
     # Joystick read callback function
     def send_joy_data(self,msg:Float64MultiArray):
-        print("here recieve")
+        # print("here recieve")
         # print(f"{msg.data[0]=}\n{msg.data[1]=}\n{msg.data[2]=}")
         joy_data=[
             bytes(struct.pack("B",START_BYTE)),
