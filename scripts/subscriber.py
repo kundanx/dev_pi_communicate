@@ -1,73 +1,146 @@
-#! /usr/bin/env python3
-import math
+# #! /usr/bin/env python3
+# import math
+# import rclpy
+# from rclpy.node import Node
+# from std_msgs.msg import String
+# from nav_msgs.msg import Odometry
+# from sensor_msgs.msg import Imu
+
+# class subscriber(Node):
+#     def __init__(self):
+#         super().__init__("subscriber_node")
+#         self.subscriber_to_filter_node = self.create_subscription(Odometry, "/odometry/filtered", self.recieve_callback_filter, 10)
+#         self.subscriber_to_imu_node = self.create_subscription (Imu, "/imu/data", self.recieve_callback_imu, 10)
+#         self.subscriber_to_freewheel_node = self.create_subscription(Odometry, "/freewheel/odom", self.recieve_callback_freewheel, 10)
+#         self.get_logger().info("Quaternion to RollPitchYaw....")
+    
+#     def recieve_callback_filter(self, msg:Odometry):
+#         q =[msg.pose.pose.orientation.x,
+#             msg.pose.pose.orientation.y,
+#             msg.pose.pose.orientation.z,
+#             msg.pose.pose.orientation.w]
+        
+#         rpy= self.quaternon_to_rollpitchyaw(q)
+#         yaw= rpy[2]*180/math.pi
+#         self.get_logger().info(f"yaw form filter: {yaw}")
+    
+#     def recieve_callback_imu(self, msg:Imu):
+#         q =[msg.orientation.x,
+#             msg.orientation.y,
+#             msg.orientation.z,
+#             msg.orientation.w]
+        
+#         rpy= self.quaternon_to_rollpitchyaw(q)
+#         yaw= rpy[2]*180/math.pi
+#         self.get_logger().info(f"yaw from Imu: {yaw}")
+    
+#     def recieve_callback_freewheel(self, msg:Odometry):
+#         q =[msg.pose.pose.orientation.x,
+#             msg.pose.pose.orientation.y,
+#             msg.pose.pose.orientation.z,
+#             msg.pose.pose.orientation.w]
+        
+#         rpy= self.quaternon_to_rollpitchyaw(q)
+#         yaw= rpy[2]*180/math.pi
+#         self.get_logger().info(f"yaw from Freewheel: {yaw}")
+    
+#     def quaternon_to_rollpitchyaw(self,q):
+
+#         # roll (x-axis rotation)
+#         sinr_cosp = 2 * (q[3] * q[0] + q[1] * q[2])
+#         cosr_cosp = 1 - 2 * (q[0] * q[0] + q[1] * q[1])
+#         roll = math.atan2(sinr_cosp, cosr_cosp)
+
+#         # pitch (y-axis rotation)
+#         sinp = math.sqrt(1 + 2 * (q[3] * q[1] - q[0] * q[2]))
+#         cosp = math.sqrt(1 - 2 * (q[3] * q[1] - q[0] * q[2]))
+#         pitch = 2 * math.atan2(sinp, cosp) -math.pi / 2 
+
+#         #  yaw (z-axis rotation)
+#         siny_cosp = 2 * (q[3] * q[2] + q[0] * q[1])
+#         cosy_cosp = 1 - 2 * (q[1] * q[1] + q[2] * q[2])
+#         yaw = math.atan2(siny_cosp, cosy_cosp)
+
+#         return roll, pitch, yaw
+
+# def main(args=None):
+#     rclpy.init()
+#     node = subscriber()
+#     rclpy.spin(node)
+#     rclpy.shutdown()
+
+# if __name__ ==' __main__':
+#     main()
+
+
 import rclpy
+from math import sin, cos, atan2, sqrt,  pi
 from rclpy.node import Node
-from std_msgs.msg import String
 from nav_msgs.msg import Odometry
-from sensor_msgs.msg import Imu
+from std_msgs.msg import Int32MultiArray
+from geometry_msgs.msg import Twist
 
-class subscriber(Node):
+class OdomSubNode(Node):
     def __init__(self):
-        super().__init__("subscriber_node")
-        self.subscriber_to_filter_node = self.create_subscription(Odometry, "/odometry/filtered", self.recieve_callback_filter, 10)
-        self.subscriber_to_imu_node = self.create_subscription (Imu, "/imu/data", self.recieve_callback_imu, 10)
-        self.subscriber_to_freewheel_node = self.create_subscription(Odometry, "/freewheel/odom", self.recieve_callback_freewheel, 10)
-        self.get_logger().info("Quaternion to RollPitchYaw....")
-    
-    def recieve_callback_filter(self, msg:Odometry):
-        q =[msg.pose.pose.orientation.x,
-            msg.pose.pose.orientation.y,
-            msg.pose.pose.orientation.z,
-            msg.pose.pose.orientation.w]
+        super().__init__("odom_subscriber_node")
+        self.imu_subscriber = self.create_subscription(Odometry, '/odometry/filtered', self.process_data, 10)
         
-        rpy= self.quaternon_to_rollpitchyaw(q)
-        yaw= rpy[2]*180/math.pi
-        self.get_logger().info(f"yaw form filter: {yaw}")
-    
-    def recieve_callback_imu(self, msg:Imu):
-        q =[msg.orientation.x,
-            msg.orientation.y,
-            msg.orientation.z,
-            msg.orientation.w]
+    def process_data(self, odom_msg):
+        x = odom_msg.pose.pose.position.x
+        y = odom_msg.pose.pose.position.y
+        z = odom_msg.pose.pose.position.z
+
+        yaw, pitch, roll = quaternion_to_yawpitchroll(odom_msg.pose.pose.orientation.w,
+                                                      odom_msg.pose.pose.orientation.x,
+                                                      odom_msg.pose.pose.orientation.y,
+                                                      odom_msg.pose.pose.orientation.z)
         
-        rpy= self.quaternon_to_rollpitchyaw(q)
-        yaw= rpy[2]*180/math.pi
-        self.get_logger().info(f"yaw from Imu: {yaw}")
-    
-    def recieve_callback_freewheel(self, msg:Odometry):
-        q =[msg.pose.pose.orientation.x,
-            msg.pose.pose.orientation.y,
-            msg.pose.pose.orientation.z,
-            msg.pose.pose.orientation.w]
+
+        self.get_logger().info('xyz:"%f %f %f" ypr: "%f %f %f"' %(x, y, z, yaw*180/pi, pitch*180/pi, roll*180/pi))
+
         
-        rpy= self.quaternon_to_rollpitchyaw(q)
-        yaw= rpy[2]*180/math.pi
-        self.get_logger().info(f"yaw from Freewheel: {yaw}")
-    
-    def quaternon_to_rollpitchyaw(self,q):
+def yawpitchroll_to_quaternion(yaw, pitch, roll):
+    cr = cos(roll * 0.5)
+    sr = sin(roll * 0.5)
+    cp = cos(pitch * 0.5)
+    sp = sin(pitch * 0.5)
+    cy = cos(yaw * 0.5)
+    sy = sin(yaw * 0.5)
 
-        # roll (x-axis rotation)
-        sinr_cosp = 2 * (q[3] * q[0] + q[1] * q[2])
-        cosr_cosp = 1 - 2 * (q[0] * q[0] + q[1] * q[1])
-        roll = math.atan2(sinr_cosp, cosr_cosp)
+    qw = cr * cp * cy + sr * sp * sy
+    qx = sr * cp * cy - cr * sp * sy
+    qy = cr * sp * cy + sr * cp * sy
+    qz = cr * cp * sy - sr * sp * cy
 
-        # pitch (y-axis rotation)
-        sinp = math.sqrt(1 + 2 * (q[3] * q[1] - q[0] * q[2]))
-        cosp = math.sqrt(1 - 2 * (q[3] * q[1] - q[0] * q[2]))
-        pitch = 2 * math.atan2(sinp, cosp) -math.pi / 2 
+    return qw, qx, qy, qz
 
-        #  yaw (z-axis rotation)
-        siny_cosp = 2 * (q[3] * q[2] + q[0] * q[1])
-        cosy_cosp = 1 - 2 * (q[1] * q[1] + q[2] * q[2])
-        yaw = math.atan2(siny_cosp, cosy_cosp)
+def quaternion_to_yawpitchroll(w, x, y, z):
+    # roll (x-axis rotation)
+    sinr_cosp = 2 * (w * x + y * z)
+    cosr_cosp = 1 - 2 * (x * x + y * y)
+    roll = atan2(sinr_cosp, cosr_cosp)
 
-        return roll, pitch, yaw
+    # pitch (y-axis rotation)
+    sinp = sqrt(1 + 2 * (w * y - x * z))
+    cosp = sqrt(1 - 2 * (w * y - x * z))
+    pitch = 2 * atan2(sinp, cosp) - pi / 2
+
+    # yaw (z-axis rotation)
+    siny_cosp = 2 * (w * z + x * y)
+    cosy_cosp = 1 - 2 * (y * y + z * z)
+    yaw = atan2(siny_cosp, cosy_cosp)
+
+    return  yaw, pitch, roll
 
 def main(args=None):
     rclpy.init()
-    node = subscriber()
-    rclpy.spin(node)
-    rclpy.shutdown()
-
-if __name__ ==' __main__':
+    odom_node = OdomSubNode()
+    try:
+        rclpy.spin(odom_node)
+    except KeyboardInterrupt:
+        odom_node.destroy_node()
+        rclpy.try_shutdown()
+        exit()
+   
+if __name__ =='__main__':
     main()

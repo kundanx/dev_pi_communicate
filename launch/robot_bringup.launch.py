@@ -38,13 +38,13 @@ def generate_launch_description():
     #     output="screen"
     # )
 
-    # laser_filter= Node(
-    #     package='laser_filters',
-    #     executable='scan_to_scan_filter_chain',
-    #     parameters=[os.path.join(get_package_share_directory("dev_pi_communicate"), 'config', 'laser_filter.yaml')],
-    #     output='screen'
+    laser_filter= Node(
+        package='laser_filters',
+        executable='scan_to_scan_filter_chain',
+        parameters=[os.path.join(get_package_share_directory("dev_pi_communicate"), 'config', 'laser_filter.yaml')],
+        output='screen'
     
-    # )
+    )
 
 
     # serial comms to read from bluepill
@@ -88,13 +88,13 @@ def generate_launch_description():
     return LaunchDescription([
         imu_uart_node,
         serial_rx_node,
-        # serial_tx_node,
-        ds4_uart_node,
-        ds4_node,
-        ekf_pkg,
-        tf
+        serial_tx_node,
+        # ds4_uart_node,
+        # ds4_node,
+        # ekf_pkg,
+        tf,
         # laser_filter,
-        # nav2_cmd_vel_node
+        nav2_cmd_vel_node
         # rplidar,
 
     ])

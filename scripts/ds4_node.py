@@ -6,8 +6,8 @@ import rclpy
 from sensor_msgs.msg import Joy
 from std_msgs.msg import Float64MultiArray
 
-MAX_VELOCITY = 0.5
-MAX_OMEGA = 0.5
+MAX_VELOCITY = 0.15
+MAX_OMEGA = 0.3
 
 isEmergencyBrake = False
 
