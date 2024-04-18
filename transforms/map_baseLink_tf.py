@@ -72,7 +72,8 @@ class map_base_tf(Node):
             '/amcl_pose',
             self.handle_map,
             1)
-        
+        self.get_logger().info(str("map to baseLink transform ready."))
+
         # for SLAM_TOOLBOX
         # self.subscription = self.create_subscription(
         #     PoseWithCovarianceStamped,
@@ -83,6 +84,8 @@ class map_base_tf(Node):
         self.subscription  # prevent unused variable warning
 
     def handle_map(self, msg:PoseWithCovarianceStamped):
+        # self.get_logger().info(str("map to baseLink transform published."))
+
         t = TransformStamped()
 
         # Read message content and assign it to
@@ -121,7 +124,6 @@ class map_base_tf(Node):
         
         # Send the transformation
         self.tf_broadcaster.sendTransform(t)
-        # self.get_logger().info(str("map to baseLink transform published."))
 
 def main():
     rclpy.init()

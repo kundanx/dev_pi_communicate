@@ -30,7 +30,7 @@ class Serial_comms_RX_node(Node):
         
         #  Odom data publisher
         self.odom_publisher_ = self.create_publisher(Odometry, 'freewheel/odom', 10)
-        self.create_timer(0.03, self.serial_read_callback)
+        self.create_timer(0.05, self.serial_read_callback)
 
         self.last_sent_time = time.time()
         self.odom_seq = 0
@@ -38,7 +38,7 @@ class Serial_comms_RX_node(Node):
         
     # Read callback function
     def serial_read_callback(self):
-            
+            # self.get_logger().info("here......")
             _data = self.usb_port1.read_data()
             if (time.time() - self.last_sent_time > 0.03):
                 # data = [x, y, theta, vx, vy, omega,B_count, R_count, L_count]
@@ -80,6 +80,7 @@ class Serial_comms_RX_node(Node):
                 #                        %(data[0], data[1], data[2]*180/math.pi, data[3], data[4], data[5]))
                 # print(f"pos_x:{data[0]}, pos_y:{data[1]}, yaw:{data[2]*180/math.pi}, backcount:{data[6]}, right_count:{data[7]}, left_count:{data[8]}")
                 # print(f"yaw:{data[2]*180/math.pi}")
+                # self.get_logger().info("here1")
         
 
     def calculate_checksum(self , data = []):

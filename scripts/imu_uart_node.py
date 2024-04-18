@@ -57,7 +57,7 @@ class ImuNode(Node):
     def process_data(self):
         # print("here..")
         now = time.time()
-        if now - self.last_publish_time < 0.03:
+        if now - self.last_publish_time < 0.05:
             return
         
         imu_msg = Imu()
