@@ -20,7 +20,7 @@ class nav2_cmd_vel(Node):
             "cmd_vel",
             self.recieve_callback,
             10)
-        self.cmd_pub= self.create_publisher(Float64MultiArray,"/cmd_robot_vel",10)
+        self.cmd_pub= self.create_publisher(Float32MultiArray,"/cmd_robot_vel",10)
         self.get_logger().info("nav2_cmd_vel node ready ...")
 
     def recieve_callback(self, msg:Twist):

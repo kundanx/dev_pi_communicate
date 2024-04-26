@@ -80,7 +80,7 @@ The executables and transforms are listed as follows:
   ``` 
     ros2 run nav2_map_server map_saver_cli -f /filename
   ```
-  
+
 
 ## ***Resources***
 
@@ -88,6 +88,8 @@ The executables and transforms are listed as follows:
 - https://docs.ros.org/en/humble/index.html
 - https://github.com/SteveMacenski/slam_toolbox
 - https://navigation.ros.org/
+- https://kaiyuzheng.me/documents/navguide.pdf
+- https://www.researchgate.net/publication/349602009_An_Extended_Analysis_on_Tuning_The_Parameters_of_Adaptive_Monte_Carlo_Localization_ROS_Package_in_an_Automated_Guided_Vehicle/fulltext/6037cd1a4585158939cd8ec5/An-Extended-Analysis-on-Tuning-The-Parameters-of-Adaptive-Monte-Carlo-Localization-ROS-Package-in-an-Automated-Guided-Vehicle.pdf
 
 ## Images
 

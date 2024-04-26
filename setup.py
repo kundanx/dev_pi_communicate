@@ -29,6 +29,7 @@ setup(
             'subscriber_node = scripts.subscriber:main',
             'vel_subscriber = scripts.vel_subscriber:main',
 
+            'serial_bridge = scripts.serial_bridge:main',
             'serial_rx_node = scripts.serial_rx_node:main',
             'serial_tx_node = scripts.serial_tx_node:main',
             'ds4_uart_node = scripts.ds4_uart_node:main',
@@ -40,6 +41,7 @@ setup(
             
             'odom_baseLink_tf = transforms.odom_baseLink_tf:main',
             'baseLink_laserFrame_tf = transforms.baseLink_laserFrame_tf:main',
+            'baseLink_imuLink_tf = transforms.baseLink_imuLink_tf:main',
             'map_baseLink_tf= transforms.map_baseLink_tf:main'
         ],
     },

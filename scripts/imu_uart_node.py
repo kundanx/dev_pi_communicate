@@ -26,6 +26,8 @@ class ImuNode(Node):
         self.serial_port = serial.Serial(esp_address, serial_baudrate)
         self.data = [float(1), float(0), float(0), float(0), float(0), float(0), float(0), float(0), float(0), float(0)]
         self.is_waiting_for_start_byte = True
+      
+        self.last_rx_time = time.time()
         self.last_publish_time = time.time()
         self.get_logger().info("Recieving imu data")
         
@@ -47,6 +49,10 @@ class ImuNode(Node):
             data_str = self.serial_port.read(rx_data_size-1)
             hash = self.calc_crc(data_str[:-1])
             if hash == data_str[-1]:
+                now = time.time()
+                # diff_rx = now - self.last_rx_time
+                # print(f"{diff_rx =}")
+                self.last_rx_time = now
                 # self.serial_port.reset_input_buffer()
                 self.data = struct.unpack("ffffffffff", data_str[0:-1])
                 self.process_data()
@@ -55,15 +61,11 @@ class ImuNode(Node):
                 self.get_logger().info(data_str)
     
     def process_data(self):
-        # print("here..")
-        now = time.time()
-        if now - self.last_publish_time < 0.05:
-            return
-        
+        # print("here..")        
         imu_msg = Imu()
         #  Assign header values to the imu_msg
         imu_msg.header.stamp=self.get_clock().now().to_msg()
-        imu_msg.header.frame_id="base_link"
+        imu_msg.header.frame_id="imu_link"
 
         # Assign actuall values to the imu_msg
         imu_msg.orientation.w = self.data[0]
@@ -108,13 +110,18 @@ class ImuNode(Node):
         imu_msg.linear_acceleration_covariance[6] = 0.0
         imu_msg.linear_acceleration_covariance[7] = 0.0
         imu_msg.linear_acceleration_covariance[8] = 0.25
+        
+        now = time.time()
+        diff_imu = now - self.last_publish_time
+        if  diff_imu >= 0.03:    
+            # print(f"{diff_imu =}")
+            # Publish message
+            self.imu_publisher.publish(imu_msg)
+            # print("%f"%((time.time()-self.last_publish_time)))
+            self.last_publish_time = time.time()
 
-        # Publish message
-        self.imu_publisher.publish(imu_msg)
-        self.last_publish_time = now
-
-        # yaw, pitch, roll = quaternion_to_yawpitchroll(self.data[0], self.data[1], self.data[2], self.data[3])
-        # self.get_logger().info('ypr: "%f %f %f"' %(yaw*180/pi, pitch*180/pi, roll*180/pi))
+        yaw, pitch, roll = quaternion_to_yawpitchroll(self.data[0], self.data[1], self.data[2], self.data[3])
+        self.get_logger().info('ypr: "%f %f %f"' %(yaw*180/pi, pitch*180/pi, roll*180/pi))
 
     def calc_crc(self, data=[]):
         hash_func = crc8()

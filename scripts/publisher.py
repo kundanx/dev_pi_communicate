@@ -5,6 +5,8 @@ from rclpy.node import Node
 from std_msgs.msg import Bool
 from geometry_msgs.msg import PoseStamped
 from std_msgs.msg import Float32MultiArray
+from std_msgs.msg import UInt8MultiArray
+from nav_msgs.msg import Odometry
 
 from nav_msgs.msg import Odometry
 
@@ -18,13 +20,15 @@ class publisher(Node):
         super().__init__("publisher_node")
         # self.data = PoseStamped()
         self.counter =0.0
-        self.publisher_ =self.create_publisher(Float32MultiArray,"/cmd_robot_vel", 50)
+        self.cmd_vel_pub =self.create_publisher(Float32MultiArray,"cmd_robot_vel", 50)
+        self.act_vel_pub =self.create_publisher(UInt8MultiArray,"act_vel", 50)
         self.cmd_pub = self.create_publisher(PoseStamped,"/ball_pose_topic", 10)
         self.flag_pub = self.create_publisher(Bool,"/is_ball_tracked", 10)
-        self.create_timer(0.05, self.float32mut)
+        self.odom_publisher_ = self.create_publisher(Odometry, "test_topic", 10)
+        self.create_timer(0.05, self.send_odom)
         self.get_logger().info("Publishing command...")
 
-    def send_velocity_command(self):
+    def send_ball_pose(self):
         self.data = PoseStamped()
 
         self.data.header.frame_id="map"
@@ -43,13 +47,56 @@ class publisher(Node):
 
         self.cmd_pub.publish(self.data)
         self.flag_pub.publish(self.flag)
+
+        data1 = UInt8MultiArray()
+        data1.data =[50, 50,0]
+        self.act_vel_pub.publish(data1)
+
         self.get_logger().info(str(self.data.pose.position.x))
         self.get_logger().info(str(self.flag.data))
     
-    def float32mut(self):
-        data_ = Float32MultiArray()
-        data_.data =[1.0, 2.0, 3.0]
-        self.publisher_.publish(data_)
+    def send_cmd_act_vel(self):
+        data1 = UInt8MultiArray()
+        data1.data =[50, 50,3]
+        self.act_vel_pub.publish(data1)
+
+        data2 = Float32MultiArray()
+        data2.data =[1.0, 1.0, 0.0]
+        self.cmd_vel_pub.publish(data2)
+    
+    def send_odom(self):
+        odom_msg = Odometry()
+        odom_msg.header.stamp = self.get_clock().now().to_msg()
+        odom_msg.header.frame_id = 'odom'
+        odom_msg.child_frame_id = 'base_link'
+        odom_msg.pose.pose.position.x = 0.0
+        odom_msg.pose.pose.position.y = 0.0
+        odom_msg.pose.pose.position.z = 0.0
+        # qw, qx, qy, qz = self.rollpitchyaw_to_quaternion(0.0, 0.0, 0.0)
+        odom_msg.pose.pose.orientation.w = 1.0
+        odom_msg.pose.pose.orientation.x = 0.0
+        odom_msg.pose.pose.orientation.y = 0.0
+        odom_msg.pose.pose.orientation.z = 0.0
+        odom_msg.pose.covariance = [0.01, 0.0, 0.0, 0.0, 0.0, 0.0,
+                                    0.0, 0.01, 0.0, 0.0, 0.0, 0.0,
+                                    0.0, 0.0, 1.0, 0.0, 0.0, 0.0,
+                                    0.0, 0.0, 0.0, 1.0, 0.0, 0.0,
+                                    0.0, 0.0, 0.0, 0.0, 1.0, 0.0,
+                                    0.0, 0.0, 0.0, 0.0, 0.0, 0.030461]
+        odom_msg.twist.twist.linear.x = 1.0
+        odom_msg.twist.twist.linear.y = 0.0
+        odom_msg.twist.twist.linear.z = 0.0
+        odom_msg.twist.twist.angular.x = 0.0
+        odom_msg.twist.twist.angular.y = 0.0
+        odom_msg.twist.twist.angular.z = 0.0
+        odom_msg.twist.covariance = [0.25, 0.0, 0.0, 0.0, 0.0, 0.0,
+                                        0.0, 0.25, 0.0, 0.0, 0.0, 0.0,
+                                        0.0, 0.0, 1.0, 0.0, 0.0, 0.0,
+                                        0.0, 0.0, 0.0, 1.0, 0.0, 0.0,
+                                        0.0, 0.0, 0.0, 0.0, 1.0, 0.0,
+                                        0.0, 0.0, 0.0, 0.0, 0.0, 0.04]
+        self.odom_publisher_.publish(odom_msg)
+
 
         # self.counter= self.counter + 1 
 

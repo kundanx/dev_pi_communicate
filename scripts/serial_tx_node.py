@@ -8,6 +8,7 @@ import struct
 import sys
 import math
 import ctypes
+import numpy as np
 
 
 from math import sin, cos, radians
@@ -32,10 +33,10 @@ serial_port_address_black='/dev/serial/by-id/usb-1a86_USB2.0-Serial-if00-port0'
 class Actuator:
     def __init__(self, isOn, pwm ):
         self.isOn : int = isOn
-        self.pwm : float = pwm
+        self.pwm  : int = pwm
 
-PacketLength_cmd_vel = 0xc
-PacketLength_act_vel = 0x5
+PacketLength_cmd_vel = 12
+PacketLength_act_vel = 2
     
 class Serial_comms_TX_node(Node):
     
@@ -44,7 +45,8 @@ class Serial_comms_TX_node(Node):
         super().__init__("serial_comm_TX_node")
         self.count : float = 0.0
         self.usb_port2 = serial_comms(serial_port_address_FTDI, serial_baudrate)
-        self.intake_roller = Actuator(1, 0.5)
+        self.intake_roller = Actuator(5, 50)
+
         self.isCmdVelSending : bool = True
         self.isActuatorVelSending : bool = False
 
@@ -93,10 +95,8 @@ class Serial_comms_TX_node(Node):
             cmd_vel_data=b''.join(cmd_vel_data)
             self.usb_port2.write_data(cmd_vel_data)
 
-            print("*******CMD_VEL********")
-            print("PID: %x, length: %x, PID_hash: %x, data_hash: %x " %(cmd_vel_data[1],cmd_vel_data[2],cmd_vel_data[3],cmd_vel_data[-1]))
-            # print(cmd_vel_data)
-            # print(", size of whole packet: %i" %(cmd_vel_data[-1], cmd_vel_data.__sizeof__()))
+            # print("*******CMD_VEL********")
+            # print("PID: %x, length: %x, PID_hash: %x, data_hash: %x " %(cmd_vel_data[1],cmd_vel_data[2],cmd_vel_data[3],cmd_vel_data[-1]))
             self.isCmdVelSending = False
 
 
@@ -118,7 +118,7 @@ class Serial_comms_TX_node(Node):
             actuator_vel_data=[
                 actuator_vel_data,
                 bytes(struct.pack("B",self.intake_roller.isOn)),
-                bytes(struct.pack("f",self.intake_roller.pwm)),   
+                bytes(struct.pack("B",self.intake_roller.pwm))   
 
             ]
             actuator_vel_data = b''.join(actuator_vel_data)
@@ -130,15 +130,11 @@ class Serial_comms_TX_node(Node):
             actuator_vel_data=b''.join(actuator_vel_data)
             self.usb_port2.write_data(actuator_vel_data)
 
-            print("#####ACTUATOR#######")
-            # print(actuator_vel_data)
-            print("PID: %x, length: %x, PID_hash: %x , data_hash: %x"%(actuator_vel_data[1],actuator_vel_data[2],actuator_vel_data[3],actuator_vel_data[-1]))
-            # print("data_hash: %x, size of whole packet: %i, size of struct:%i "%(actuator_vel_data[-1], actuator_vel_data.__sizeof__(), self.intake_roller.__sizeof__()))
+            # print("#####ACTUATOR#######")
+            # print("PID: %x, length: %x, PID_hash: %x, data_hash: %x"%(actuator_vel_data[1],actuator_vel_data[2],actuator_vel_data[3],actuator_vel_data[-1]))
+            # print(float(struct.unpack("f", actuator_vel_data[5:9])[0]))
             self.isActuatorVelSending = False
 
-
-
-        
     def calculate_checksum(self , data = []):
         digest = int()
         for i in range(1,len(data)):
@@ -150,9 +146,6 @@ class Serial_comms_TX_node(Node):
         hash_func.update(data[1:])
         return hash_func.digest()[0]
     
-
-    
-
 def main(args=None):
     rclpy.init()
     node = Serial_comms_TX_node()
