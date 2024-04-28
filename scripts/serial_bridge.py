@@ -43,12 +43,24 @@ class Serial_comms_TX_node(Node):
         act_vel_sub = message_filters.Subscriber(self, UInt8MultiArray, "act_vel",qos_profile= 10)
 
         self.synchronizer = message_filters.ApproximateTimeSynchronizer((cmd_vel_sub,act_vel_sub ), 10, 0.1,allow_headerless=True)
-        self.synchronizer.registerCallback(self.Send_Data_CallBack)
+        self.synchronizer.registerCallback(self.Send_Data_CallBack_)
+
+        # self.cmd_vel_sub = self.create_subscription( Float32MultiArray,"cmd_robot_vel", self.send_cmd_vel_data,10 )   
+        # self.act_vel_sub = self.create_subscription(UInt8MultiArray,"act_vel", self.send_act_vel_data,10 )
+        # self.cmd_vel_msg= Float32MultiArray()
+        # self.cmd_vel_rx_flag = False
+        # self.cmd_vel_msg.data = [0.0, 0.0, 0.0]
+        # self.act_vel_msg = UInt8MultiArray()
+        # self.act_vel_rx_flag = False
+        # self.act_vel_msg.data = [0,0,0]
+        # self.timer2 = self.create_timer(0.025, self.Send_Data_CallBack)
+        
 
         # self.ballStatus = self.create_publisher(UInt8, 'Ball_status', 10)
         self.odom_publisher_ = self.create_publisher(Odometry, '/odometry/filtered', 10)
 
         self.timer1 = self.create_timer(0.025, self.serial_read_callback)
+
         self.last_transmit_time = time.time()
         self.last_published_time = time.time()
         # self.timer2 = self.create_timer(0.05, self.serial_transmit_callback)
@@ -57,7 +69,40 @@ class Serial_comms_TX_node(Node):
 
 
     # Joystick read callback function
-    def Send_Data_CallBack(self,cmd_vel_msg:Float32MultiArray, act_vel_msg:UInt8MultiArray):    
+    def Send_Data_CallBack(self):  
+        if not self.act_vel_rx_flag:
+            self.act_vel_msg.data = [0,0,0]
+
+        if not self.cmd_vel_rx_flag:
+            self.cmd_vel_msg.data = [0.0, 0.0, 0.0]
+
+        DataToSend=[
+            bytes(struct.pack("B",START_BYTE)),
+            bytes(struct.pack("f",self.cmd_vel_msg.data[0])),
+            bytes(struct.pack("f",self.cmd_vel_msg.data[1])),
+            bytes(struct.pack("f",self.cmd_vel_msg.data[2])),
+
+            bytes(struct.pack("B",self.act_vel_msg.data[0])),
+            bytes(struct.pack("B",self.act_vel_msg.data[1])),
+            bytes(struct.pack("B",self.act_vel_msg.data[2]))
+        ]
+        DataToSend = b''.join(DataToSend)
+        data_hash=self.calculate_crc(DataToSend[1:])
+        # print(f"{data_hash =}")
+        DataToSend=[
+            DataToSend,
+            bytes(struct.pack('B', data_hash)) 
+        ]
+        DataToSend=b''.join(DataToSend)
+        diff_tx = time.time() - self.last_transmit_time
+        # print(f"{diff_tx = }")
+        self.last_transmit_time = time.time()
+        # print(DataToSend)
+        self.serial_port.write_data(DataToSend)
+        self.cmd_vel_rx_flag = False
+        self.act_vel_rx_flag = False
+
+    def Send_Data_CallBack_(self,cmd_vel_msg:Float32MultiArray, act_vel_msg:UInt8MultiArray):    
         DataToSend=[
             bytes(struct.pack("B",START_BYTE)),
             bytes(struct.pack("f",cmd_vel_msg.data[0])),
@@ -81,6 +126,19 @@ class Serial_comms_TX_node(Node):
         self.last_transmit_time = time.time()
         # print(DataToSend)
         self.serial_port.write_data(DataToSend)
+
+
+    def send_act_vel_data(self, act_vel_msg_:UInt8MultiArray):
+        self.act_vel_msg.data[0] = act_vel_msg_.data[0]
+        self.act_vel_msg.data[1] = act_vel_msg_.data[1]
+        self.act_vel_msg.data[2] = act_vel_msg_.data[2]
+        self.act_vel_rx_flag = True
+        
+    def send_cmd_vel_data(self, cmd_vel_msg_:Float32MultiArray):
+        self.cmd_vel_msg.data[0] = cmd_vel_msg_.data[0]
+        self.cmd_vel_msg.data[1] = cmd_vel_msg_.data[1]
+        self.cmd_vel_msg.data[2] = cmd_vel_msg_.data[2]
+        self.cmd_vel_rx_flag = True
 
     def serial_read_callback(self):
             # self.get_logger().info("here......")
