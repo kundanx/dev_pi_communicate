@@ -94,8 +94,8 @@ def generate_launch_description():
 
     return LaunchDescription([
         # imu_uart_node,
-        # serial_bridge,
-        serial_rx_node,
+        serial_bridge,
+        # serial_rx_node,
         # serial_tx_node,
         # ds4_uart_node,
         # ds4_node,
