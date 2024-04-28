@@ -15,20 +15,17 @@ serial_baudrate = 115200
 serial_port_address_FTDI='/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A50285BI-if00-port0'
 serial_port_address_black='/dev/serial/by-id/usb-1a86_USB2.0-Serial-if00-port0'
 
-class serial_comms:
-    def __init__(self, serial_port, serial_baudrate, data_size_):
-        self.serial_port = serial.Serial(serial_port, serial_baudrate, timeout=1.0)
-        
-        self.rx_data_size= data_size_
-        self.is_waiting_for_start_byte = True
+rx_data_size= 26 #38
 
-        # self.start_time = time.time()
-        # self.start_time_ns = time.monotonic_ns()
+class serial_comms:
+    def __init__(self, serial_port, serial_baudrate):
+        self.serial = serial.Serial(serial_port, serial_baudrate, timeout=1.0)
+   
 
     def write_data(self,data):
-        self.serial_port.write(data)
-        self.serial_port.reset_output_buffer() 
-    
+        self.serial.write(data)
+        self.serial.reset_output_buffer()
+        
     def read_data(self):   
         print("now")
         if self.serial_port.in_waiting < self.rx_data_size:

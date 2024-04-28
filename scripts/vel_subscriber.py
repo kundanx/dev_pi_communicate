@@ -9,12 +9,15 @@ from rclpy.node import Node
 from nav_msgs.msg import Odometry
 from geometry_msgs.msg import Twist
 from sensor_msgs.msg import Imu
+from std_msgs.msg import Float64MultiArray
 
 class subscriber(Node):
     def __init__(self):
         super().__init__("odometry_checker_node")
         self.yaw =[0.0]*3
         self.sum = [0.0]*3
+        self.vel_publisher_ = self.create_publisher(Float64MultiArray, "test_topic", 10)
+
         self.subscription = self.create_subscription(
             Odometry,
             'odometry/filtered', #base_odom_topic'
@@ -30,7 +33,7 @@ class subscriber(Node):
             'freewheel/odom', #base_odom_topic'
             self.call_back_f,
             50)
-        self.create_timer(0.05, self.print)
+        # self.create_timer(0.05, self.print)
 
         self.get_logger().info("Subrcribed to odometry/filtered")
 
@@ -38,9 +41,18 @@ class subscriber(Node):
         print(f"yaw_odom:{self.sum[0]* 180/3.145}, yaw_imu:{self.sum[1]* 180/3.145}, yaw_filter:{self.sum[0]* 180/3.145}")
     
     def call_back_o(self,msg:Odometry ):
-        
-        q =[0]*4
+        ok = Float64MultiArray()
 
+        ok.data[0] = msg.twist.twist.linear.x        
+        ok.data[1] = msg.twist.twist.linear.y
+        ok.data[2] = msg.twist.twist.linear.z
+        ok.data[3] = msg.twist.twist.angular.x
+        ok.data[4] = msg.twist.twist.angular.y
+        ok.data[5] = msg.twist.twist.angular.z
+
+        self.vel_publisher_.publish(ok)
+
+        q =[0]*4
         q[0]= msg.pose.pose.orientation.x
         q[1]= msg.pose.pose.orientation.y
         q[2]= msg.pose.pose.orientation.z

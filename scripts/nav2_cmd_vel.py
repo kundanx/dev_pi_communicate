@@ -20,12 +20,12 @@ class nav2_cmd_vel(Node):
             "cmd_vel",
             self.recieve_callback,
             10)
-        self.cmd_pub= self.create_publisher(Float64MultiArray,"/cmd_robot_vel",10)
+        self.cmd_pub= self.create_publisher(Float32MultiArray,"/cmd_robot_vel",10)
         self.get_logger().info("nav2_cmd_vel node ready ...")
 
     def recieve_callback(self, msg:Twist):
-        twist_array = Float64MultiArray()
-        twist_array.data = [msg.linear.x,msg.linear.y,msg.angular.z]
+        twist_array = Float32MultiArray()
+        twist_array.data = [float(msg.linear.x),float(msg.linear.y),float(msg.angular.z)]
         # print(f"size{asizeof.asizeof(twist_array.data)}")
         self.cmd_pub.publish(twist_array)
         # print(twist_array.data)
