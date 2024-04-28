@@ -1,12 +1,13 @@
-#! /usr/bin/env python3
+# #! /usr/bin/env python3
 
-# This node recieves imu data from pico serially and publishes to ekf filter package
+# # This node recieves imu data from pico serially and publishes to ekf filter package
 
 import rclpy
 import serial
 import struct
 import time
 from math import sin, cos, atan2, sqrt,  pi
+
 from rclpy.node import Node 
 from dev_pi_communicate.crc8 import crc8
 from sensor_msgs.msg import Imu
@@ -23,15 +24,18 @@ class ImuNode(Node):
         super().__init__("imu_node")
         #  Odom data publisher
         self.imu_publisher = self.create_publisher(Imu, 'imu/data', 10)
+
         self.serial_port = serial.Serial(esp_address, serial_baudrate)
         self.data = [float(1), float(0), float(0), float(0), float(0), float(0), float(0), float(0), float(0), float(0)]
         self.is_waiting_for_start_byte = True
       
         self.last_rx_time = time.time()
+
         self.last_publish_time = time.time()
         self.get_logger().info("Recieving imu data")
         
     # Read callback function
+
     def serial_receive(self):
         if self.serial_port.in_waiting < rx_data_size:
             return
@@ -183,7 +187,9 @@ def main(args=None):
     imu_node = ImuNode()
     while True:
         try:
+
             imu_node.serial_receive()
+
         except KeyboardInterrupt:  
             imu_node.serial_port.close()
             imu_node.destroy_node()

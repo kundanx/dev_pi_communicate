@@ -64,7 +64,6 @@ class Serial_comms_TX_node(Node):
         self.motor_switch = msg
 
         
-    # Joystick read callback function
     def send_cmd_vel_data(self,msg):
         if not self.isActuatorVelSending:
             self.isCmdVelSending = True
@@ -134,6 +133,7 @@ class Serial_comms_TX_node(Node):
             # print("PID: %x, length: %x, PID_hash: %x, data_hash: %x"%(actuator_vel_data[1],actuator_vel_data[2],actuator_vel_data[3],actuator_vel_data[-1]))
             # print(float(struct.unpack("f", actuator_vel_data[5:9])[0]))
             self.isActuatorVelSending = False
+
 
     def calculate_checksum(self , data = []):
         digest = int()
