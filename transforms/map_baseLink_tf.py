@@ -12,6 +12,8 @@ from geometry_msgs.msg import TransformStamped
 from geometry_msgs.msg import Pose
 from geometry_msgs.msg import PoseWithCovariance
 from geometry_msgs.msg import PoseWithCovarianceStamped
+from nav_msgs.msg import Odometry
+
 from math import sin, cos, atan2, sqrt,  pi
 
 
@@ -67,12 +69,12 @@ class map_base_tf(Node):
         self.tf_broadcaster = TransformBroadcaster(self)
 
         # cfor NAV2
-        self.subscription = self.create_subscription(
-            PoseWithCovarianceStamped,
-            '/amcl_pose',
-            self.handle_map,
-            1)
-        self.get_logger().info(str("map to baseLink transform ready."))
+        # self.subscription = self.create_subscription(
+        #     PoseWithCovarianceStamped,
+        #     '/amcl_pose',
+        #     self.handle_map,
+        #     1)
+        # self.get_logger().info(str("map to baseLink transform ready."))
 
         # for SLAM_TOOLBOX
         # self.subscription = self.create_subscription(
@@ -80,10 +82,17 @@ class map_base_tf(Node):
         #     '/pose',
         #     self.handle_map,
         #     1)
+
+        self.subscription = self.create_subscription(
+            Odometry,
+            '/odometry/filtered',
+            self.handle_map,
+            1)
+        self.get_logger().info(str("map to baseLink transform ready."))
         
         self.subscription  # prevent unused variable warning
 
-    def handle_map(self, msg:PoseWithCovarianceStamped):
+    def handle_map(self, msg:Odometry):
         # self.get_logger().info(str("map to baseLink transform published."))
 
         t = TransformStamped()
