@@ -39,21 +39,21 @@ class Serial_comms_TX_node(Node):
         super().__init__("serial_bridge")
         self.serial_port = serial_comms(serial_port_address_black, serial_baudrate, RECIEVE_SIZE, TRANSMIT_SIZE)
         
-        cmd_vel_sub = message_filters.Subscriber(self, Float32MultiArray, "cmd_robot_vel", qos_profile=10)
-        act_vel_sub = message_filters.Subscriber(self, UInt8MultiArray, "act_vel",qos_profile= 10)
+        # cmd_vel_sub = message_filters.Subscriber(self, Float32MultiArray, "cmd_robot_vel", qos_profile=10)
+        # act_vel_sub = message_filters.Subscriber(self, UInt8MultiArray, "act_vel",qos_profile= 10)
 
-        self.synchronizer = message_filters.ApproximateTimeSynchronizer((cmd_vel_sub,act_vel_sub ), 10, 0.1,allow_headerless=True)
-        self.synchronizer.registerCallback(self.Send_Data_CallBack_)
+        # self.synchronizer = message_filters.ApproximateTimeSynchronizer((cmd_vel_sub,act_vel_sub ), 10, 0.1,allow_headerless=True)
+        # self.synchronizer.registerCallback(self.Send_Data_CallBack_)
 
-        # self.cmd_vel_sub = self.create_subscription( Float32MultiArray,"cmd_robot_vel", self.send_cmd_vel_data,10 )   
-        # self.act_vel_sub = self.create_subscription(UInt8MultiArray,"act_vel", self.send_act_vel_data,10 )
-        # self.cmd_vel_msg= Float32MultiArray()
-        # self.cmd_vel_rx_flag = False
-        # self.cmd_vel_msg.data = [0.0, 0.0, 0.0]
-        # self.act_vel_msg = UInt8MultiArray()
+        self.cmd_vel_sub = self.create_subscription( Float32MultiArray,"cmd_robot_vel", self.send_cmd_vel_data,10 )   
+        self.act_vel_sub = self.create_subscription(UInt8MultiArray,"act_vel", self.send_act_vel_data,10 )
+        self.cmd_vel_msg= Float32MultiArray()
+        self.cmd_vel_rx_flag = False
+        self.cmd_vel_msg.data = [0.0, 0.0, 0.0]
+        self.act_vel_msg = UInt8MultiArray()
         # self.act_vel_rx_flag = False
-        # self.act_vel_msg.data = [0,0,0]
-        # self.timer2 = self.create_timer(0.025, self.Send_Data_CallBack)
+        self.act_vel_msg.data = [0,0,0]
+        self.timer2 = self.create_timer(0.05, self.Send_Data_CallBack)
         
 
         # self.ballStatus = self.create_publisher(UInt8, 'Ball_status', 10)
@@ -63,15 +63,14 @@ class Serial_comms_TX_node(Node):
 
         self.last_transmit_time = time.time()
         self.last_published_time = time.time()
-        # self.timer2 = self.create_timer(0.05, self.serial_transmit_callback)
         self.get_logger().info("Serial bridge ready...")
     
 
 
     # Joystick read callback function
     def Send_Data_CallBack(self):  
-        if not self.act_vel_rx_flag:
-            self.act_vel_msg.data = [0,0,0]
+        # if not self.act_vel_rx_flag:
+        #     self.act_vel_msg.data = [0,0,0]
 
         if not self.cmd_vel_rx_flag:
             self.cmd_vel_msg.data = [0.0, 0.0, 0.0]
@@ -101,38 +100,39 @@ class Serial_comms_TX_node(Node):
         self.serial_port.write_data(DataToSend)
         self.cmd_vel_rx_flag = False
         self.act_vel_rx_flag = False
+        # print(f"{self.act_vel_msg.data[2]=}")
 
-    def Send_Data_CallBack_(self,cmd_vel_msg:Float32MultiArray, act_vel_msg:UInt8MultiArray):    
-        DataToSend=[
-            bytes(struct.pack("B",START_BYTE)),
-            bytes(struct.pack("f",cmd_vel_msg.data[0])),
-            bytes(struct.pack("f",cmd_vel_msg.data[1])),
-            bytes(struct.pack("f",cmd_vel_msg.data[2])),
+    # def Send_Data_CallBack_(self,cmd_vel_msg:Float32MultiArray, act_vel_msg:UInt8MultiArray):    
+    #     DataToSend=[
+    #         bytes(struct.pack("B",START_BYTE)),
+    #         bytes(struct.pack("f",cmd_vel_msg.data[0])),
+    #         bytes(struct.pack("f",cmd_vel_msg.data[1])),
+    #         bytes(struct.pack("f",cmd_vel_msg.data[2])),
 
-            bytes(struct.pack("B",act_vel_msg.data[0])),
-            bytes(struct.pack("B",act_vel_msg.data[1])),
-            bytes(struct.pack("B",act_vel_msg.data[2]))
-        ]
-        DataToSend = b''.join(DataToSend)
-        data_hash=self.calculate_crc(DataToSend[1:])
-        # print(f"{data_hash =}")
-        DataToSend=[
-            DataToSend,
-            bytes(struct.pack('B', data_hash)) 
-        ]
-        DataToSend=b''.join(DataToSend)
-        diff_tx = time.time() - self.last_transmit_time
-        # print(f"{diff_tx = }")
-        self.last_transmit_time = time.time()
-        # print(DataToSend)
-        self.serial_port.write_data(DataToSend)
+    #         bytes(struct.pack("B",act_vel_msg.data[0])),
+    #         bytes(struct.pack("B",act_vel_msg.data[1])),
+    #         bytes(struct.pack("B",act_vel_msg.data[2]))
+    #     ]
+    #     DataToSend = b''.join(DataToSend)
+    #     data_hash=self.calculate_crc(DataToSend[1:])
+    #     # print(f"{data_hash =}")
+    #     DataToSend=[
+    #         DataToSend,
+    #         bytes(struct.pack('B', data_hash)) 
+    #     ]
+    #     DataToSend=b''.join(DataToSend)
+    #     diff_tx = time.time() - self.last_transmit_time
+    #     # print(f"{diff_tx = }")
+    #     self.last_transmit_time = time.time()
+    #     # print(DataToSend)
+    #     self.serial_port.write_data(DataToSend)
 
 
     def send_act_vel_data(self, act_vel_msg_:UInt8MultiArray):
         self.act_vel_msg.data[0] = act_vel_msg_.data[0]
         self.act_vel_msg.data[1] = act_vel_msg_.data[1]
         self.act_vel_msg.data[2] = act_vel_msg_.data[2]
-        self.act_vel_rx_flag = True
+        # self.act_vel_rx_flag = True
         
     def send_cmd_vel_data(self, cmd_vel_msg_:Float32MultiArray):
         self.cmd_vel_msg.data[0] = cmd_vel_msg_.data[0]
@@ -189,7 +189,7 @@ class Serial_comms_TX_node(Node):
 
             # self.get_logger().info('"%f %f %f %f %f %f"'
             #                        %(data[0], data[1], data[2]*180/math.pi, data[3], data[4], data[5]))
-            print(f"pos_x:{data[0]}, pos_y:{data[1]}, yaw:{data[2]*180/math.pi}")
+            # print(f"pos_x:{data[0]}, pos_y:{data[1]}, yaw:{data[2]*180/math.pi}")
 
     def calculate_checksum(self , data = []):
         digest = int()

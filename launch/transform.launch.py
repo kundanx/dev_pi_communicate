@@ -30,10 +30,16 @@ def generate_launch_description():
         executable='map_baseLink_tf',
         output='screen'
     )
+    map_odom_tf= Node(
+        package='dev_pi_communicate',
+        executable='map_odom_tf',
+        output='screen'
+    )
 
     return LaunchDescription([
         baseLink_laserFrame_tf,
         baseLink_imuLink_tf,
         odom_baseLink_tf,
-        map_baseLink_tf
+        map_baseLink_tf,
+        map_odom_tf
     ])

@@ -38,13 +38,13 @@ def generate_launch_description():
     #     output="screen"
     # )
 
-    laser_filter= Node(
-        package='laser_filters',
-        executable='scan_to_scan_filter_chain',
-        parameters=[os.path.join(get_package_share_directory("dev_pi_communicate"), 'config', 'laser_filter.yaml')],
-        output='screen'
+    # laser_filter= Node(
+    #     package='laser_filters',
+    #     executable='scan_to_scan_filter_chain',
+    #     parameters=[os.path.join(get_package_share_directory("dev_pi_communicate"), 'config', 'laser_filter.yaml')],
+    #     output='screen'
     
-    )
+    # )
 
 
     # serial bridge node
@@ -93,8 +93,9 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
+        # rplidar,
+        # laser_filter,
         # imu_uart_node,
-
         serial_bridge,
         # serial_rx_node,
         # serial_tx_node,
@@ -103,6 +104,5 @@ def generate_launch_description():
         # ekf_pkg,
         tf,
         nav2_cmd_vel_node
-        # rplidar,
 
     ])

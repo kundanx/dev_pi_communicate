@@ -65,8 +65,8 @@ class odom_base_tf(Node):
 
         # RObot moves only in 2D, thus we get x and y translation
         # coordinates from the message and set the z coordinate to 0
-        t.transform.translation.x = -msg.pose.pose.position.x
-        t.transform.translation.y = -msg.pose.pose.position.y
+        t.transform.translation.x = msg.pose.pose.position.x
+        t.transform.translation.y = msg.pose.pose.position.y
         t.transform.translation.z = 0.0
 
         # For the same reason, robot can only rotate around one axis
