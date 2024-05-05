@@ -25,6 +25,7 @@ class publisher(Node):
         self.cmd_pub = self.create_publisher(PoseStamped,"/ball_pose_topic", 10)
         self.flag_pub = self.create_publisher(Bool,"/is_ball_tracked", 10)
         self.odom_publisher_ = self.create_publisher(Odometry, 'odometry/filtered', 10)
+
         self.create_timer(0.05, self.send_ball_pose)
         self.get_logger().info("Publishing command...")
 
@@ -33,8 +34,8 @@ class publisher(Node):
 
         self.data.header.frame_id="map"
         
-        self.data.pose.position.x = 0.7
-        self.data.pose.position.y = 0.5
+        self.data.pose.position.x = 0.20
+        self.data.pose.position.y = 0.0
         self.data.pose.position.z = 0.0
 
         self.data.pose.orientation.x=0.0
@@ -57,7 +58,7 @@ class publisher(Node):
     
     def send_cmd_act_vel(self):
         data1 = UInt8MultiArray()
-        data1.data =[50, 50,3]
+        data1.data =[80, 80,3]
         self.act_vel_pub.publish(data1)
 
         # data2 = Float32MultiArray()
