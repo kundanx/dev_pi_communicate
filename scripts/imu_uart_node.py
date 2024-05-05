@@ -12,6 +12,7 @@ from rclpy.node import Node
 from dev_pi_communicate.crc8 import crc8
 from sensor_msgs.msg import Imu
 
+START_BYTE= 0b10100101
 serial_baudrate = 115200
 pico_address='/dev/serial/by-id/usb-Raspberry_Pi_Pico_E6611CB71F34112A-if00'
 esp_address='/dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_Controller_0001-if00-port0'
@@ -183,8 +184,8 @@ def main(args=None):
     imu_node = ImuNode()
     while True:
         try:
-
             imu_node.serial_receive()
+        except KeyboardInterrupt:  
             imu_node.serial_port.close()
             imu_node.destroy_node()
             rclpy.try_shutdown()
@@ -193,3 +194,4 @@ def main(args=None):
 if __name__ =='__main__':
 
     main()
+

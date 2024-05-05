@@ -52,6 +52,7 @@ class odom_base_tf(Node):
             self.handle_odom,
             10)
         
+        self.get_logger().info(str("odom to baseLink transform ready."))
         self.subscription  # prevent unused variable warning
 
     def handle_odom(self, msg:Odometry):

@@ -88,13 +88,10 @@ class map_base_tf(Node):
             '/odometry/filtered',
             self.handle_map,
             1)
-        self.get_logger().info(str("map to baseLink transform ready."))
-        
+        self.get_logger().info(str("map to odom transform ready."))
         self.subscription  # prevent unused variable warning
 
     def handle_map(self, msg:Odometry):
-        # self.get_logger().info(str("map to baseLink transform published."))
-
         t = TransformStamped()
 
         # Read message content and assign it to
@@ -117,19 +114,6 @@ class map_base_tf(Node):
         t.transform.rotation.y = 0.0
         t.transform.rotation.z = 0.0
         t.transform.rotation.w = 1.0
-
-        # ypr = quaternion_to_yawpitchroll(msg.pose.pose.orientation.w,
-        #                                  msg.pose.pose.orientation.x,
-        #                                  msg.pose.pose.orientation.y,
-        #                                  msg.pose.pose.orientation.z)
-        
-        # q = quaternion_from_euler(ypr[2], ypr[1]+3.14, ypr[0])
-
-        # t.transform.rotation.x = q[0]
-        # t.transform.rotation.y = q[1]
-        # t.transform.rotation.z = q[2]
-        # t.transform.rotation.w = q[3]
-        
         
         # Send the transformation
         self.tf_broadcaster.sendTransform(t)
