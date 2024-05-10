@@ -31,6 +31,7 @@ setup(
             'vel_subscriber = scripts.vel_subscriber:main',
 
             'serial_bridge = scripts.serial_bridge:main',
+            'serial_bluepill = scripts.serial_bluepill:main',
             'serial_rx_node = scripts.serial_rx_node:main',
             'serial_tx_node = scripts.serial_tx_node:main',
             'ds4_uart_node = scripts.ds4_uart_node:main',

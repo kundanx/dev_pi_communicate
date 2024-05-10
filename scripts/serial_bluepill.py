@@ -28,7 +28,6 @@ from dev_pi_communicate.serial_comms import serial_comms
 START_BYTE= 0b10100101
 RECIEVE_SIZE = 3
 TRANSMIT_SIZE = 0
-
 serial_baudrate = 115200
 serial_port_address_FTDI='/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A50285BI-if00-port0'
 serial_port_address_black='/dev/serial/by-id/usb-1a86_USB2.0-Serial-if00-port0'
@@ -39,7 +38,7 @@ class Serial_bluepill_comms(Node):
     def __init__(self):
 
         super().__init__("serial_bluepill")
-        self.serial_port = serial_comms(serial_port_bluepill, serial_baudrate, RECIEVE_SIZE, TRANSMIT_SIZE)
+        self.serial_port = serial_comms(serial_port_bluepill, serial_baudrate, RECIEVE_SIZE, TRANSMIT_SIZE,"CRC")
         
         self.ballStatus = self.create_publisher(UInt8, 'Ball_status', 10)
         self.timer1 = self.create_timer(0.025, self.serial_read_callback)

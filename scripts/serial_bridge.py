@@ -18,6 +18,7 @@ import math
 from math import sin, cos
 from rclpy.node import Node 
 from std_msgs.msg import UInt8
+from sensor_msgs.msg import Imu
 from nav_msgs.msg import Odometry
 from std_msgs.msg import Float32MultiArray
 from std_msgs.msg import UInt8MultiArray
@@ -26,8 +27,8 @@ from dev_pi_communicate.crc8 import crc8
 from dev_pi_communicate.serial_comms import serial_comms
 
 START_BYTE= 0b10100101
-RECIEVE_SIZE = 26
-TRANSMIT_SIZE = 17
+RECIEVE_SIZE = 1+24+24+1
+TRANSMIT_SIZE = 1+15+1
 serial_baudrate = 115200
 serial_port_address_FTDI='/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A50285BI-if00-port0'
 serial_port_address_black='/dev/serial/by-id/usb-1a86_USB2.0-Serial-if00-port0'
@@ -37,7 +38,7 @@ class Serial_comms_TX_node(Node):
     def __init__(self):
 
         super().__init__("serial_bridge")
-        self.serial_port = serial_comms(serial_port_address_black, serial_baudrate, RECIEVE_SIZE, TRANSMIT_SIZE)
+        self.serial_port = serial_comms(serial_port_address_black, serial_baudrate, RECIEVE_SIZE, TRANSMIT_SIZE, "CRC")
         
         # cmd_vel_sub = message_filters.Subscriber(self, Float32MultiArray, "cmd_robot_vel", qos_profile=10)
         # act_vel_sub = message_filters.Subscriber(self, UInt8MultiArray, "act_vel",qos_profile= 10)
@@ -54,19 +55,16 @@ class Serial_comms_TX_node(Node):
         # self.act_vel_rx_flag = False
         self.act_vel_msg.data = [0,0,0]
         self.timer2 = self.create_timer(0.05, self.Send_Data_CallBack)
-        
 
         # self.ballStatus = self.create_publisher(UInt8, 'Ball_status', 10)
         self.odom_publisher_ = self.create_publisher(Odometry, '/odometry/filtered', 10)
-
-        self.timer1 = self.create_timer(0.025, self.serial_read_callback)
+        self.imu_publisher = self.create_publisher(Imu, 'imu/data', 10)
+        self.timer1 = self.create_timer(0.015, self.serial_read_callback)
 
         self.last_transmit_time = time.time()
         self.last_published_time = time.time()
         self.get_logger().info("Serial bridge ready...")
     
-
-
     # Joystick read callback function
     def Send_Data_CallBack(self):  
         # if not self.act_vel_rx_flag:
@@ -102,31 +100,6 @@ class Serial_comms_TX_node(Node):
         self.act_vel_rx_flag = False
         # print(f"{self.act_vel_msg.data[2]=}")
 
-    # def Send_Data_CallBack_(self,cmd_vel_msg:Float32MultiArray, act_vel_msg:UInt8MultiArray):    
-    #     DataToSend=[
-    #         bytes(struct.pack("B",START_BYTE)),
-    #         bytes(struct.pack("f",cmd_vel_msg.data[0])),
-    #         bytes(struct.pack("f",cmd_vel_msg.data[1])),
-    #         bytes(struct.pack("f",cmd_vel_msg.data[2])),
-
-    #         bytes(struct.pack("B",act_vel_msg.data[0])),
-    #         bytes(struct.pack("B",act_vel_msg.data[1])),
-    #         bytes(struct.pack("B",act_vel_msg.data[2]))
-    #     ]
-    #     DataToSend = b''.join(DataToSend)
-    #     data_hash=self.calculate_crc(DataToSend[1:])
-    #     # print(f"{data_hash =}")
-    #     DataToSend=[
-    #         DataToSend,
-    #         bytes(struct.pack('B', data_hash)) 
-    #     ]
-    #     DataToSend=b''.join(DataToSend)
-    #     diff_tx = time.time() - self.last_transmit_time
-    #     # print(f"{diff_tx = }")
-    #     self.last_transmit_time = time.time()
-    #     # print(DataToSend)
-    #     self.serial_port.write_data(DataToSend)
-
 
     def send_act_vel_data(self, act_vel_msg_:UInt8MultiArray):
         self.act_vel_msg.data[0] = act_vel_msg_.data[0]
@@ -141,55 +114,116 @@ class Serial_comms_TX_node(Node):
         self.cmd_vel_rx_flag = True
 
     def serial_read_callback(self):
-            # self.get_logger().info("here......")
-            _data = self.serial_port.read_data()
-            if _data == None:
-                # print("data none")
-                return
+        _data = self.serial_port.read_data()
+        if _data == None:
+            return
 
-            # print("Serial data RECIEVED")
-                # data = [x, y, theta, vx, vy, omega, ballStatus]
-            data = struct.unpack("ffffff", _data[0:-1])
-            odom_msg = Odometry()
-            odom_msg.header.stamp = self.get_clock().now().to_msg()
-            odom_msg.header.frame_id = 'odom'
-            odom_msg.child_frame_id = 'base_link'
-            odom_msg.pose.pose.position.x = data[0]
-            odom_msg.pose.pose.position.y = data[1]
-            odom_msg.pose.pose.position.z = 0.0
-            qw, qx, qy, qz = self.rollpitchyaw_to_quaternion(0.0, 0.0, data[2])
-            odom_msg.pose.pose.orientation.w = qw
-            odom_msg.pose.pose.orientation.x = qx
-            odom_msg.pose.pose.orientation.y = qy
-            odom_msg.pose.pose.orientation.z = qz
-            odom_msg.pose.covariance = [0.01, 0.0, 0.0, 0.0, 0.0, 0.0,
-                                        0.0, 0.01, 0.0, 0.0, 0.0, 0.0,
+        '''data = [x, y, theta, vx, vy, omega, imu_data[6]]'''
+        data = struct.unpack("ffffffffffff", _data[0:-1])
+        self.process_odom(data[0:6])
+        self.process_imu(data[6:])
+        now = time.time()
+        diff =  now - self.last_published_time
+        print(f"{diff =}")
+        self.last_published_time = now
+            
+    '''
+    data:[pos_x, pose_y, theta, vel_x, vel_y, vel_z]
+    '''
+    def process_odom(self, data):
+        odom_msg = Odometry()
+
+        odom_msg.header.stamp = self.get_clock().now().to_msg()
+        odom_msg.header.frame_id = 'odom'
+        odom_msg.child_frame_id = 'base_link'
+
+        odom_msg.pose.pose.position.x = data[0]
+        odom_msg.pose.pose.position.y = data[1]
+        odom_msg.pose.pose.position.z = 0.0
+        qw, qx, qy, qz = self.rollpitchyaw_to_quaternion(0.0, 0.0, data[2])
+        odom_msg.pose.pose.orientation.w = qw
+        odom_msg.pose.pose.orientation.x = qx
+        odom_msg.pose.pose.orientation.y = qy
+        odom_msg.pose.pose.orientation.z = qz
+        odom_msg.pose.covariance = [0.01, 0.0, 0.0, 0.0, 0.0, 0.0,
+                                    0.0, 0.01, 0.0, 0.0, 0.0, 0.0,
+                                    0.0, 0.0, 1.0, 0.0, 0.0, 0.0,
+                                    0.0, 0.0, 0.0, 1.0, 0.0, 0.0,
+                                    0.0, 0.0, 0.0, 0.0, 1.0, 0.0,
+                                    0.0, 0.0, 0.0, 0.0, 0.0, 0.030461]
+        odom_msg.twist.twist.linear.x = data[3]
+        odom_msg.twist.twist.linear.y = data[4]
+        odom_msg.twist.twist.linear.z = 0.0
+        odom_msg.twist.twist.angular.x = 0.0
+        odom_msg.twist.twist.angular.y = 0.0
+        odom_msg.twist.twist.angular.z = data[5]
+        odom_msg.twist.covariance = [0.25, 0.0, 0.0, 0.0, 0.0, 0.0,
+                                        0.0, 0.25, 0.0, 0.0, 0.0, 0.0,
                                         0.0, 0.0, 1.0, 0.0, 0.0, 0.0,
                                         0.0, 0.0, 0.0, 1.0, 0.0, 0.0,
                                         0.0, 0.0, 0.0, 0.0, 1.0, 0.0,
-                                        0.0, 0.0, 0.0, 0.0, 0.0, 0.030461]
-            odom_msg.twist.twist.linear.x = data[3]
-            odom_msg.twist.twist.linear.y = data[4]
-            odom_msg.twist.twist.linear.z = 0.0
-            odom_msg.twist.twist.angular.x = 0.0
-            odom_msg.twist.twist.angular.y = 0.0
-            odom_msg.twist.twist.angular.z = data[5]
-            odom_msg.twist.covariance = [0.25, 0.0, 0.0, 0.0, 0.0, 0.0,
-                                            0.0, 0.25, 0.0, 0.0, 0.0, 0.0,
-                                            0.0, 0.0, 1.0, 0.0, 0.0, 0.0,
-                                            0.0, 0.0, 0.0, 1.0, 0.0, 0.0,
-                                            0.0, 0.0, 0.0, 0.0, 1.0, 0.0,
-                                            0.0, 0.0, 0.0, 0.0, 0.0, 0.04]
-            now = time.time()
-            diff =  now - self.last_published_time
-            # if diff >= 0.025:
-            # print(f"{diff =}")
-            self.odom_publisher_.publish(odom_msg)
-            self.last_published_time = now
+                                        0.0, 0.0, 0.0, 0.0, 0.0, 0.04]
+        self.odom_publisher_.publish(odom_msg)
+        # print(f"pos_x:{data[0]}, pos_y:{data[1]}, yaw:{data[2]}")
 
-            # self.get_logger().info('"%f %f %f %f %f %f"'
-            #                        %(data[0], data[1], data[2]*180/math.pi, data[3], data[4], data[5]))
-            # print(f"pos_x:{data[0]}, pos_y:{data[1]}, yaw:{data[2]*180/math.pi}")
+    '''
+    data: [yaw, pitch, roll, accel_x, accel_y,accel-z]
+    '''
+    def process_imu(self,data):
+        imu_msg = Imu()    
+        qw, qx, qy, qz = self.rollpitchyaw_to_quaternion(0.0, 0.0, data[0])
+        #  Assign header values to the imu_msg
+        imu_msg.header.stamp=self.get_clock().now().to_msg()
+        imu_msg.header.frame_id="imu_link"
+
+        # Assign actuall values to the imu_msg
+        imu_msg.orientation.w = qw
+        imu_msg.orientation.x = qx
+        imu_msg.orientation.y = qy
+        imu_msg.orientation.z = qz
+
+        imu_msg.angular_velocity.x = 0.0
+        imu_msg.angular_velocity.y = 0.0
+        imu_msg.angular_velocity.z = 0.0
+
+        imu_msg.linear_acceleration.x = data[3]
+        imu_msg.linear_acceleration.y = data[4]
+        imu_msg.linear_acceleration.z = data[5]
+        imu_msg.orientation_covariance[0] = 0.00121847
+        imu_msg.orientation_covariance[1] = 0.0
+        imu_msg.orientation_covariance[2] = 0.0
+        imu_msg.orientation_covariance[3] = 0.0
+        imu_msg.orientation_covariance[4] = 0.00121847
+        imu_msg.orientation_covariance[5] = 0.0
+        imu_msg.orientation_covariance[6] = 0.0
+        imu_msg.orientation_covariance[7] = 0.0
+        imu_msg.orientation_covariance[8] = 0.00121847
+
+        imu_msg.angular_velocity_covariance[0] = 4.4944
+        imu_msg.angular_velocity_covariance[1] = 0.0
+        imu_msg.angular_velocity_covariance[2] = 0.0
+        imu_msg.angular_velocity_covariance[3] = 0.0
+        imu_msg.angular_velocity_covariance[4] = 4.4944
+        imu_msg.angular_velocity_covariance[5] = 0.0
+        imu_msg.angular_velocity_covariance[6] = 0.0
+        imu_msg.angular_velocity_covariance[7] = 0.0
+        imu_msg.angular_velocity_covariance[8] = 4.4944
+
+        imu_msg.linear_acceleration_covariance[0] = 0.25
+        imu_msg.linear_acceleration_covariance[1] = 0.0
+        imu_msg.linear_acceleration_covariance[2] = 0.0
+        imu_msg.linear_acceleration_covariance[3] = 0.0
+        imu_msg.linear_acceleration_covariance[4] = 0.25
+        imu_msg.linear_acceleration_covariance[5] = 0.0
+        imu_msg.linear_acceleration_covariance[6] = 0.0
+        imu_msg.linear_acceleration_covariance[7] = 0.0
+        imu_msg.linear_acceleration_covariance[8] = 0.25
+        
+        self.imu_publisher.publish(imu_msg)
+        # print(f"{data[0]=},{data[1]=}, {data[5]=}")
+
+
+
 
     def calculate_checksum(self , data = []):
         digest = int()
