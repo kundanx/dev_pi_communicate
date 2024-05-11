@@ -57,8 +57,8 @@ class Serial_comms_TX_node(Node):
         self.timer2 = self.create_timer(0.05, self.Send_Data_CallBack)
 
         # self.ballStatus = self.create_publisher(UInt8, 'Ball_status', 10)
-        self.odom_publisher_ = self.create_publisher(Odometry, '/odometry/filtered', 10)
-        self.imu_publisher = self.create_publisher(Imu, 'imu/data', 10)
+        self.odom_publisher_ = self.create_publisher(Odometry, 'freewheel/odom', 10)
+        self.imu_publisher = self.create_publisher(Imu, 'imu/odom', 10)
         self.timer1 = self.create_timer(0.015, self.serial_read_callback)
 
         self.last_transmit_time = time.time()
@@ -115,6 +115,10 @@ class Serial_comms_TX_node(Node):
 
     def serial_read_callback(self):
         _data = self.serial_port.read_data()
+        now = time.time()
+        diff =  now - self.last_published_time
+        print(f"{diff =}")
+        self.last_published_time = time.time()
         if _data == None:
             return
 
@@ -122,10 +126,8 @@ class Serial_comms_TX_node(Node):
         data = struct.unpack("ffffffffffff", _data[0:-1])
         self.process_odom(data[0:6])
         self.process_imu(data[6:])
-        now = time.time()
-        diff =  now - self.last_published_time
-        print(f"{diff =}")
-        self.last_published_time = now
+
+        
             
     '''
     data:[pos_x, pose_y, theta, vel_x, vel_y, vel_z]
@@ -174,7 +176,7 @@ class Serial_comms_TX_node(Node):
         qw, qx, qy, qz = self.rollpitchyaw_to_quaternion(0.0, 0.0, data[0])
         #  Assign header values to the imu_msg
         imu_msg.header.stamp=self.get_clock().now().to_msg()
-        imu_msg.header.frame_id="imu_link"
+        imu_msg.header.frame_id="base_link"
 
         # Assign actuall values to the imu_msg
         imu_msg.orientation.w = qw
