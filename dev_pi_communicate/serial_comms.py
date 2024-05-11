@@ -17,29 +17,28 @@ class serial_comms:
         self.serial.write(data)
         self.serial.reset_output_buffer()
         
-    
     def read_data(self):  
-        if self.serial.in_waiting < self.rx_data_size:
-            return 
         if not self.start_byte_found:
-            byte = self.serial.read(1)
-            if int.from_bytes(byte, 'big') == START_BYTE:
+            if self.serial.in_waiting >= 1:
+                byte = self.serial.read(1)
+                if int.from_bytes(byte, 'big') == START_BYTE:
                     self.start_byte_found=True
         else :
-            self.start_byte_found = False
-            data_str = self.serial.read(self.rx_data_size-1)
-            if self.hash_func == "CRC":
-                hash = self.calc_crc(data_str)
-            elif self.hash_func == "CSUM":
-                hash = self.calc_checksum(data_str)
+            if self.serial.in_waiting >= self.rx_data_size-1:
+                self.start_byte_found = False
+                data_str = self.serial.read(self.rx_data_size-1)
+                if self.hash_func == "CRC":
+                    hash = self.calc_crc(data_str)
+                elif self.hash_func == "CSUM":
+                    hash = self.calc_checksum(data_str)
 
-            if hash == data_str[-1]:
-                self.serial.reset_input_buffer()
-                self.hash_not_matched_count = 0
-                return data_str
-            self.hash_not_matched_count += 1
-            print(f"data not matched,count: {self.hash_not_matched_count}")
-            return
+                if hash == data_str[-1]:
+                    self.serial.reset_input_buffer()
+                    self.hash_not_matched_count = 0
+                    return data_str
+                self.hash_not_matched_count += 1
+                print(f"data not matched,count: {self.hash_not_matched_count}")
+                return
     
     def close(self):
         self.serial.close()
