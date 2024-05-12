@@ -1,0 +1,15 @@
+landmark_pose_estimation_node:
+  silo_1: 1
+  silo_1_landmark: [-3.50, -2.5]
+
+  silo_2: 2
+  silo_2_landmark: [-3.50, -2.5]
+
+  silo_3: 3  
+  silo_3_landmark: 3
+
+  silo_4: 4
+  silo_4_landmark: 4
+
+  silo_5: 5
+  silo_5_landmark: 5
