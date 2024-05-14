@@ -57,7 +57,7 @@ class Serial_comms_TX_node(Node):
         self.timer2 = self.create_timer(0.05, self.Send_Data_CallBack)
 
         # self.ballStatus = self.create_publisher(UInt8, 'Ball_status', 10)
-        self.odom_publisher_ = self.create_publisher(Odometry, 'freewheel/odom', 10)
+        self.odom_publisher_ = self.create_publisher(Odometry, 'odometry/filtered', 10)
         self.imu_publisher = self.create_publisher(Imu, 'imu/odom', 10)
         self.timer1 = self.create_timer(0.015, self.serial_read_callback)
 
@@ -115,10 +115,10 @@ class Serial_comms_TX_node(Node):
 
     def serial_read_callback(self):
         _data = self.serial_port.read_data()
-        now = time.time()
-        diff =  now - self.last_published_time
-        print(f"{diff =}")
-        self.last_published_time = time.time()
+        # now = time.time()
+        # diff =  now - self.last_published_time
+        # print(f"{diff =}")
+        # self.last_published_time = time.time()
         if _data == None:
             return
 
@@ -166,7 +166,7 @@ class Serial_comms_TX_node(Node):
                                         0.0, 0.0, 0.0, 0.0, 1.0, 0.0,
                                         0.0, 0.0, 0.0, 0.0, 0.0, 0.04]
         self.odom_publisher_.publish(odom_msg)
-        # print(f"pos_x:{data[0]}, pos_y:{data[1]}, yaw:{data[2]}")
+        print(f"pos_x:{data[0]}, pos_y:{data[1]}, yaw:{data[2]}")
 
     '''
     data: [yaw, pitch, roll, accel_x, accel_y,accel-z]

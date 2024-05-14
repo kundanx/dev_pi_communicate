@@ -6,6 +6,7 @@ from std_msgs.msg import Bool
 from geometry_msgs.msg import PoseStamped
 from std_msgs.msg import Float32MultiArray
 from std_msgs.msg import UInt8MultiArray
+from std_msgs.msg import UInt8
 from nav_msgs.msg import Odometry
 
 from nav_msgs.msg import Odometry
@@ -25,8 +26,10 @@ class publisher(Node):
         self.cmd_pub = self.create_publisher(PoseStamped,"/ball_pose_topic", 10)
         self.flag_pub = self.create_publisher(Bool,"/is_ball_tracked", 10)
         self.odom_publisher_ = self.create_publisher(Odometry, 'odometry/filtered', 10)
+        self.silo_num_publisher_ = self.create_publisher(UInt8, 'silo_number', 10)
 
-        self.create_timer(0.05, self.send_ball_pose)
+
+        self.create_timer(0.03, self.send_ball_pose)
         self.get_logger().info("Publishing command...")
 
     def send_ball_pose(self):
@@ -45,16 +48,20 @@ class publisher(Node):
 
         self.flag = Bool()
         self.flag.data = True
+        
+        silo_num = UInt8()
+        silo_num.data = 2
+        self.silo_num_publisher_.publish(silo_num)
 
-        self.cmd_pub.publish(self.data)
-        self.flag_pub.publish(self.flag)
+    #  self.cmd_pub.publish(self.data)
+        # self.flag_pub.publish(self.flag)
 
         # data1 = UInt8MultiArray()
         # data1.data =[50, 50,0]
         # self.act_vel_pub.publish(data1)
 
-        self.get_logger().info(str(self.data.pose.position.x))
-        self.get_logger().info(str(self.flag.data))
+        # self.get_logger().info(str(self.data.pose.position.x))
+        self.get_logger().info(str(silo_num.data))
     
     def send_cmd_act_vel(self):
         data1 = UInt8MultiArray()
