@@ -181,14 +181,14 @@ controller_server:
 
     # MPPI controller
     FollowPath:
-    # plugin: "nav2_mppi_controller::MPPIController"
-      plugin: "nav2_rotation_shim_controller::RotationShimController"
-      primary_controller: "nav2_mppi_controller::MPPIController"
-      angular_dist_threshold: 0.5
-      forward_sampling_distance: 1.0
-      rotate_to_heading_angular_vel: 2.0
-      max_angular_accel: 1.5
-      simulate_ahead_time: 1.0
+      plugin: "nav2_mppi_controller::MPPIController"
+      # plugin: "nav2_rotation_shim_controller::RotationShimController"
+      # primary_controller: "nav2_mppi_controller::MPPIController"
+      # angular_dist_threshold: 0.5
+      # forward_sampling_distance: 1.0
+      # rotate_to_heading_angular_vel: 2.0
+      # max_angular_accel: 1.5
+      # simulate_ahead_time: 1.0
      
       time_steps: 56
       model_dt: 0.04
