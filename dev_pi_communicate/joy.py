@@ -1,7 +1,6 @@
 #! /usr/bin/env python3
 
-# from dev_pi_communicate.crc8 import crc8
-import struct
+from geometry_msgs.msg import Twist
 
 from dev_pi_communicate.crc8 import crc8
 START_BYTE= 0b10100101
@@ -114,5 +113,15 @@ class packet_to_send_joy():
         self.byte[6] = int(joy_bt.axis_left_UD)
         self.byte[7] = int(joy_bt.axis_right_LR)
         self.byte[8] = int(joy_bt.axis_right_UD)
+
+class packet_to_send__vel():
+    def __init__(self):
+        self.byte =[0]*14
+    def create_packet(self, data:Twist):
+        self.byte[0]= START_BYTE
+        self.byte[1]=data.linear.x
+        self.byte[2]=data.linear.y
+        self.byte[3]=data.linear.z
+
 
 

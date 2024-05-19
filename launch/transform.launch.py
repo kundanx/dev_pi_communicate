@@ -13,6 +13,11 @@ def generate_launch_description():
         executable='baseLink_laserFrame_tf',
         output= 'screen'
     )
+    baseLink_imuLink_tf= Node(
+        package='dev_pi_communicate',
+        executable='baseLink_imuLink_tf',
+        output= 'screen'
+    )
     # Odom_Frame to Base_Footprint transformation
     odom_baseLink_tf= Node(
         package='dev_pi_communicate',
@@ -25,9 +30,16 @@ def generate_launch_description():
         executable='map_baseLink_tf',
         output='screen'
     )
+    map_odom_tf= Node(
+        package='dev_pi_communicate',
+        executable='map_odom_tf',
+        output='screen'
+    )
 
     return LaunchDescription([
         baseLink_laserFrame_tf,
+        baseLink_imuLink_tf,
         odom_baseLink_tf,
-        map_baseLink_tf
+        map_baseLink_tf,
+        map_odom_tf
     ])

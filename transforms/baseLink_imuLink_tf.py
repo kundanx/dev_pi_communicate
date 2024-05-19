@@ -38,7 +38,7 @@ def quaternion_from_euler(ai, aj, ak):
 class StaticFramePublisher(Node):
   
     def __init__(self, transformation):
-        super().__init__('baseLink_laser_tf2_broadcaster')
+        super().__init__('baseLink_imu_tf2_broadcaster')
 
         self.tf_static_broadcaster = StaticTransformBroadcaster(self)
 
@@ -50,13 +50,13 @@ class StaticFramePublisher(Node):
 
         t.header.stamp = self.get_clock().now().to_msg()
         t.header.frame_id = 'base_link'
-        t.child_frame_id = 'laser_frame'
+        t.child_frame_id = 'imu_link'
 
-        t.transform.translation.x = 0.35
-        t.transform.translation.y = 0.35
+        t.transform.translation.x = -0.1
+        t.transform.translation.y = 0.0
         t.transform.translation.z = 0.08
-
-        quat = quaternion_from_euler( 0.0 ,0.0, -0.72553337 ) # [180, 0, -41.57,-0.72553337]
+        quat = quaternion_from_euler( 0.0 ,0.0, 0.0 ) # [180, 0, -41.57,-0.72553337]
+        t.transform.rotation.x = quat[0]
         t.transform.rotation.y = quat[1]
         t.transform.rotation.z = quat[2]
         t.transform.rotation.w = quat[3]

@@ -88,48 +88,32 @@ class map_base_tf(Node):
             '/odometry/filtered',
             self.handle_map,
             1)
-        self.get_logger().info(str("map to baseLink transform ready."))
-        
+        self.get_logger().info(str("map to odom transform ready."))
         self.subscription  # prevent unused variable warning
 
     def handle_map(self, msg:Odometry):
-        # self.get_logger().info(str("map to baseLink transform published."))
-
         t = TransformStamped()
 
         # Read message content and assign it to
         # corresponding tf variables
         t.header.stamp = self.get_clock().now().to_msg()
         t.header.frame_id = 'map'
-        t.child_frame_id = 'base_link'
+        t.child_frame_id = 'odom'
 
         # RObot moves only in 2D, thus we get x and y translation
         # coordinates from the message and set the z coordinate to 0
-        t.transform.translation.x = msg.pose.pose.position.x
-        t.transform.translation.y = msg.pose.pose.position.y
+        t.transform.translation.x = 0.0
+        t.transform.translation.y = 0.0
         t.transform.translation.z = 0.0
 
         # For the same reason, robot can only rotate around one axis
         # and this why we set rotation in x and y to 0 and obtain
         # rotation in z axis from the message
 
-        t.transform.rotation.x = msg.pose.pose.orientation.x
-        t.transform.rotation.y = msg.pose.pose.orientation.y
-        t.transform.rotation.z = msg.pose.pose.orientation.z
-        t.transform.rotation.w = msg.pose.pose.orientation.w
-
-        # ypr = quaternion_to_yawpitchroll(msg.pose.pose.orientation.w,
-        #                                  msg.pose.pose.orientation.x,
-        #                                  msg.pose.pose.orientation.y,
-        #                                  msg.pose.pose.orientation.z)
-        
-        # q = quaternion_from_euler(ypr[2], ypr[1]+3.14, ypr[0])
-
-        # t.transform.rotation.x = q[0]
-        # t.transform.rotation.y = q[1]
-        # t.transform.rotation.z = q[2]
-        # t.transform.rotation.w = q[3]
-        
+        t.transform.rotation.x = 0.0
+        t.transform.rotation.y = 0.0
+        t.transform.rotation.z = 0.0
+        t.transform.rotation.w = 1.0
         
         # Send the transformation
         self.tf_broadcaster.sendTransform(t)
