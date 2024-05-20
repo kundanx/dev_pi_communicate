@@ -36,11 +36,11 @@ setup(
             'serial_bluepill = scripts.serial_bluepill:main',
            
             'landmark_pose_estimation_node = scripts.landmark_pose_estimation_node:main',
-            'ds4_uart_node = scripts.ds4_uart_node:main',
+            'tfmini_uart_node = scripts.tf_mini_uart_node:main',
             'imu_uart_node = scripts.imu_uart_node:main',
 
             'ds4_node= scripts.ds4_node:main',
-            'nav2_cmd_vel= scripts.nav2_cmd_vel:main',
+            'cmdVel_to_serialBridge= scripts.cmdVel_to_serialBridge_node:main',
             'camera_node = scripts.camera_node:main',
             
             'odom_baseLink_tf = transforms.odom_baseLink_tf:main',
