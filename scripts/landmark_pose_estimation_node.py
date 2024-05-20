@@ -6,9 +6,9 @@ This node subscribes to /silo_number{published by apil} and /junction_type{publi
 This node publishes 2D Pose whenever T_junction is detected.
 2D pose is determined on the basis of which silo is the robot is navigating to.
 '''
+import os
 import rclpy
 import yaml
-import struct
 
 from math import sin, cos
 from rclpy.node import Node 
@@ -25,6 +25,10 @@ CROSS_JUNCTION = 3
 T_JUNCTION = 4
 RIGHT_T_JUNCTION = 5
 LEFT_T_JUNCTION = 6
+X_HORIZONTAL_LINE = 7
+Y_VERTICAL_LINE = 8
+L_JUNCTION = 9
+MIRROR_L_JUNCTIO = 10
 '''----------------------------------------------'''
 
 class landmarkPoseEstimation(Node):
@@ -35,11 +39,12 @@ class landmarkPoseEstimation(Node):
         
         self.siloNum_subs = self.create_subscription( UInt8,"silo_number", self.siloNum_subscriber_callback,10 )   
         self.junctionType_subs = self.create_subscription( UInt8,"junction_type", self.junctionType_subscriber_callback,10 ) 
-        self.pose2D_pub = self.create_publisher(PoseWithCovarianceStamped, 'virtualSource/odom', 10)
+        self.pose2D_pub = self.create_publisher(PoseWithCovarianceStamped, 'landmark/pose', 10)
          
-        self.silo_number = UInt8()
+        self.silo_number :UInt8 = 0
         self.pose2D = [0]*2
         self.seq_id = 1
+        self.landMark_detected :bool = False
         ''' Read YAML file '''
         file_path = os.path.join(os.path.dirname(__file__), '..', 'config/landmark_locations.yaml')
         with open(file_path, 'r') as stream:
@@ -53,22 +58,66 @@ class landmarkPoseEstimation(Node):
     def junctionType_subscriber_callback(self, msg:UInt8) -> None:
         if msg.data == T_JUNCTION:
             if self.silo_number == 1:
-                self.pose2D = self.data_loaded['landmark_pose_estimation_node']['silo_1_landmark']
+                self.pose2D = self.data_loaded['landmark_pose_estimation_node']['silo_1_TJunction']
+                self.get_logger().info("sil0 1 T found")
+    
             elif self.silo_number == 2:
-                self.pose2D = self.data_loaded['landmark_pose_estimation_node']['silo_2_landmark']
+                self.pose2D = self.data_loaded['landmark_pose_estimation_node']['silo_2_TJunction']
+                self.get_logger().info("silo 2 T found")
             elif self.silo_number == 3:
-                self.pose2D = self.data_loaded['landmark_pose_estimation_node']['silo_3_landmark']
+                self.pose2D = self.data_loaded['landmark_pose_estimation_node']['silo_3_TJunction']
+                self.get_logger().info("silo 3 T found")
+
             elif self.silo_number == 4:
-                self.pose2D = self.data_loaded['landmark_pose_estimation_node']['silo_4_landmark']
-            elif self.silo_number == 5:
-                self.pose2D = self.data_loaded['landmark_pose_estimation_node']['silo_5_landmark']
-            
-            if self.silo_number != 0:
-                self.silo_number = 0
+                self.pose2D = self.data_loaded['landmark_pose_estimation_node']['silo_4_TJunction']
+                self.get_logger().info("silo 4 T found")
+    
+            # if self.silo_number != 0:
+            #     self.silo_number = 0
+            self.landMark_detected = True
+
+        elif msg.data == CROSS_JUNCTION:
+            self.pose2D = self.data_loaded['landmark_pose_estimation_node']['cross_junction']
+            self.get_logger().info("Cross Junc found")
+            self.landMark_detected = True
+        elif msg.data == L_JUNCTION or msg.data == RIGHT_TURN:
+            if self.silo_number == 5:
+                self.pose2D = self.data_loaded['landmark_pose_estimation_node']['silo_5_RJunction']
+                self.get_logger().info("silo 5 T found")
+                self.landMark_detected = True
+        elif msg.data == X_HORIZONTAL_LINE:
+            self.pose2D = self.data_loaded['landmark_pose_estimation_node']['x_horizontal_line']
+            self.landMark_detected = False
+            pose_msg = PoseWithCovarianceStamped()
+            ''' Set header '''
+            pose_msg.header.stamp = self.get_clock().now().to_msg()
+            pose_msg.header.frame_id = 'map'
+            ''' Set data '''
+            pose_msg.pose.pose.position.x = self.pose2D[0]
+            pose_msg.pose.pose.position.y = self.pose2D[1]
+            pose_msg.pose.pose.position.z = 0.0
+
+            pose_msg.pose.pose.orientation.x = 0.0
+            pose_msg.pose.pose.orientation.y = 0.0
+            pose_msg.pose.pose.orientation.z = 0.0
+            pose_msg.pose.pose.orientation.w = 1.0
+
+            pose_msg.pose.covariance = [1e-9, 0.0, 0.0, 0.0, 0.0, 0.0,
+                                        0.0, 1e9, 0.0, 0.0, 0.0, 0.0,
+                                        0.0, 0.0, 1000.0, 0.0, 0.0, 0.0,
+                                        0.0, 0.0, 0.0, 1000.0, 0.0, 0.0,
+                                        0.0, 0.0, 0.0, 0.0,1000.0, 0.0,
+                                        0.0, 0.0, 0.0, 0.0, 0.0, 1000.0]
+            self.pose2D_pub.publish(pose_msg)
+            self.get_logger().info("X_horizontal line found")
+
+
+        if self.landMark_detected :
+                self.landMark_detected = False
                 pose_msg = PoseWithCovarianceStamped()
                 ''' Set header '''
                 pose_msg.header.stamp = self.get_clock().now().to_msg()
-                pose_msg.header.frame_id = 'base_link'
+                pose_msg.header.frame_id = 'map'
                 ''' Set data '''
                 pose_msg.pose.pose.position.x = self.pose2D[0]
                 pose_msg.pose.pose.position.y = self.pose2D[1]
@@ -79,13 +128,14 @@ class landmarkPoseEstimation(Node):
                 pose_msg.pose.pose.orientation.z = 0.0
                 pose_msg.pose.pose.orientation.w = 1.0
 
-                pose_msg.pose.covariance = [0.01, 0.0, 0.0, 0.0, 0.0, 0.0,
-                                            0.0, 0.01, 0.0, 0.0, 0.0, 0.0,
-                                            0.0, 0.0, 1.0, 0.0, 0.0, 0.0,
-                                            0.0, 0.0, 0.0, 1.0, 0.0, 0.0,
-                                            0.0, 0.0, 0.0, 0.0, 1.0, 0.0,
-                                            0.0, 0.0, 0.0, 0.0, 0.0, 0.030461]
+                pose_msg.pose.covariance = [1e-9, 0.0, 0.0, 0.0, 0.0, 0.0,
+                                            0.0, 1e-9, 0.0, 0.0, 0.0, 0.0,
+                                            0.0, 0.0, 0.001, 0.0, 0.0, 0.0,
+                                            0.0, 0.0, 0.0, 0.01, 0.0, 0.0,
+                                            0.0, 0.0, 0.0, 0.0, 0.001, 0.0,
+                                            0.0, 0.0, 0.0, 0.0, 0.0, 0.001]
                 self.pose2D_pub.publish(pose_msg)
+
     
 def main(args=None):
     rclpy.init()
