@@ -85,9 +85,9 @@ def generate_launch_description():
         output='screen'
     )
 
-    cmdVel_to_serialBridge_node=Node(
+    cmdVel_to_serialBridge=Node(
         package='dev_pi_communicate',
-        executable='cmdVel_to_serialBridge_node',
+        executable='cmdVel_to_serialBridge',
         output='screen'
     )
 
@@ -104,6 +104,6 @@ def generate_launch_description():
         # ds4_node,
         ekf_pkg,
         # tf,
-        cmdVel_to_serialBridge_node
+        cmdVel_to_serialBridge
 
     ])
