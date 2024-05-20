@@ -30,6 +30,7 @@ def generate_launch_description():
     ekf_pkg=IncludeLaunchDescription(
         PythonLaunchDescriptionSource([ekf_pkg_path])
     )
+    
 
     # rplidar=Node(
     #     package='rplidar_ros',
@@ -53,18 +54,16 @@ def generate_launch_description():
         executable='serial_bridge',
         output='screen'
     )
-
-    # serial comms to read from bluepill
-    serial_rx_node= Node(
+     # serial bridge node
+    serial_bluepill= Node(
         package='dev_pi_communicate',
-        executable='serial_rx_node',
+        executable='serial_bluepill',
         output='screen'
     )
-
-    # serial comms to write to STM32 
-    serial_tx_node= Node(
+     # serial bridge node
+    landmark_pose_estimation_node= Node(
         package='dev_pi_communicate',
-        executable='serial_tx_node',
+        executable='landmark_pose_estimation_node',
         output='screen'
     )
 
@@ -97,12 +96,14 @@ def generate_launch_description():
         # laser_filter,
         # imu_uart_node,
         serial_bridge,
+        # serial_bluepill,
+        landmark_pose_estimation_node,
         # serial_rx_node,
         # serial_tx_node,
         # ds4_uart_node,
         # ds4_node,
-        # ekf_pkg,
-        tf,
+        ekf_pkg,
+        # tf,
         nav2_cmd_vel_node
 
     ])

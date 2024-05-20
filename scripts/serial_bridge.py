@@ -27,7 +27,7 @@ from dev_pi_communicate.crc8 import crc8
 from dev_pi_communicate.serial_comms import serial_comms
 
 START_BYTE= 0b10100101
-RECIEVE_SIZE = 1+24+1
+RECIEVE_SIZE = 1+24+24+1
 TRANSMIT_SIZE = 1+15+1
 serial_baudrate = 115200
 serial_port_address_FTDI='/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A50285BI-if00-port0'
@@ -39,7 +39,7 @@ class Serial_comms_TX_node(Node):
     def __init__(self):
 
         super().__init__("serial_bridge")
-        self.serial_port = serial_comms(serial_port_address_bluepill, serial_baudrate, RECIEVE_SIZE, TRANSMIT_SIZE, "CRC")
+        self.serial_port = serial_comms(serial_port_address_black, serial_baudrate, RECIEVE_SIZE, TRANSMIT_SIZE, "CRC")
         
         # cmd_vel_sub = message_filters.Subscriber(self, Float32MultiArray, "cmd_robot_vel", qos_profile=10)
         # act_vel_sub = message_filters.Subscriber(self, UInt8MultiArray, "act_vel",qos_profile= 10)
@@ -58,7 +58,8 @@ class Serial_comms_TX_node(Node):
         self.timer2 = self.create_timer(0.05, self.Send_Data_CallBack)
 
         # self.ballStatus = self.create_publisher(UInt8, 'Ball_status', 10)
-        self.odom_publisher_ = self.create_publisher(Odometry, 'freewheel/odom', 10)
+        self.local_odom_publisher_ = self.create_publisher(Odometry, 'freewheel/local', 10)
+        self.global_odom_publisher_ = self.create_publisher(Odometry, 'freewheel/global', 10)
         self.imu_publisher = self.create_publisher(Imu, 'imu/odom', 10)
         self.timer1 = self.create_timer(0.03, self.serial_read_callback)
 
@@ -115,11 +116,11 @@ class Serial_comms_TX_node(Node):
         _data = self.serial_port.read_data()
         if _data is not None:
             '''data = [x, y, theta, vx, vy, omega, imu_data[6]]'''
-            data = struct.unpack("ffffff", _data[0:-1])
+            data = struct.unpack("ffffffffffff", _data[0:-1])
             self.rx_data = data
 
         self.process_odom(self.rx_data[0:6])
-        # self.process_imu(self.rx_data[6:])
+        self.process_imu(self.rx_data[6:])
         now = time.time()
         diff =  now - self.last_published_time
         # print(f"{diff =}")
@@ -161,9 +162,14 @@ class Serial_comms_TX_node(Node):
                                         0.0, 0.0, 1.0, 0.0, 0.0, 0.0,
                                         0.0, 0.0, 0.0, 1.0, 0.0, 0.0,
                                         0.0, 0.0, 0.0, 0.0, 1.0, 0.0,
-                                        0.0, 0.0, 0.0, 0.0, 0.0, 0.04]
-        self.odom_publisher_.publish(odom_msg)
-        print(f"pos_x:{data[0]}, pos_y:{data[1]}, yaw:{data[2]}")
+                                        0.0, 0.0, 0.0, 0.0, 0.0, 0.01]
+        self.local_odom_publisher_.publish(odom_msg)
+        odom_msg.header.frame_id = 'map'
+        self.global_odom_publisher_.publish(odom_msg)
+
+
+
+        # print(f"pos_x:{data[0]}, pos_y:{data[1]}, yaw:{data[2]}")
 
     '''
     data: [yaw, pitch, roll, accel_x, accel_y,accel-z]

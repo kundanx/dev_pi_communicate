@@ -14,7 +14,7 @@ from std_msgs.msg import Float64MultiArray
 
 class nav2_cmd_vel(Node):
     def __init__(self):
-        super().__init__("cmd_vel_subscriber")
+        super().__init__("nav2_cmd_vel")
         self.subscriber_node = self.create_subscription(
             Twist,
             "cmd_vel",

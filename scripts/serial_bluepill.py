@@ -41,7 +41,7 @@ class Serial_bluepill_comms(Node):
         self.serial_port = serial_comms(serial_port_bluepill, serial_baudrate, RECIEVE_SIZE, TRANSMIT_SIZE,"CRC")
         
         self.ballStatus = self.create_publisher(UInt8, 'Ball_status', 10)
-        self.timer1 = self.create_timer(0.025, self.serial_read_callback)
+        self.timer1 = self.create_timer(0.015, self.serial_read_callback)
         self.ball_stat = UInt8()
 
         self.get_logger().info("Serial bluepill ready...")
@@ -61,7 +61,7 @@ class Serial_bluepill_comms(Node):
                 self.ball_stat.data = 3
             else :  
                self.ball_stat.data = 0
-            print(f"{self.ball_stat.data =}")
+        #    print(f"{self.ball_stat.data =}")
             self.ballStatus.publish(self.ball_stat)
            
     def calculate_checksum(self , data = []):

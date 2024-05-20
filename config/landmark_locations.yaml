@@ -1,15 +1,21 @@
 landmark_pose_estimation_node:
-  silo_1: 1
-  silo_1_landmark: [-3.50, -2.5]
+  silo_1_YLine: [-3.0, -1.5]
+  silo_1_TJunction: [-2.75, -1.5]
 
-  silo_2: 2
-  silo_2_landmark: [-3.50, -2.5]
+  silo_2_YLine: [-3.0, -0.75]
+  silo_2_TJunction: [-2.75, -0.75]
 
-  silo_3: 3  
-  silo_3_landmark: 3
+  silo_3_YLine: [-3.0, 0.0]  
+  silo_3_TJunction: [-2.75, 0.0]
 
-  silo_4: 4
-  silo_4_landmark: 4
+  silo_4_YLine: [-3.0, 0.75]
+  silo_4_TJunction: [-2.75, 0.75]
 
-  silo_5: 5
-  silo_5_landmark: 5
+  silo_5_YLine: [-3.0, 1.50]
+  silo_5_RJunction: [-2.75, 1.50]
+
+  cross_junction: [-2.75, 0.0]
+
+  x_horizontal_line: [-2.75, 0.0]
+  y_vertical_line: [2.0, 0.0]
+

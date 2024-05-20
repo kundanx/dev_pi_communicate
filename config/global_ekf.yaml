@@ -108,7 +108,7 @@ ekf_filter_node:
 # data is converted to velocity data by differentiating the absolute pose measurements. These velocities are then
 # integrated as usual. NOTE: this only applies to sensors that provide pose measurements; setting differential to true
 # for twist measurements has no effect.
-        odom0_differential: false
+        odom0_differential: true
 
 # [ADVANCED] When the node starts, if this parameter is true, then the first measurement is treated as a "zero point"
 # for all future measurements. While you can achieve the same effect with the differential paremeter, the key
@@ -122,7 +122,7 @@ ekf_filter_node:
 # required. Data is specified at the level of pose and twist variables, rather than for each variable in isolation.
 # For messages that have both pose and twist data, the parameter specifies to which part of the message we are applying
 # the thresholds.
-        odom0_pose_rejection_threshold: 5.0
+        odom0_pose_rejection_threshold: 10000.0
         odom0_twist_rejection_threshold: 1.0
 
 # # Further input parameter examples
@@ -144,10 +144,10 @@ ekf_filter_node:
                        false, false, false,
                        false, false, false,
                        false, false, false]
-        pose0_differential: true
+        pose0_differential: false
         pose0_relative: false
         pose0_queue_size: 5
-        pose0_rejection_threshold: 2.0  # Note the difference in parameter name
+        pose0_rejection_threshold: 10000.0  # Note the difference in parameter name
         pose0_nodelay: false
 
 #         twist0: example/twist
@@ -162,7 +162,7 @@ ekf_filter_node:
 
         imu0: imu/odom
         imu0_config: [false, false, false,      # x, y, z
-                      false,  false,  false,    # roll, pitch, yaw
+                      false,  false,  true,    # roll, pitch, yaw
                       false, false, false,      # vx, vy, vz
                       false, false, false,      # vroll, vpitch, vyaw     
                       true, true,  false]       # ax, ay, az

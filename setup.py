@@ -25,6 +25,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+
+            'set_pose_serviceClient = scripts.set_pose_serviceClient:main',
             
             'publisher_node = scripts.publisher:main',
             'subscriber_node = scripts.subscriber:main',
@@ -32,11 +34,10 @@ setup(
 
             'serial_bridge = scripts.serial_bridge:main',
             'serial_bluepill = scripts.serial_bluepill:main',
-            'serial_rx_node = scripts.serial_rx_node:main',
-            'serial_tx_node = scripts.serial_tx_node:main',
+           
+            'landmark_pose_estimation_node = scripts.landmark_pose_estimation_node:main',
             'ds4_uart_node = scripts.ds4_uart_node:main',
             'imu_uart_node = scripts.imu_uart_node:main',
-            'imu_uart_direct = scripts.imu_uart_direct:main',
 
             'ds4_node= scripts.ds4_node:main',
             'nav2_cmd_vel= scripts.nav2_cmd_vel:main',

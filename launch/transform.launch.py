@@ -40,6 +40,6 @@ def generate_launch_description():
         baseLink_laserFrame_tf,
         baseLink_imuLink_tf,
         odom_baseLink_tf,
-        map_baseLink_tf,
-        map_odom_tf
+        # map_baseLink_tf
+        # map_odom_tf
     ])

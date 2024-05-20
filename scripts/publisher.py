@@ -3,6 +3,7 @@
 import rclpy 
 from rclpy.node import Node 
 from std_msgs.msg import Bool
+from std_msgs.msg import UInt8
 from geometry_msgs.msg import PoseStamped
 from std_msgs.msg import Float32MultiArray
 from std_msgs.msg import UInt8MultiArray
@@ -20,13 +21,17 @@ class publisher(Node):
         super().__init__("publisher_node")
         # self.data = PoseStamped()
         self.counter =0.0
-        self.cmd_vel_pub =self.create_publisher(Float32MultiArray,"cmd_robot_vel", 50)
-        self.act_vel_pub =self.create_publisher(UInt8MultiArray,"act_vel", 50)
-        self.cmd_pub = self.create_publisher(PoseStamped,"/ball_pose_topic", 10)
-        self.flag_pub = self.create_publisher(Bool,"/is_ball_tracked", 10)
+        # self.cmd_vel_pub =self.create_publisher(Float32MultiArray,"cmd_robot_vel", 50)
+        # self.act_vel_pub =self.create_publisher(UInt8MultiArray,"act_vel", 50)
+        # self.cmd_pub = self.create_publisher(PoseStamped,"/ball_pose_topic", 10)
+        # self.flag_pub = self.create_publisher(Bool,"/is_ball_tracked", 10)
         self.odom_publisher_ = self.create_publisher(Odometry, 'odometry/filtered', 10)
+        # self.junc_publisher = self.create_publisher(UInt8, 'junction_type', 10)
+        self.silo_publisher = self.create_publisher(UInt8, 'silo_number', 10)
 
-        self.create_timer(0.05, self.send_ball_pose)
+
+
+        self.create_timer(0.05, self.send_odom)
         self.get_logger().info("Publishing command...")
 
     def send_ball_pose(self):
@@ -45,13 +50,18 @@ class publisher(Node):
 
         self.flag = Bool()
         self.flag.data = True
+        
+        silo_num = UInt8()
+        silo_num.data = 2
 
-        self.cmd_pub.publish(self.data)
-        self.flag_pub.publish(self.flag)
+        junc_type = UInt8()
+        junc_type.data = 4
+        # self.junc_publisher.publish(junc_type)
 
-        # data1 = UInt8MultiArray()
-        # data1.data =[50, 50,0]
-        # self.act_vel_pub.publish(data1)
+        # self.cmd_pub.publish(self.data)
+        # self.flag_pub.publish(self.flag)
+        self.silo_publisher.publish(silo_num)
+
 
         self.get_logger().info(str(self.data.pose.position.x))
         self.get_logger().info(str(self.flag.data))
