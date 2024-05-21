@@ -32,11 +32,13 @@ class cmdVel_to_serialBridge(Node):
 
         twist_array = Float32MultiArray()
         twist_array.data = [float(msg.linear.x),float(msg.linear.y),float(msg.angular.z)]
+        print("here2")
         self.cmd_pub.publish(twist_array)
     
     def linefollow_recieve_callback(self, msg:Twist):
         twist_array = Float32MultiArray()
         twist_array.data = [float(msg.linear.x),float(msg.linear.y),float(msg.angular.z)]
+        print("here")
         self.cmd_pub.publish(twist_array)
 
 def main(args=None):

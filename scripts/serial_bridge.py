@@ -55,7 +55,7 @@ class Serial_comms_TX_node(Node):
         self.act_vel_msg = UInt8MultiArray()
         # self.act_vel_rx_flag = False
         self.act_vel_msg.data = [0,0,0]
-        self.timer2 = self.create_timer(0.05, self.Send_Data_CallBack)
+        self.timer2 = self.create_timer(0.01, self.Send_Data_CallBack)
 
         # self.ballStatus = self.create_publisher(UInt8, 'Ball_status', 10)
         self.local_odom_publisher_ = self.create_publisher(Odometry, 'freewheel/local', 10)
@@ -72,8 +72,8 @@ class Serial_comms_TX_node(Node):
     def Send_Data_CallBack(self):  
         # if not self.act_vel_rx_flag:
         #     self.act_vel_msg.data = [0,0,0]
-        if not self.cmd_vel_rx_flag:
-            self.cmd_vel_msg.data = [0.0, 0.0, 0.0]
+        # if not self.cmd_vel_rx_flag:
+        #     self.cmd_vel_msg.data = [0.0, 0.0, 0.0]
 
         DataToSend=[
             bytes(struct.pack("B",START_BYTE)),
@@ -110,7 +110,7 @@ class Serial_comms_TX_node(Node):
         self.cmd_vel_msg.data[0] = cmd_vel_msg_.data[0]
         self.cmd_vel_msg.data[1] = cmd_vel_msg_.data[1]
         self.cmd_vel_msg.data[2] = cmd_vel_msg_.data[2]
-        self.cmd_vel_rx_flag = True
+        # self.cmd_vel_rx_flag = True
 
     def serial_read_callback(self):
         _data = self.serial_port.read_data()
@@ -119,7 +119,7 @@ class Serial_comms_TX_node(Node):
             data = struct.unpack("ffffffffffff", _data[0:-1])
             self.rx_data = data
 
-        self.process_odom(self.rx_data[0:6])
+        self.process_odom(self.rx_data[0:9])
         self.process_imu(self.rx_data[6:])
         now = time.time()
         diff =  now - self.last_published_time
@@ -137,10 +137,10 @@ class Serial_comms_TX_node(Node):
         odom_msg.header.frame_id = 'odom'
         odom_msg.child_frame_id = 'base_link'
 
-        odom_msg.pose.pose.position.x = data[0]
-        odom_msg.pose.pose.position.y = data[1]
+        odom_msg.pose.pose.position.x = -data[0]
+        odom_msg.pose.pose.position.y = -data[1]
         odom_msg.pose.pose.position.z = 0.0
-        qw, qx, qy, qz = self.rollpitchyaw_to_quaternion(0.0, 0.0, data[2])
+        qw, qx, qy, qz = self.rollpitchyaw_to_quaternion(data[8], data[7], data[2])
         odom_msg.pose.pose.orientation.w = qw
         odom_msg.pose.pose.orientation.x = qx
         odom_msg.pose.pose.orientation.y = qy
@@ -167,9 +167,9 @@ class Serial_comms_TX_node(Node):
         odom_msg.header.frame_id = 'map'
         self.global_odom_publisher_.publish(odom_msg)
 
+        print(f"yaw:{data[2]*180/3.14}, pitch:{data[7]*180/3.14}, roll:{data[8]*180/3.14}")
+        # print(f"pos_x:{data[0]}, pos_y:{data[1]}, yaw:{data[2]*180/3.14}")
 
-
-        # print(f"pos_x:{data[0]}, pos_y:{data[1]}, yaw:{data[2]}")
 
     '''
     data: [yaw, pitch, roll, accel_x, accel_y,accel-z]
