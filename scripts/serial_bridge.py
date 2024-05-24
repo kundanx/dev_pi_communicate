@@ -137,8 +137,8 @@ class Serial_comms_TX_node(Node):
         odom_msg.header.frame_id = 'odom'
         odom_msg.child_frame_id = 'base_link'
 
-        odom_msg.pose.pose.position.x = -data[0]
-        odom_msg.pose.pose.position.y = -data[1]
+        odom_msg.pose.pose.position.x = data[0]
+        odom_msg.pose.pose.position.y = data[1]
         odom_msg.pose.pose.position.z = 0.0
         qw, qx, qy, qz = self.rollpitchyaw_to_quaternion(data[8], data[7], data[2])
         odom_msg.pose.pose.orientation.w = qw
