@@ -165,7 +165,7 @@ ekf_filter_node:
                       false,  false,  true,    # roll, pitch, yaw
                       false, false, false,      # vx, vy, vz
                       false, false, false,      # vroll, vpitch, vyaw     
-                      true, true,  false]       # ax, ay, az
+                      false, false,  false]       # ax, ay, az
         imu0_nodelay: false
         imu0_differential: false
         imu0_relative: false
