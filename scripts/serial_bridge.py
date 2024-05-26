@@ -46,14 +46,14 @@ class Serial_comms_TX_node(Node):
 
         # self.synchronizer = message_filters.ApproximateTimeSynchronizer((cmd_vel_sub,act_vel_sub ), 10, 0.1,allow_headerless=True)
         # self.synchronizer.registerCallback(self.Send_Data_CallBack_)
-
+        self.odom_reset_sub = self.create_subscription( UInt8,"odom_reset", self.odom_reset_callback,10 )   
         self.cmd_vel_sub = self.create_subscription( Float32MultiArray,"cmd_robot_vel", self.send_cmd_vel_data,10 )   
         self.act_vel_sub = self.create_subscription(UInt8MultiArray,"act_vel", self.send_act_vel_data,10 )
         self.cmd_vel_msg= Float32MultiArray()
         self.cmd_vel_rx_flag = False
         self.cmd_vel_msg.data = [0.0, 0.0, 0.0]
         self.act_vel_msg = UInt8MultiArray()
-        # self.act_vel_rx_flag = False
+        self.act_vel_rx_flag = False
         self.act_vel_msg.data = [0,0,0]
         self.timer2 = self.create_timer(0.01, self.Send_Data_CallBack)
 
@@ -61,19 +61,23 @@ class Serial_comms_TX_node(Node):
         self.local_odom_publisher_ = self.create_publisher(Odometry, 'freewheel/local', 10)
         self.global_odom_publisher_ = self.create_publisher(Odometry, 'freewheel/global', 10)
         self.imu_publisher = self.create_publisher(Imu, 'imu/odom', 10)
-        self.timer1 = self.create_timer(0.03, self.serial_read_callback)
+        self.timer1 = self.create_timer(0.001, self.serial_read_callback)
 
         self.rx_data = [0.0]*24
+        self.x_offset = 0.0
+        self.y_offset = 0.0
+        self.yaw_offset = 0.0
+
         self.last_transmit_time = time.time()
         self.last_published_time = time.time()
         self.get_logger().info("Serial bridge ready...")
     
     # Joystick read callback function
     def Send_Data_CallBack(self):  
-        # if not self.act_vel_rx_flag:
-        #     self.act_vel_msg.data = [0,0,0]
-        # if not self.cmd_vel_rx_flag:
-        #     self.cmd_vel_msg.data = [0.0, 0.0, 0.0]
+        if not self.act_vel_rx_flag:
+            self.act_vel_msg.data = [0,0,0]
+        if not self.cmd_vel_rx_flag:
+            self.cmd_vel_msg.data = [0.0, 0.0, 0.0]
 
         DataToSend=[
             bytes(struct.pack("B",START_BYTE)),
@@ -99,18 +103,17 @@ class Serial_comms_TX_node(Node):
         self.cmd_vel_rx_flag = False
         self.act_vel_rx_flag = False
 
-
     def send_act_vel_data(self, act_vel_msg_:UInt8MultiArray):
         self.act_vel_msg.data[0] = act_vel_msg_.data[0]
         self.act_vel_msg.data[1] = act_vel_msg_.data[1]
         self.act_vel_msg.data[2] = act_vel_msg_.data[2]
-        # self.act_vel_rx_flag = True
+        self.act_vel_rx_flag = True
         
     def send_cmd_vel_data(self, cmd_vel_msg_:Float32MultiArray):
         self.cmd_vel_msg.data[0] = cmd_vel_msg_.data[0]
         self.cmd_vel_msg.data[1] = cmd_vel_msg_.data[1]
         self.cmd_vel_msg.data[2] = cmd_vel_msg_.data[2]
-        # self.cmd_vel_rx_flag = True
+        self.cmd_vel_rx_flag = True
 
     def serial_read_callback(self):
         _data = self.serial_port.read_data()
@@ -119,14 +122,13 @@ class Serial_comms_TX_node(Node):
             data = struct.unpack("ffffffffffff", _data[0:-1])
             self.rx_data = data
 
-        self.process_odom(self.rx_data[0:9])
-        self.process_imu(self.rx_data[6:])
-        now = time.time()
-        diff =  now - self.last_published_time
-        # print(f"{diff =}")
-        self.last_published_time = time.time()
+            self.process_odom(self.rx_data[0:9])
+            self.process_imu(self.rx_data[6:])
+            now = time.time()
+            diff =  now - self.last_published_time
+            # print(f"{diff =}")
+            self.last_published_time = time.time()
        
-     
     '''
     data:[pos_x, pose_y, theta, vel_x, vel_y, vel_z]
     '''
@@ -137,10 +139,10 @@ class Serial_comms_TX_node(Node):
         odom_msg.header.frame_id = 'odom'
         odom_msg.child_frame_id = 'base_link'
 
-        odom_msg.pose.pose.position.x = data[0]
-        odom_msg.pose.pose.position.y = data[1]
+        odom_msg.pose.pose.position.x = data[0] - self.x_offset
+        odom_msg.pose.pose.position.y = data[1] - self.y_offset
         odom_msg.pose.pose.position.z = 0.0
-        qw, qx, qy, qz = self.rollpitchyaw_to_quaternion(data[8], data[7], data[2])
+        qw, qx, qy, qz = self.rollpitchyaw_to_quaternion(data[8], data[7], data[2] - self.yaw_offset)
         odom_msg.pose.pose.orientation.w = qw
         odom_msg.pose.pose.orientation.x = qx
         odom_msg.pose.pose.orientation.y = qy
@@ -166,17 +168,17 @@ class Serial_comms_TX_node(Node):
         self.local_odom_publisher_.publish(odom_msg)
         odom_msg.header.frame_id = 'map'
         self.global_odom_publisher_.publish(odom_msg)
+        # print(f"yaw:{data[2]*180/3.14}")
 
-        print(f"yaw:{data[2]*180/3.14}, pitch:{data[7]*180/3.14}, roll:{data[8]*180/3.14}")
-        # print(f"pos_x:{data[0]}, pos_y:{data[1]}, yaw:{data[2]*180/3.14}")
-
+        # print(f"yaw:{data[2]*180/3.14}, pitch:{data[7]*180/3.14}, roll:{data[8]*180/3.14}")
+        print(f"pos_x:{data[0]}, pos_y:{data[1]}, yaw:{data[2]*180/3.14}")
 
     '''
     data: [yaw, pitch, roll, accel_x, accel_y,accel-z]
     '''
     def process_imu(self,data):
         imu_msg = Imu()    
-        qw, qx, qy, qz = self.rollpitchyaw_to_quaternion(0.0, 0.0, data[0])
+        qw, qx, qy, qz = self.rollpitchyaw_to_quaternion(0.0, 0.0, data[0]- self.yaw_offset)
         #  Assign header values to the imu_msg
         imu_msg.header.stamp=self.get_clock().now().to_msg()
         imu_msg.header.frame_id="base_link"
@@ -227,8 +229,14 @@ class Serial_comms_TX_node(Node):
         self.imu_publisher.publish(imu_msg)
         # print(f"{data[0]=},{data[1]=}, {data[5]=}")
 
-
-
+    def odom_reset_callback(self, msg:UInt8):
+        if( msg.data == 0xA5):
+            self.x_offset = self.rx_data[0]
+            self.y_offset = self.rx_data[1]
+            deg =   math.pi / 2
+            self.yaw_offset = deg
+            self.get_logger().info("Odom reset done...")
+            
 
     def calculate_checksum(self , data = []):
         digest = int()
