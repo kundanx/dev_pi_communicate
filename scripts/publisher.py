@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 import rclpy 
+from rclpy.qos import QoSReliabilityPolicy, QoSProfile
+
 from rclpy.node import Node 
 from std_msgs.msg import Bool
 from std_msgs.msg import UInt8
@@ -19,27 +21,38 @@ class publisher(Node):
     def __init__(self):
         
         super().__init__("publisher_node")
+
+        qos_profile = QoSProfile(depth= 10)
+        qos_profile.reliability = QoSReliabilityPolicy.BEST_EFFORT
+        
         # self.data = PoseStamped()
         self.counter =0.0
         # self.cmd_vel_pub =self.create_publisher(Float32MultiArray,"cmd_robot_vel", 50)
         # self.act_vel_pub =self.create_publisher(UInt8MultiArray,"act_vel", 50)
-        # self.cmd_pub = self.create_publisher(PoseStamped,"/ball_pose_topic", 10)
-        # self.flag_pub = self.create_publisher(Bool,"/is_ball_tracked", 10)
-        self.odom_publisher_ = self.create_publisher(Odometry, 'odometry/filtered', 10)
-        # self.junc_publisher = self.create_publisher(UInt8, 'junction_type', 10)
-        self.silo_publisher = self.create_publisher(UInt8, 'silo_number', 10)
+        self.cmd_pub = self.create_publisher(PoseStamped,"/ball_pose_topic", qos_profile)
+        self.flag_pub = self.create_publisher(Bool,"/is_ball_tracked", qos_profile)
+        self.odom_publisher_ = self.create_publisher(Odometry, 'odometry/filtered', qos_profile)
+        # self.junc_publisher = self.create_publisher(UInt8, 'junction_type', qos_profile)
+        self.silo_publisher = self.create_publisher(UInt8, 'silo_number', qos_profile)
+        self.area_3_reached_pub = self.create_publisher(UInt8, 'area_topic', qos_profile)
 
 
 
-        self.create_timer(0.05, self.send_odom)
+        self.create_timer(0.02, self.send_ball_pose)
         self.get_logger().info("Publishing command...")
+
+    def area_3_reached(self):
+        msg = UInt8()
+        msg.data = 0XA5
+        self.area_3_reached_pub.publish(msg)
+
 
     def send_ball_pose(self):
         self.data = PoseStamped()
 
         self.data.header.frame_id="map"
         
-        self.data.pose.position.x = 0.20
+        self.data.pose.position.x = 0.0
         self.data.pose.position.y = 0.0
         self.data.pose.position.z = 0.0
 
@@ -58,8 +71,8 @@ class publisher(Node):
         junc_type.data = 4
         # self.junc_publisher.publish(junc_type)
 
-        # self.cmd_pub.publish(self.data)
-        # self.flag_pub.publish(self.flag)
+        self.cmd_pub.publish(self.data)
+        self.flag_pub.publish(self.flag)
         self.silo_publisher.publish(silo_num)
 
 

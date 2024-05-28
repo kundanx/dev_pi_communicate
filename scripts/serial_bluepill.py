@@ -17,6 +17,7 @@ import math
 
 from math import sin, cos
 from rclpy.node import Node 
+from rclpy.qos import QoSReliabilityPolicy, QoSProfile
 from std_msgs.msg import UInt8
 from nav_msgs.msg import Odometry
 from std_msgs.msg import Float32MultiArray
@@ -39,9 +40,12 @@ class Serial_bluepill_comms(Node):
 
         super().__init__("serial_bluepill")
         self.serial_port = serial_comms(serial_port_bluepill, serial_baudrate, RECIEVE_SIZE, TRANSMIT_SIZE,"CRC")
+
+        qos_profile = QoSProfile(depth= 10)
+        qos_profile.reliability = QoSReliabilityPolicy.BEST_EFFORT
         
-        self.ballStatus = self.create_publisher(UInt8, 'Ball_status', 10)
-        self.timer1 = self.create_timer(0.015, self.serial_read_callback)
+        self.ballStatus = self.create_publisher(UInt8, 'Ball_status', qos_profile)
+        self.timer1 = self.create_timer(0.001, self.serial_read_callback)
         self.ball_stat = UInt8()
 
         self.get_logger().info("Serial bluepill ready...")

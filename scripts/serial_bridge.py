@@ -22,6 +22,7 @@ from sensor_msgs.msg import Imu
 from nav_msgs.msg import Odometry
 from std_msgs.msg import Float32MultiArray
 from std_msgs.msg import UInt8MultiArray
+from rclpy.qos import QoSReliabilityPolicy, QoSProfile
 
 from dev_pi_communicate.crc8 import crc8
 from dev_pi_communicate.serial_comms import serial_comms
@@ -40,27 +41,27 @@ class Serial_comms_TX_node(Node):
 
         super().__init__("serial_bridge")
         self.serial_port = serial_comms(serial_port_address_black, serial_baudrate, RECIEVE_SIZE, TRANSMIT_SIZE, "CRC")
-        
-        # cmd_vel_sub = message_filters.Subscriber(self, Float32MultiArray, "cmd_robot_vel", qos_profile=10)
-        # act_vel_sub = message_filters.Subscriber(self, UInt8MultiArray, "act_vel",qos_profile= 10)
 
-        # self.synchronizer = message_filters.ApproximateTimeSynchronizer((cmd_vel_sub,act_vel_sub ), 10, 0.1,allow_headerless=True)
-        # self.synchronizer.registerCallback(self.Send_Data_CallBack_)
-        self.odom_reset_sub = self.create_subscription( UInt8,"odom_reset", self.odom_reset_callback,10 )   
-        self.cmd_vel_sub = self.create_subscription( Float32MultiArray,"cmd_robot_vel", self.send_cmd_vel_data,10 )   
-        self.act_vel_sub = self.create_subscription(UInt8MultiArray,"act_vel", self.send_act_vel_data,10 )
+        qos_profile = QoSProfile(depth= 10)
+        qos_profile.reliability = QoSReliabilityPolicy.BEST_EFFORT
+        
+        self.landmark_sub = self.create_subscription( Float32MultiArray,"landmark_pose", self.landmark_update_callback,qos_profile )   
+        self.cmd_vel_sub = self.create_subscription( Float32MultiArray,"cmd_robot_vel", self.send_cmd_vel_data,qos_profile ) 
+        self.act_vel_sub = self.create_subscription(UInt8MultiArray,"act_vel", self.send_act_vel_data,qos_profile )
+
+        self.local_odom_publisher_ = self.create_publisher(Odometry, 'freewheel/local', qos_profile)
+        self.global_odom_publisher_ = self.create_publisher(Odometry, 'freewheel/global', qos_profile)
+        self.odom_publisher = self.create_publisher(Odometry,'odometry/filtered', qos_profile)
+        self.imu_publisher = self.create_publisher(Imu, 'imu/odom', qos_profile)
+
         self.cmd_vel_msg= Float32MultiArray()
         self.cmd_vel_rx_flag = False
         self.cmd_vel_msg.data = [0.0, 0.0, 0.0]
         self.act_vel_msg = UInt8MultiArray()
         self.act_vel_rx_flag = False
         self.act_vel_msg.data = [0,0,0]
-        self.timer2 = self.create_timer(0.01, self.Send_Data_CallBack)
 
-        # self.ballStatus = self.create_publisher(UInt8, 'Ball_status', 10)
-        self.local_odom_publisher_ = self.create_publisher(Odometry, 'freewheel/local', 10)
-        self.global_odom_publisher_ = self.create_publisher(Odometry, 'freewheel/global', 10)
-        self.imu_publisher = self.create_publisher(Imu, 'imu/odom', 10)
+        self.timer2 = self.create_timer(0.01, self.Send_Data_CallBack)
         self.timer1 = self.create_timer(0.001, self.serial_read_callback)
 
         self.rx_data = [0.0]*24
@@ -68,16 +69,29 @@ class Serial_comms_TX_node(Node):
         self.y_offset = 0.0
         self.yaw_offset = 0.0
 
+        self.cmd_vel_last_rx_time = time.time()
+        self.act_vel_last_rx_time = time.time()
+
         self.last_transmit_time = time.time()
         self.last_published_time = time.time()
+        
         self.get_logger().info("Serial bridge ready...")
     
     # Joystick read callback function
     def Send_Data_CallBack(self):  
-        if not self.act_vel_rx_flag:
-            self.act_vel_msg.data = [0,0,0]
-        if not self.cmd_vel_rx_flag:
+        
+        # if not self.act_vel_rx_flag:
+        #     self.act_vel_msg.data = [0,0,0]
+        # if not self.cmd_vel_rx_flag:
+        #     self.cmd_vel_msg.data = [0.0, 0.0, 0.0]
+
+        now = time.time()
+        if now - self.cmd_vel_last_rx_time >= 0.1:
             self.cmd_vel_msg.data = [0.0, 0.0, 0.0]
+        
+        if now - self.act_vel_last_rx_time >= 0.01:
+            self.act_vel_msg.data = [0,0,0]
+
 
         DataToSend=[
             bytes(struct.pack("B",START_BYTE)),
@@ -107,12 +121,16 @@ class Serial_comms_TX_node(Node):
         self.act_vel_msg.data[0] = act_vel_msg_.data[0]
         self.act_vel_msg.data[1] = act_vel_msg_.data[1]
         self.act_vel_msg.data[2] = act_vel_msg_.data[2]
+        self.act_vel_last_rx_time = time.time()
+
         self.act_vel_rx_flag = True
         
     def send_cmd_vel_data(self, cmd_vel_msg_:Float32MultiArray):
         self.cmd_vel_msg.data[0] = cmd_vel_msg_.data[0]
         self.cmd_vel_msg.data[1] = cmd_vel_msg_.data[1]
         self.cmd_vel_msg.data[2] = cmd_vel_msg_.data[2]
+        self.cmd_vel_last_rx_time = time.time()
+
         self.cmd_vel_rx_flag = True
 
     def serial_read_callback(self):
@@ -142,7 +160,7 @@ class Serial_comms_TX_node(Node):
         odom_msg.pose.pose.position.x = data[0] - self.x_offset
         odom_msg.pose.pose.position.y = data[1] - self.y_offset
         odom_msg.pose.pose.position.z = 0.0
-        qw, qx, qy, qz = self.rollpitchyaw_to_quaternion(data[8], data[7], data[2] - self.yaw_offset)
+        qw, qx, qy, qz = self.rollpitchyaw_to_quaternion(data[8], data[7], data[2])
         odom_msg.pose.pose.orientation.w = qw
         odom_msg.pose.pose.orientation.x = qx
         odom_msg.pose.pose.orientation.y = qy
@@ -165,20 +183,23 @@ class Serial_comms_TX_node(Node):
                                         0.0, 0.0, 0.0, 1.0, 0.0, 0.0,
                                         0.0, 0.0, 0.0, 0.0, 1.0, 0.0,
                                         0.0, 0.0, 0.0, 0.0, 0.0, 0.01]
-        self.local_odom_publisher_.publish(odom_msg)
-        odom_msg.header.frame_id = 'map'
-        self.global_odom_publisher_.publish(odom_msg)
+        self.odom_publisher.publish(odom_msg)
+        # self.local_odom_publisher_.publish(odom_msg)
+        # odom_msg.header.frame_id = 'map'
+        # self.global_odom_publisher_.publish(odom_msg)
         # print(f"yaw:{data[2]*180/3.14}")
 
         # print(f"yaw:{data[2]*180/3.14}, pitch:{data[7]*180/3.14}, roll:{data[8]*180/3.14}")
         print(f"pos_x:{data[0]}, pos_y:{data[1]}, yaw:{data[2]*180/3.14}")
+        # print(f"reseted_x:{data[0]}, pos_y:{data[1]}, yaw:{data[2]*180/3.14}")
+
 
     '''
     data: [yaw, pitch, roll, accel_x, accel_y,accel-z]
     '''
     def process_imu(self,data):
         imu_msg = Imu()    
-        qw, qx, qy, qz = self.rollpitchyaw_to_quaternion(0.0, 0.0, data[0]- self.yaw_offset)
+        qw, qx, qy, qz = self.rollpitchyaw_to_quaternion(0.0, 0.0, data[0])
         #  Assign header values to the imu_msg
         imu_msg.header.stamp=self.get_clock().now().to_msg()
         imu_msg.header.frame_id="base_link"
@@ -229,14 +250,11 @@ class Serial_comms_TX_node(Node):
         self.imu_publisher.publish(imu_msg)
         # print(f"{data[0]=},{data[1]=}, {data[5]=}")
 
-    def odom_reset_callback(self, msg:UInt8):
-        if( msg.data == 0xA5):
-            self.x_offset = self.rx_data[0]
-            self.y_offset = self.rx_data[1]
-            deg =   math.pi / 2
-            self.yaw_offset = deg
-            self.get_logger().info("Odom reset done...")
-            
+    def landmark_update_callback(self, msg:Float32MultiArray):
+        self.x_offset = msg.data[0]
+        self.y_offset = msg.data[1]
+        self.get_logger().info("Odom reset done...")
+        
 
     def calculate_checksum(self , data = []):
         digest = int()
