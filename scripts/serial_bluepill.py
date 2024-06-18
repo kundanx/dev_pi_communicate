@@ -56,7 +56,8 @@ class Serial_bluepill_comms(Node):
                 return
 
             data_ = struct.unpack("c", _data[0:1])[0]
-            print(f"{data_ = }")
+            if data_ != b"N":
+                print(f"{data_ = }")
             if data_ == b"R":
                 self.ball_stat.data = 1
             elif data_ == b"B":

@@ -10,6 +10,8 @@ from tf2_ros import TransformBroadcaster
 from geometry_msgs.msg import TransformStamped
 from geometry_msgs.msg import Pose
 from nav_msgs.msg import Odometry
+from rclpy.qos import QoSReliabilityPolicy, QoSProfile
+
 
 
 
@@ -45,12 +47,14 @@ class odom_base_tf(Node):
         # Initialize the transform broadcaster
         self.tf_broadcaster = TransformBroadcaster(self)
 
+        qos_profile = QoSProfile(depth= 10)
+        qos_profile.reliability = QoSReliabilityPolicy.BEST_EFFORT
         # callback function on each message
         self.subscription = self.create_subscription(
             Odometry,
             'odometry/filtered', #base_odom_topic'
             self.handle_odom,
-            10)
+            qos_profile)
         
         self.get_logger().info(str("odom to baseLink transform ready."))
         self.subscription  # prevent unused variable warning

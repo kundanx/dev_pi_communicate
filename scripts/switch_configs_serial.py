@@ -37,11 +37,11 @@ serial_port_address_FTDI='/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A50285BI-if
 serial_port_address_black='/dev/serial/by-id/usb-1a86_USB2.0-Serial-if00-port0'
 serial_port_bluepill ='/dev/serial/by-id/usb-STMicroelectronics_STM32_Virtual_ComPort_00517C4B4D34-if00'
     
-class panasonic_serial(Node):
+class switch_configs(Node):
     
     def __init__(self):
 
-        super().__init__("serial_bluepill")
+        super().__init__("switch_configs")
         self.serial = serial.Serial(serial_port_address_stm32, serial_baudrate, timeout=1.0)
         self.rx_data_size = 1
         qos_profile = QoSProfile(depth= 10)
@@ -87,7 +87,7 @@ class panasonic_serial(Node):
 
             self.inBall_status.publish(in_ball_status)
             self.outBall_status.publish(out_ball_status)
-            # print(f"{hex(byte)}")
+            print(f"{hex(byte)}")
         #    print(f"{self.ball_stat.data =}")
 
     def _reopen_serial_port(self):
@@ -117,7 +117,7 @@ class panasonic_serial(Node):
     
 def main(args=None):
     rclpy.init()
-    node = panasonic_serial()
+    node = switch_configs()
     try:
         rclpy.spin(node)
     except KeyboardInterrupt: 

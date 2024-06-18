@@ -13,6 +13,8 @@ from geometry_msgs.msg import Pose
 from geometry_msgs.msg import PoseWithCovariance
 from geometry_msgs.msg import PoseWithCovarianceStamped
 from nav_msgs.msg import Odometry
+from rclpy.qos import QoSReliabilityPolicy, QoSProfile
+
 
 from math import sin, cos, atan2, sqrt,  pi
 
@@ -82,12 +84,13 @@ class map_base_tf(Node):
         #     '/pose',
         #     self.handle_map,
         #     1)
-
+        qos_profile = QoSProfile(depth= 10)
+        qos_profile.reliability = QoSReliabilityPolicy.BEST_EFFORT
         self.subscription = self.create_subscription(
             Odometry,
             '/odometry/filtered',
             self.handle_map,
-            1)
+            qos_profile)
         self.get_logger().info(str("map to baseLink transform ready."))
         
         self.subscription  # prevent unused variable warning

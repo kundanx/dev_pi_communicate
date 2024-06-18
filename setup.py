@@ -34,6 +34,8 @@ setup(
 
             'serial_bridge = scripts.serial_bridge:main',
             'serial_bluepill = scripts.serial_bluepill:main',
+            'panasonic_serial = scripts.panasonic_serial:main',
+            'ir_bluepill_serial = scripts.ir_bluepill_serial:main',
            
             'landmark_pose_estimation_node = scripts.landmark_pose_estimation_node:main',
             'tfmini_uart_node = scripts.tf_mini_uart_node:main',

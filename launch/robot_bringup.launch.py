@@ -54,6 +54,12 @@ def generate_launch_description():
         executable='serial_bridge',
         output='screen'
     )
+
+    panasonic_serial= Node(
+        package='dev_pi_communicate',
+        executable='panasonic_serial',
+        output='screen'
+    )
      # serial bridge node
     serial_bluepill= Node(
         package='dev_pi_communicate',
@@ -98,12 +104,8 @@ def generate_launch_description():
         serial_bridge,
         # serial_bluepill,
         landmark_pose_estimation_node,
-        # serial_rx_node,
-        # serial_tx_node,
-        # ds4_uart_node,
-        # ds4_node,
-        ekf_pkg,
-        # tf,
+        # ekf_pkg,
+        panasonic_serial,
+        tf,
         cmdVel_to_serialBridge
-
     ])
