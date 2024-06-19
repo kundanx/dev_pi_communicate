@@ -19,7 +19,7 @@ class cmdVel_to_serialBridge(Node):
     def __init__(self):
         super().__init__("cmdVel_to_serialBridge_node")
         qos_profile = QoSProfile(depth= 10)
-        qos_profile.reliability = QoSReliabilityPolicy.RELIABLE
+        qos_profile.reliability = QoSReliabilityPolicy.BEST_EFFORT
 
         self.nav2_cmdvel_subscriber_node = self.create_subscription(
             Twist,
@@ -30,7 +30,7 @@ class cmdVel_to_serialBridge(Node):
             Twist,
             "cmd_vel/linefollow",
             self.linefollow_recieve_callback,
-            10)
+            qos_profile)
         self.cmd_pub= self.create_publisher(Float32MultiArray,"/cmd_robot_vel",10)
         self.get_logger().info("nav2_cmd_vel node ready ...")
 

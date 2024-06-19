@@ -48,7 +48,7 @@ class landmarkPoseEstimation(Node):
         self.filtered_odometry_subs = self.create_subscription(Odometry,"odometry/filtered", self.odometry_callback, qos_profile)
         self.silo_number_subs = self.create_subscription( UInt8,"silo_number", self.siloNum_subscriber_callback,qos_profile )   
         
-        self.junctionType_subs = self.create_subscription( UInt8,"junction_type", self.junctionDetection_callback,10 ) 
+        self.junctionType_subs = self.create_subscription( UInt8,"junction_type", self.junctionDetection_callback,qos_profile ) 
         self.on_which_Area_sub = self.create_subscription( UInt8,"area_reached", self.area3_reached_callback, 10 )   
         self.update_after_ball_storing_subs = self.create_subscription( UInt8,"alignedSilo_number", self.update_after_storing_ball,10 )   
 

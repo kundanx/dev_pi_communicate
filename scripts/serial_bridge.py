@@ -11,17 +11,14 @@
 
 import rclpy
 import struct
-import message_filters
 import time
 import math
 
 from math import sin, cos
 from rclpy.node import Node 
-from std_msgs.msg import UInt8
 from sensor_msgs.msg import Imu
 from nav_msgs.msg import Odometry
 from std_msgs.msg import Float32MultiArray
-from std_msgs.msg import Float32
 from std_msgs.msg import Float64MultiArray
 
 from std_msgs.msg import UInt8MultiArray
@@ -71,13 +68,10 @@ class Serial_comms_TX_node(Node):
         self.act_vel_sub = self.create_subscription(UInt8MultiArray,"act_vel", self.send_act_vel_data,10 )
 
 
-        # self.local_odom_publisher_ = self.create_publisher(Odometry, 'freewheel/local', 10)
-        # self.global_odom_publisher_ = self.create_publisher(Odometry, 'freewheel/global', 10)
         self.odom_publisher = self.create_publisher(Odometry,'odometry/filtered', qos_profile)
         self.raw_odom_publisher = self.create_publisher(Odometry,'odometry/raw', qos_profile    )
         self.imu_publisher = self.create_publisher(Imu, 'imu/odom', qos_profile )
 
-        # self.rate_publisher = self.create_publisher(Float32, 'odom_rate', 10 )
 
 
         self.cmd_vel_msg= Float32MultiArray()
@@ -173,8 +167,7 @@ class Serial_comms_TX_node(Node):
             diff =  now - self.last_published_time
             # print(f"{diff =}")
             self.last_published_time = time.time()
-        else:
-            print("Data none")
+     
        
     '''
     data:[pos_x, pose_y, theta, vel_x, vel_y, vel_z]
@@ -212,27 +205,17 @@ class Serial_comms_TX_node(Node):
                                         0.0, 0.0, 0.0, 1.0, 0.0, 0.0,
                                         0.0, 0.0, 0.0, 0.0, 1.0, 0.0,
                                         0.0, 0.0, 0.0, 0.0, 0.0, 0.01]
+
         self.raw_odom_publisher.publish(odom_msg)
         odom_msg.pose.pose.position.x = data[0] - self.x_offset 
         odom_msg.pose.pose.position.y = data[1] - self.y_offset 
         self.odom_publisher.publish(odom_msg)
-        # self.local_odom_publisher_.publish(odom_msg)
+
         now = time.time()
         diff = now - self.last_published_time
         self.last_published_time = now
-        # print(f"{diff=}")
-        # odom_msg.header.frame_id = 'map'
-        # self.global_odom_publisher_.publish(odom_msg)
-        # print(f"yaw:{data[2]*180/3.14}")
-
-        # print(f"yaw:{data[2]*180/3.14}, pitch:{data[7]*180/3.14}, roll:{data[8]*180/3.14}")
-        # print(f"pos_x:{odom_msg.pose.pose.position.x }, pos_y:{odom_msg.pose.pose.position.y}, yaw:{data[2]*180/3.14}")
-        # print(f"raw_x: {data[0]}, raw_y:{data[1] },offset: {self.y_offset}")
-        # raw_x:{data[0] }, filtered_x: {odom_msg.pose.pose.position.x }, 
-
-        # print(f"reseted_x:{data[0]}, pos_y:{data[1]}, yaw:{data[2]*180/3.14}")
-        # print(f"{self.x_offset =}, {self.y_offset =}")
-
+        print(f"{diff=}")
+      
 
     '''
     data: [yaw, pitch, roll, accel_x, accel_y,accel-z]
