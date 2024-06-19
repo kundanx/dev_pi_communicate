@@ -64,7 +64,7 @@ class Serial_comms_TX_node(Node):
 
         qos_profile = QoSProfile(depth= 10)
         qos_profile.reliability = QoSReliabilityPolicy.BEST_EFFORT
-        qos_profile.lifespan = Duration(seconds=0.05) 
+        # qos_profile.lifespan = Duration(seconds=0.05) 
         
         self.landmark_sub = self.create_subscription( Float64MultiArray,"landmark_updates", self.landmark_update_callback,10 )   
         self.cmd_vel_sub = self.create_subscription( Float32MultiArray,"cmd_robot_vel", self.send_cmd_vel_data,10 ) 
@@ -77,7 +77,7 @@ class Serial_comms_TX_node(Node):
         self.raw_odom_publisher = self.create_publisher(Odometry,'odometry/raw', qos_profile    )
         self.imu_publisher = self.create_publisher(Imu, 'imu/odom', qos_profile )
 
-        self.rate_publisher = self.create_publisher(Float32, 'odom_rate', 10 )
+        # self.rate_publisher = self.create_publisher(Float32, 'odom_rate', 10 )
 
 
         self.cmd_vel_msg= Float32MultiArray()
@@ -173,6 +173,8 @@ class Serial_comms_TX_node(Node):
             diff =  now - self.last_published_time
             # print(f"{diff =}")
             self.last_published_time = time.time()
+        else:
+            print("Data none")
        
     '''
     data:[pos_x, pose_y, theta, vel_x, vel_y, vel_z]
@@ -219,10 +221,6 @@ class Serial_comms_TX_node(Node):
         diff = now - self.last_published_time
         self.last_published_time = now
         # print(f"{diff=}")
-        rate = Float32()
-        rate.data = diff
-        # if diff > 0.012:
-        self.rate_publisher.publish(rate)
         # odom_msg.header.frame_id = 'map'
         # self.global_odom_publisher_.publish(odom_msg)
         # print(f"yaw:{data[2]*180/3.14}")

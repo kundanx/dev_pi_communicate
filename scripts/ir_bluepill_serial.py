@@ -27,7 +27,7 @@ class IR_bluepill_node(Node):
         qos_profile.reliability = QoSReliabilityPolicy.BEST_EFFORT
         
         self.ir_sensor_pub = self.create_publisher(UInt16, 'ir_sensor_data', qos_profile)
-        self.timer1 = self.create_timer(0.001, self.serial_read_callback)
+        self.timer1 = self.create_timer(0.01, self.serial_read_callback)
         # self.ball_stat = UInt16()
 
         self.get_logger().info("IR_bluepill_node ready...")
@@ -44,7 +44,7 @@ class IR_bluepill_node(Node):
             ir_sensor_data.data = data_
 
             self.ir_sensor_pub.publish(ir_sensor_data)
-            print(f"{bin(data_)}")
+            print(f"{hex(data_)}")
 
     
 def main(args=None):
