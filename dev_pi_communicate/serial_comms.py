@@ -38,6 +38,8 @@ class serial_comms:
                     byte = self.serial.read(1)
                     if int.from_bytes(byte, 'big') == START_BYTE:
                         self.start_byte_found=True
+                    else: 
+                        print("[Serial_coms]: Start byte not matched")
                 else:
                     # print("[Serial_coms]:timeoutwaiting for start byte")
                     return
@@ -60,7 +62,7 @@ class serial_comms:
                         self.hash_not_matched_count = 0
                         return data_str
                     self.hash_not_matched_count += 1
-                    print(f"[Serial_coms]:data not matched,count: {self.hash_not_matched_count}")
+                    print(f"[Serial_coms]:hash not matched,count: {self.hash_not_matched_count}")
                     return
                 else:
                     # print("[Serial_coms]:timeout waiting for data")

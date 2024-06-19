@@ -44,7 +44,7 @@ class IR_bluepill_node(Node):
             ir_sensor_data.data = data_
 
             self.ir_sensor_pub.publish(ir_sensor_data)
-            print(f"{hex(data_)}")
+            # print(f"{hex(data_)}")
 
     
 def main(args=None):
