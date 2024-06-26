@@ -1,25 +1,13 @@
 # y_offset: 33cm 
 
 landmark_pose_estimation_node:
-  silo_1: [1.24, -3.667]
-  silo_1_Line: [1.5, 0.0 ]
-  silo_1_TJunction: [1.5, -2.42]
-
-  silo_2: [0.49, -3.667]
-  silo_2_YLine: [0.070, 0.0 ]
-  silo_2_TJunction: [ 0.70, -2.4]
-
+  silo_1: [1.5, -3.667]
+  silo_2: [0.75, -3.667]
   silo_3: [0.0, -3.667]
-  silo_3_YLine: [0.0, 0.0]  
-  silo_3_TJunction: [ 0.0, -2.42]
+  silo_4: [-0.75, -3.667]
+  silo_5: [-1.5, -3.667]
 
-  silo_4: [-1.01, -3.667]
-  silo_4_YLine: [-0.75, 0.0 ]
-  silo_4_TJunction: [ -0.75, -2.42]
-
-  silo_5: [-1.24, -3.667]
-  silo_5_YLine: [-1.50, 0.0 ]
-  silo_5_RJunction: [-1.50, -2.42]
+  area3_reset: [0.75, -2.60]
 
   cross_junction: [ 0.0, -2.42]
 

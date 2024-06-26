@@ -4,7 +4,7 @@
 from launch import LaunchDescription
 from launch_ros.actions import Node
 
-from dev_pi_communicate.scripts import ir_bluepill_serial
+# from dev_pi_communicate.scripts import ir_bluepill_serial
 
 
 def generate_launch_description():
@@ -21,4 +21,12 @@ def generate_launch_description():
         package="dev_pi_communicate", executable="ir_bluepill_serial", output="screen"
     )
 
-    return LaunchDescription([serial_bridge, panasonic_serial, ir_bluepill_serial])
+    cmdVel_to_serialBridge = Node(
+        package="dev_pi_communicate",
+        executable="cmdVel_to_serialBridge",
+        output="screen",
+    )
+
+    return LaunchDescription(
+        [serial_bridge, panasonic_serial, ir_bluepill_serial, cmdVel_to_serialBridge]
+    )

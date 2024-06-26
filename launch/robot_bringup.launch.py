@@ -47,6 +47,6 @@ def generate_launch_description():
             # ekf_pkg,
             landmark_pose_estimation_node,
             tf,
-            cmdVel_to_serialBridge,
+            cmdVel_to_serialBridge
         ]
     )
