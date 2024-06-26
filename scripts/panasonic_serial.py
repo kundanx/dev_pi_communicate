@@ -60,12 +60,12 @@ class panasonic_serial(Node):
                     return
             except serial.SerialException as e:
                        
-                logger.error(f"Serial port error: {e}")
+                # logger.error(f"Serial port error: {e}")
                 self._reopen_serial_port()
                 return
 
             except OSError as e:
-                logger.error(f"Serial port error: {e}")
+                # logger.error(f"Serial port error: {e}")
                 self._reopen_serial_port()
                 return
             
