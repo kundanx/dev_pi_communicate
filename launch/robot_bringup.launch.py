@@ -11,6 +11,16 @@ from launch_ros.actions import Node
 from launch_xml.launch_description_sources import XMLLaunchDescriptionSource
 
 
+from launch.actions import (EmitEvent, ExecuteProcess,
+                            LogInfo, RegisterEventHandler, TimerAction)
+from launch.conditions import IfCondition
+from launch.event_handlers import (OnExecutionComplete, OnProcessExit,
+                                OnProcessIO, OnProcessStart, OnShutdown)
+from launch.events import Shutdown
+from launch.substitutions import (EnvironmentVariable, FindExecutable,
+                                 LocalSubstitution, PythonExpression)
+
+
 def generate_launch_description():
     # launch transforms
     tf_path = os.path.join(
@@ -40,13 +50,32 @@ def generate_launch_description():
         executable="cmdVel_to_serialBridge",
         output="screen",
     )
-
+    rqt_graph = Node(
+        package="rqt_graph",
+        executable="rqt_graph",
+        output="screen",
+    )
     return LaunchDescription(
         [
             # serials,
             # ekf_pkg,
-            landmark_pose_estimation_node,
-            tf,
-            cmdVel_to_serialBridge
+            # tf,    
+            landmark_pose_estimation_node,    
+            # RegisterEventHandler(
+            #     OnProcessStart(
+            #         target_action=landmark_pose_estimation_node,
+            #         on_start=[
+            #             cmdVel_to_serialBridge,
+            #         ]
+            #     )
+            # ),
+            RegisterEventHandler(
+            OnProcessStart(
+                target_action=landmark_pose_estimation_node,
+                on_start=[
+                    tf,
+                ]
+            )
+            ),
         ]
     )
