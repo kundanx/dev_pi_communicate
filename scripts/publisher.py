@@ -6,6 +6,7 @@ from rclpy.qos import QoSReliabilityPolicy, QoSProfile
 from rclpy.node import Node 
 from std_msgs.msg import Bool
 from std_msgs.msg import UInt8
+from std_msgs.msg import UInt8MultiArray
 from geometry_msgs.msg import PoseStamped
 from std_msgs.msg import Float32MultiArray
 from std_msgs.msg import UInt8MultiArray
@@ -33,7 +34,7 @@ class publisher(Node):
         self.ball_pose_pub = self.create_publisher(BallPose,"ball_tracker",qos_profile)
         # self.odom_publisher_ = self.create_publisher(Odometry, 'odometry/filtered', 10)
         # self.junc_publisher = self.create_publisher(UInt8, 'junction_type', qos_profile)
-        self.silo_publisher = self.create_publisher(UInt8, 'silo_number', qos_profile)
+        self.silo_publisher = self.create_publisher(UInt8MultiArray, 'silo_numbers', qos_profile)
         self.area_3_reached_pub = self.create_publisher(UInt8, 'area_topic', 10)
         msg = UInt8()
         msg.data = 0XA5
@@ -65,8 +66,9 @@ class publisher(Node):
 
 
         
-        silo_num = UInt8()
-        silo_num.data = 4
+        silo_num = UInt8MultiArray()
+        silo_num.data[0] = 1
+        silo_num.data[2] = 3
 
         junc_type = UInt8()
         junc_type.data = 4

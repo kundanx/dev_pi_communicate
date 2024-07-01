@@ -51,6 +51,8 @@ class panasonic_serial(Node):
         self.outBall_status = self.create_publisher(UInt8, 'is_only_ball', qos_profile)
         self.timer1 = self.create_timer(0.01, self.serial_read_callback)
         self.ball_stat = UInt8()
+        self.ball_inside_counter = 100
+        self.only_ball_counter = 100
 
         self.get_logger().info("panasonic sensor ready...")
     
@@ -76,14 +78,24 @@ class panasonic_serial(Node):
             out_ball_status = UInt8()
 
             if byte & 0x0f == 0x0f:
-                in_ball_status.data = 1
-            else:
-                in_ball_status.data = 0
+                self.ball_inside_counter = 0
             
             if byte & 0xf0 == 0xf0:
+                self.only_ball_counter = 0
+            
+            if self.ball_inside_counter < 50:
+                self.ball_inside_counter += 1
+                in_ball_status.data = 1
+            else:
+                 in_ball_status.data = 0
+            
+            if self.only_ball_counter < 50:
+                self.only_ball_counter +=1
                 out_ball_status.data = 1
             else:
                 out_ball_status.data = 0
+
+
 
             self.inBall_status.publish(in_ball_status)
             self.outBall_status.publish(out_ball_status)

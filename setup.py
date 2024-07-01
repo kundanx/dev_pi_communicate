@@ -36,9 +36,9 @@ setup(
             'serial_bluepill = scripts.serial_bluepill:main',
             'panasonic_serial = scripts.panasonic_serial:main',
             'ir_bluepill_serial = scripts.ir_bluepill_serial:main',
+            'robot_config_serial= scripts.robot_config_serial:main',
            
             'landmark_pose_estimation_node = scripts.landmark_pose_estimation_node:main',
-            'tfmini_uart_node = scripts.tf_mini_uart_node:main',
             'imu_uart_node = scripts.imu_uart_node:main',
 
             'ds4_node= scripts.ds4_node:main',

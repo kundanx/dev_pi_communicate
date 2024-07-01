@@ -8,7 +8,7 @@ from rclpy.node import Node
 from rclpy.qos import QoSProfile, QoSReliabilityPolicy
 from std_msgs.msg import Float32MultiArray, Float64MultiArray
 
-MAX_VEL = 1.0
+MAX_VEL = 2.0
 
 
 class cmdVel_to_serialBridge(Node):
@@ -39,6 +39,11 @@ class cmdVel_to_serialBridge(Node):
         twist_array = Float32MultiArray()
         mapped_vel_x = self.map(msg.linear.x, -1.0, 1.0, -MAX_VEL, MAX_VEL)
         mapped_vel_y = self.map(msg.linear.y, -1.0, 1.0, -MAX_VEL, MAX_VEL)
+        if( abs(msg.linear.x) > 0.5):
+            mapped_vel_x = MAX_VEL *(msg.linear.x) / abs(msg.linear.x)
+        
+        if( abs(msg.linear.y) > 0.5):
+            mapped_vel_y = MAX_VEL *(msg.linear.y) / abs(msg.linear.y)
 
         twist_array.data = [
             float(msg.linear.x),

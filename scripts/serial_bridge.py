@@ -284,7 +284,7 @@ class Serial_comms_TX_node(Node):
         now = time.time()
         diff = now - self.last_published_time
         self.last_published_time = now
-        print(f"{diff=}")
+        # print(f"{diff=}")
 
     """
     data: [yaw, pitch, roll, accel_x, accel_y,accel-z]
