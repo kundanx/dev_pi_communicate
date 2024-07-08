@@ -41,8 +41,8 @@ serial_port_pico = '/dev/serial/by-id/usb-Raspberry_Pi_Pico_E6611CB71F34112A-if0
     00 0000
 """
 
-RED = 1
-BLUE = -1
+RED = -1
+BLUE = 1
 
 START_ZONE = 1
 RETRY_ZONE = 2
