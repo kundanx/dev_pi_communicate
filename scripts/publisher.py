@@ -67,8 +67,7 @@ class publisher(Node):
 
         
         silo_num = UInt8MultiArray()
-        silo_num.data[0] = 1
-        silo_num.data[2] = 3
+        silo_num.data = [1,3]
 
         junc_type = UInt8()
         junc_type.data = 4

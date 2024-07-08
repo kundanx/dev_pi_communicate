@@ -10,6 +10,7 @@ This node publishes 2D Pose whenever T_junction is detected.
 import math
 import os
 from math import cos, sin
+from enum import Enum
 
 import rclpy
 import yaml
@@ -17,7 +18,7 @@ from geometry_msgs.msg import PoseWithCovarianceStamped
 from nav_msgs.msg import Odometry
 from rclpy.node import Node
 from rclpy.qos import QoSProfile, QoSReliabilityPolicy
-from std_msgs.msg import Float64MultiArray, UInt8
+from std_msgs.msg import Float64MultiArray, UInt8, Bool, Int8
 
 """
 Junction euivalent Int ----------------------------
@@ -34,6 +35,8 @@ Y_VERTICAL_LINE = 8
 L_JUNCTION = 9
 MIRROR_L_JUNCTIO = 10
 """----------------------------------------------"""
+RED = 1
+BLUE = -1
 
 
 class landmarkPoseEstimation(Node):
@@ -52,10 +55,17 @@ class landmarkPoseEstimation(Node):
         self.silo_number_subs = self.create_subscription(
             UInt8, "silo_number", self.siloNum_subscriber_callback, qos_profile
         )
-
-        self.junctionType_subs = self.create_subscription(
-            UInt8, "junction_type", self.junctionDetection_callback, qos_profile
+        self.team_color_subs = self.create_subscription(
+            Int8, "team_color", self.teamColor_subscriber_callback, qos_profile
         )
+
+        # self.linepose_subs = self.create_subscription(
+        #     Int8, "line_pose", self.linepose_subscriber_callback, qos_profile
+        # )
+        # self.ir_subs = self.create_subscription(
+        #     UInt8, "is_on_line", self.ir_subscriber_callback, qos_profile
+        # )
+
         self.on_which_Area_sub = self.create_subscription(
             UInt8, "area_reached", self.area3_reached_callback, 10
         )
@@ -70,14 +80,15 @@ class landmarkPoseEstimation(Node):
 
         self.raw_odom_msg = Odometry()
         self.pose2D = [0] * 2
-        self.junction_type = UInt8()
+        self.team_color :int = 1
         self.silo_number: UInt8 = 0
-        self.landMark_detected: bool = False
+        # self.line_pose: Int8 = 0
         self.is_on_silo_region: bool = False
         self.is_on_area3: bool = True
         self.ball_store_just_now: bool = False
         self.origin_reset_once: bool = False
-        self.landmakr_update_count = 0
+        # self.in_between_x_horz_and_storage_zone : bool = False
+        # self.is_on_line : bool = False
 
         """ Read YAML file """
         file_path = os.path.join(
@@ -93,6 +104,21 @@ class landmarkPoseEstimation(Node):
             self.is_on_silo_region = True
         elif msg.pose.pose.position.y > -1.8:
             self.is_on_silo_region = False
+        
+        if msg.pose.pose.position.y <= -1.0 and msg.pose.pose.position.y >- -2.6:
+            self.in_between_x_horz_and_storage_zone = True
+    
+    # def ir_subscriber_callback(self, msg:Bool):
+    #     self.is_on_line = msg.data
+    
+    # def linepose_subscriber_callback(self, msg:Int8):
+    #     if self.in_between_x_horz_and_storage_zone and self.is_on_line:
+    #         self.line_pose = msg.data
+    #     else:
+    #         self.line_pose = 0
+
+
+            
 
     def raw_odometry_subs(self, msg: Odometry):
         self.raw_odom_msg = msg
@@ -100,6 +126,9 @@ class landmarkPoseEstimation(Node):
 
     def siloNum_subscriber_callback(self, msg: UInt8) -> None:
         self.silo_number = msg.data
+    
+    def teamColor_subscriber_callback( self, msg:Int8):
+        self.team_color = msg.data
 
     def update_after_storing_ball(self, msg: UInt8):
         if msg.data == 1:
@@ -114,11 +143,10 @@ class landmarkPoseEstimation(Node):
         elif msg.data == 4:
             self.pose2D = self.data_loaded["landmark_pose_estimation_node"]["silo_4"]
 
-        elif self.silo_number == 5:
+        elif msg.data == 5:
             self.pose2D = self.data_loaded["landmark_pose_estimation_node"]["silo_5"]
 
         self.ball_store_just_now = True
-        print(f"UPDATE_AFTER_STORING_BALL:: aligned with silo {msg.data}")
         # breakpoint()
 
     def area3_reached_callback(self, msg: UInt8):
@@ -128,8 +156,7 @@ class landmarkPoseEstimation(Node):
             self.pose2D = self.data_loaded["landmark_pose_estimation_node"][
                 "area3_reset"
             ]
-            print(f"AREA3_REACHED::")
-
+    """
     def junctionDetection_callback(self, msg: UInt8) -> None:
         self.junction_type.data = msg.data
         # if msg.data != 0:
@@ -192,19 +219,19 @@ class landmarkPoseEstimation(Node):
             # breakpoint()
 
         landMark_detected = False
-
+    """
     def update_odometry(self):
         if self.is_on_area3:
             if self.is_on_silo_region:
                 ready_to_publish = False
                 junc_type: float = 0.0
-                if self.landMark_detected:
-                    ready_to_publish = True
-                    self.landMark_detected = False
-                    junc_type = float(self.junction_type.data)
-                    print("landmark_detected")
+                # if self.landMark_detected:
+                #     ready_to_publish = True
+                #     self.landMark_detected = False
+                #     junc_type = float(self.junction_type.data)
+                #     print("landmark_detected")
 
-                elif self.ball_store_just_now:
+                if self.ball_store_just_now:
                     ready_to_publish = True
                     self.ball_store_just_now = False
                     junc_type = float(CROSS_JUNCTION)
@@ -215,24 +242,20 @@ class landmarkPoseEstimation(Node):
                     self.origin_reset_once = False
                     junc_type = float(CROSS_JUNCTION)
                     print("Area3 Reached")
-
+                
                 if ready_to_publish == True:
                     x_offset = self.raw_odom_msg.pose.pose.position.x - self.pose2D[0]
-                    y_offset = self.raw_odom_msg.pose.pose.position.y - self.pose2D[1]
+                    y_offset = self.raw_odom_msg.pose.pose.position.y - self.pose2D[1] * self.team_color
                     self.landmakr_update_count += 1
                     msg = Float64MultiArray()
                     msg.data = [junc_type, x_offset, y_offset]
-                    # print("Update_odometry :: ready_to_publish")
                     print(
                         f"raw_x: {self.raw_odom_msg.pose.pose.position.x}, raw_y: {self.raw_odom_msg.pose.pose.position.y}"
                     )
-                    # print(f"isOnArea3: {self.is_on_area3}, isOnSiloRegion: {self.is_on_silo_region },isLandMarkDetected: {self.landMark_detected}")
                     print(
                         f"pose_x: {self.pose2D[0]}, pose_y: {self.pose2D[1]}, {x_offset= }, {y_offset= }"
                     )
-                    # breakpoint()
                     self.pose2D_pub.publish(msg)
-                    # print(f"{self.landmakr_update_count=}")
             else:
                 self.landMark_detected = False
 
@@ -253,25 +276,3 @@ def main(args=None):
 
 if __name__ == "__main":
     main()
-
-
-#   pose_msg = PoseWithCovarianceStamped()
-#             ''' Set header '''
-#             pose_msg.header.stamp = self.get_clock().now().to_msg()
-#             pose_msg.header.frame_id = 'map'
-#             ''' Set data '''
-#             pose_msg.pose.pose.position.x = self.pose2D[0]
-#             pose_msg.pose.pose.position.y = self.pose2D[1]
-#             pose_msg.pose.pose.position.z = 0.0
-
-#             pose_msg.pose.pose.orientation.x = 0.0
-#             pose_msg.pose.pose.orientation.y = 0.0
-#             pose_msg.pose.pose.orientation.z = 0.0
-#             pose_msg.pose.pose.orientation.w = 1.0
-
-#             pose_msg.pose.covariance = [1e-9, 0.0, 0.0, 0.0, 0.0, 0.0,
-#                                         0.0, 1e9, 0.0, 0.0, 0.0, 0.0,
-#                                         0.0, 0.0, 1000.0, 0.0, 0.0, 0.0,
-#                                         0.0, 0.0, 0.0, 1000.0, 0.0, 0.0,
-#                                         0.0, 0.0, 0.0, 0.0,1000.0, 0.0,
-#                                         0.0, 0.0, 0.0, 0.0, 0.0, 1000.0]

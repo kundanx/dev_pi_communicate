@@ -50,64 +50,64 @@ from launch.substitutions import (EnvironmentVariable, FindExecutable,
 # from dev_pi_communicate.scripts import ir_bluepill_serial
 
 def generate_launch_description():
+
     # serial bridge node
     serial_bridge = Node(
         package="dev_pi_communicate", executable="serial_bridge", output="screen"
     )
+    # panasonic_serial = Node(
+    #     package="dev_pi_communicate", executable="panasonic_serial", output="screen"
+    # )
 
-    panasonic_serial = Node(
-        package="dev_pi_communicate", executable="panasonic_serial", output="screen"
-    )
+    # ir_bluepill_serial = Node(
+    #     package="dev_pi_communicate", executable="ir_bluepill_serial", output="screen"
+    # )
 
-    ir_bluepill_serial = Node(
-        package="dev_pi_communicate", executable="ir_bluepill_serial", output="screen"
-    )
+    # tfmini_serial = Node(
+    #     package="linefollow", executable="tfmini_serial_node", output="screen"
+    # )
 
-    tfmini_serial = Node(
-        package="linefollow", executable="tfmini_serial_node", output="screen"
+    color_ir_tfmini_serial = Node(
+        package="dev_pi_communicate", 
+        executable="color_ir_tfmini_serial", 
+        output="screen"
     )
     cmdVel_to_serialBridge = Node(
         package="dev_pi_communicate",
         executable="cmdVel_to_serialBridge",
-        output="screen",
+        output="screen"
+    )
+    robot_config_serial = Node(
+        package ="dev_pi_communicate",
+        executable="robot_config_serial",
+        output="screen"
     )
 
     return LaunchDescription(
-#        [serial_bridge, panasonic_serial, ir_bluepill_serial, cmdVel_to_serialBridge]
         [
-            serial_bridge,
+            robot_config_serial,
 
             RegisterEventHandler(
-                OnProcessStart (
+                OnProcessStart(
+                    target_action=robot_config_serial,
+                    on_start=[
+                        serial_bridge,
+                    ]
+                )
+            ),
+            RegisterEventHandler(
+                OnProcessStart(
                     target_action=serial_bridge,
                     on_start=[
-                        panasonic_serial,
-                    ]    
-                )
-            ),
-
-            RegisterEventHandler(
-                OnProcessStart(
-                    target_action=panasonic_serial,
-                    on_start=[
-                        ir_bluepill_serial,
+                        color_ir_tfmini_serial,
                     ]
                 )
             ),
-
             RegisterEventHandler(
                 OnProcessStart(
-                    target_action=ir_bluepill_serial,
+                    target_action=color_ir_tfmini_serial,
                     on_start=[
                         cmdVel_to_serialBridge,
-                    ]
-                )
-            ),
-            RegisterEventHandler(
-                OnProcessStart(
-                    target_action=cmdVel_to_serialBridge,
-                    on_start=[
-                        tfmini_serial,
                     ]
                 )
             ),

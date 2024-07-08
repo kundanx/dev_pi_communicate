@@ -30,20 +30,16 @@ setup(
             
             'publisher_node = scripts.publisher:main',
             'subscriber_node = scripts.subscriber:main',
-            'vel_subscriber = scripts.vel_subscriber:main',
 
             'serial_bridge = scripts.serial_bridge:main',
             'serial_bluepill = scripts.serial_bluepill:main',
             'panasonic_serial = scripts.panasonic_serial:main',
             'ir_bluepill_serial = scripts.ir_bluepill_serial:main',
             'robot_config_serial= scripts.robot_config_serial:main',
+            'color_ir_tfmini_serial= scripts.color_ir_tfmini_serial:main',
            
             'landmark_pose_estimation_node = scripts.landmark_pose_estimation_node:main',
-            'imu_uart_node = scripts.imu_uart_node:main',
-
-            'ds4_node= scripts.ds4_node:main',
             'cmdVel_to_serialBridge= scripts.cmdVel_to_serialBridge_node:main',
-            'camera_node = scripts.camera_node:main',
             
             'odom_baseLink_tf = transforms.odom_baseLink_tf:main',
             'baseLink_laserFrame_tf = transforms.baseLink_laserFrame_tf:main',
