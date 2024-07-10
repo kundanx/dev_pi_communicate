@@ -37,35 +37,31 @@ class cmdVel_to_serialBridge(Node):
 
     def nav2_recieve_callback(self, msg: Twist):
         twist_array = Float32MultiArray()
-        if msg.linear.x > 0.1:
-            mapped_vel_x = self.map(msg.linear.x, -1.0, 1.0, -MAX_VEL, MAX_VEL)
-            if( abs(msg.linear.x) > 0.3):
-                mapped_vel_x = MAX_VEL *(msg.linear.x) / abs(msg.linear.x)
+        if msg.linear.x > 0.2:
+            # if( abs(msg.linear.x) > 0.5):
+            #     msg.linear.x = MAX_VEL *(msg.linear.x) / abs(msg.linear.x)
+            # else:
+            msg.linear.x = self.map(msg.linear.x, -1.0, 1.0, -MAX_VEL, MAX_VEL)
+            
         
-        if msg.linear.y > 0.1:
-            mapped_vel_y = self.map(msg.linear.y, -1.0, 1.0, -MAX_VEL, MAX_VEL)
-            if( abs(msg.linear.y) > 0.5):
-                mapped_vel_y = MAX_VEL *(msg.linear.y) / abs(msg.linear.y)
-
+        if msg.linear.y > 0.2:
+            # if( abs(msg.linear.y) > 0.4):
+            #     msg.linear.y = MAX_VEL *(msg.linear.y) / abs(msg.linear.y)
+            # else:
+            msg.linear.y = self.map(msg.linear.y, -1.0, 1.0, -MAX_VEL, MAX_VEL)
+           
         twist_array.data = [
             float(msg.linear.x),
             float(msg.linear.y),
             float(msg.angular.z),
         ]
-        # twist_array.data = [float(mapped_vel_x),float(mapped_vel_y),float(msg.angular.z)]
-
-        # print(f"ang.z: {msg.angular.z}")
+      
         self.cmd_pub.publish(twist_array)
 
     def map(self, value, in_min, in_max, out_min, out_max):
-        # Ensure the input range is not zero to avoid division by zero
         if in_min == in_max:
             raise ValueError("Input range cannot be zero")
-
-        # Calculate the mapped value
-        mapped_value = out_min + (
-            (value - in_min) * (out_max - out_min) / (in_max - in_min)
-        )
+        mapped_value = out_min + ((value - in_min) * (out_max - out_min) / (in_max - in_min))
         return mapped_value
 
 

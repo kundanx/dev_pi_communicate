@@ -246,7 +246,6 @@ class landmarkPoseEstimation(Node):
                 if ready_to_publish == True:
                     x_offset = self.raw_odom_msg.pose.pose.position.x - self.pose2D[0]
                     y_offset = self.raw_odom_msg.pose.pose.position.y - self.pose2D[1] * self.team_color
-                    self.landmakr_update_count += 1
                     msg = Float64MultiArray()
                     msg.data = [junc_type, x_offset, y_offset]
                     print(
