@@ -170,27 +170,27 @@ class robot_config_serial(Node):
         now = time.time()*1000
         if now - self.lf_last_rx > 100:
             self.lf_color = 0
-            print("ERROR: Linefollow node")
+            # print("ERROR: Linefollow node")
         
         if now - self.ballPose_last_rx > 100:
             self.ballPose_color = 0
-            print("ERROR: GoToBallPose node")
+            # print("ERROR: GoToBallPose node")
         
         if now - self.silo_last_rx > 100:
             self.silo_color = 0
-            print("ERROR: GoToSiloPose node")
+            # print("ERROR: GoToSiloPose node")
         
         if now - self.origin_last_rx > 100:
             self.origin_color = 0
-            print("ERROR: GoToOrigin node")
+            # print("ERROR: GoToOrigin node")
         
         if now - self.middle_last_rx > 100:
             self.middle_color = 0
-            print("ERROR: GoToMiddle node")
+            # print("ERROR: GoToMiddle node")
         
         if now - self.recovery_last_rx > 100:
             self.recovery_color = 0
-            print("ERROR: RecoveryNode node")
+            # print("ERROR: RecoveryNode node")
         
 
 
