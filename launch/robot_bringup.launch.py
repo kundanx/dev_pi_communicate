@@ -22,60 +22,72 @@ from launch.substitutions import (EnvironmentVariable, FindExecutable,
 
 
 def generate_launch_description():
+
+
     # launch transforms
     tf_path = os.path.join(
         get_package_share_directory("dev_pi_communicate"), "launch/transform.launch.py"
     )
     tf = IncludeLaunchDescription(PythonLaunchDescriptionSource([tf_path]))
-    # launch transforms
+
     serials_path = os.path.join(
         get_package_share_directory("dev_pi_communicate"), "launch/serials.launch.py"
     )
     serials = IncludeLaunchDescription(PythonLaunchDescriptionSource([serials_path]))
 
-    # ekf_pkg_path = os.path.join(get_package_share_directory('robot_localization'),'launch/ekf.launch.py')
-    # ekf_pkg=IncludeLaunchDescription(
-    #     PythonLaunchDescriptionSource([ekf_pkg_path])
-    # )
+    linefollow_path = os.path.join(
+        get_package_share_directory('linefollow'), 'launch/LineFollower.launch.py'
+    )
+    linefollower = IncludeLaunchDescription(PythonLaunchDescriptionSource([linefollow_path]))
 
-    # serial bridge node
+    nav2_path = os.path.join(
+        get_package_share_directory('dev_pi_communicate'), 'launch/navigation_launch.py'
+    )
+    nav2_launch = IncludeLaunchDescription(PythonLaunchDescriptionSource([nav2_path]))
+
     landmark_pose_estimation_node = Node(
         package="dev_pi_communicate",
         executable="landmark_pose_estimation_node",
         output="screen",
     )
-
-    cmdVel_to_serialBridge = Node(
-        package="dev_pi_communicate",
-        executable="cmdVel_to_serialBridge",
-        output="screen",
-    )
-    rqt_graph = Node(
-        package="rqt_graph",
-        executable="rqt_graph",
-        output="screen",
-    )
+    
     return LaunchDescription(
         [
-            # serials,
-            # ekf_pkg,
-            # tf,    
-            landmark_pose_estimation_node,    
-            # RegisterEventHandler(
-            #     OnProcessStart(
-            #         target_action=landmark_pose_estimation_node,
-            #         on_start=[
-            #             cmdVel_to_serialBridge,
-            #         ]
-            #     )
-            # ),
+            landmark_pose_estimation_node,
+            
             RegisterEventHandler(
             OnProcessStart(
                 target_action=landmark_pose_estimation_node,
                 on_start=[
+                    serials,
+                ]
+                )
+            ),
+            
+            RegisterEventHandler(
+            OnExecutionComplete(
+                target_action=serials,
+                on_completion=[
                     tf,
                 ]
-            )
+                )
+            ),
+            RegisterEventHandler(
+            OnExecutionComplete(
+                target_action=tf,
+                on_completion=[
+                    linefollower,
+                ]
+                )
+            ),
+
+            RegisterEventHandler(
+            OnExecutionComplete(
+                target_action=linefollower,
+                on_completion=[
+                    nav2_launch,
+                ]
+                )
             ),
         ]
     )
