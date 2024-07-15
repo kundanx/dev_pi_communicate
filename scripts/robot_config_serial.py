@@ -6,6 +6,8 @@ import serial
 import time
 import logging
 from enum import Enum
+import yaml
+import os
 
 
 from math import sin, cos
@@ -63,6 +65,12 @@ class robot_config_serial(Node):
         self.rx_data_size = 1
         qos_profile = QoSProfile(depth= 10)
         qos_profile.reliability = QoSReliabilityPolicy.BEST_EFFORT
+
+        ## Config file for Apil 
+        self.robot_config_file = "/home/apil/main_ws/src/robot/config/common.yaml"
+        with open(self.robot_config_file, "r") as file:
+            self.yaml_data = yaml.safe_load(file)
+        self.write_config = True
         
         self.team_color_pub = self.create_publisher(Int8, 'team_color', qos_profile)
         self.zone_pub = self.create_publisher(UInt8, 'zone_status', qos_profile)
@@ -135,11 +143,20 @@ class robot_config_serial(Node):
                 byte = 0x00
 
             ''' Team color '''
+            config_team = ""
             teamcolor = Int8()
             if byte & 0b10000000:  
                 teamcolor.data = RED
+                config_team = "red"
             else:
                 teamcolor.data = BLUE
+                config_team = "blue"
+            
+            if self.write_config:
+                self.yaml_data["/**"]["ros__parameters"]["team_color"] = config_team
+                with open(self.robot_config_file, "w") as file:
+                    yaml.safe_dump(self.yaml_data, file)
+                self.write_config = False
             
             ''' Zone '''
             zone = UInt8()
