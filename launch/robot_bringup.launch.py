@@ -50,10 +50,22 @@ def generate_launch_description():
         executable="landmark_pose_estimation_node",
         output="screen",
     )
+
+    dummy_node = ExecuteProcess(
+        cmd=
+            [
+                [
+                "sleep 2"
+                ]
+            ],
+        shell=True
+    )
     
     return LaunchDescription(
         [
             landmark_pose_estimation_node,
+            # serials,
+            # dummy_node,
             
             RegisterEventHandler(
             OnProcessStart(

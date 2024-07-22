@@ -6,7 +6,7 @@ import rclpy
 from geometry_msgs.msg import Twist
 from rclpy.node import Node
 from rclpy.qos import QoSProfile, QoSReliabilityPolicy
-from std_msgs.msg import Float32MultiArray, Float64MultiArray
+from std_msgs.msg import Float32MultiArray, Float64MultiArray, Int8
 
 MAX_VEL = 2.0
 
@@ -23,8 +23,21 @@ class cmdVel_to_serialBridge(Node):
         self.linefollow_cmdvel_subscriber_node = self.create_subscription(
             Twist, "cmd_vel/linefollow", self.linefollow_recieve_callback, qos_profile
         )
+        self.slow_down_subscriber = self.create_subscription(
+            Int8, "ball_detected_slow_down", self.slow_down_callback, 10
+        )
         self.cmd_pub = self.create_publisher(Float32MultiArray, "/cmd_robot_vel", 10)
+
+        self.slow_down_flag : bool = False
         self.get_logger().info("nav2_cmd_vel node ready ...")
+    
+    def slow_down_callback(self, slow_down_msg:Int8):
+        if slow_down_msg.data == 1:
+            self.slow_down_flag = True
+        else:
+            self.slow_down_flag = False
+
+        
 
     def linefollow_recieve_callback(self, msg: Twist):
         twist_array = Float32MultiArray()
@@ -37,18 +50,19 @@ class cmdVel_to_serialBridge(Node):
 
     def nav2_recieve_callback(self, msg: Twist):
         twist_array = Float32MultiArray()
-        if msg.linear.x > 0.2:
-            # if( abs(msg.linear.x) > 0.5):
-            #     msg.linear.x = MAX_VEL *(msg.linear.x) / abs(msg.linear.x)
-            # else:
-            msg.linear.x = self.map(msg.linear.x, -1.0, 1.0, -MAX_VEL, MAX_VEL)
+        if self.slow_down_flag:
+            if msg.linear.x > 0.3:
+                # if( abs(msg.linear.x) > 0.5):
+                #     msg.linear.x = MAX_VEL *(msg.linear.x) / abs(msg.linear.x)
+                # else:
+                msg.linear.x = self.map(msg.linear.x, -1.0, 1.0, -MAX_VEL, MAX_VEL)
+                
             
-        
-        if msg.linear.y > 0.2:
-            # if( abs(msg.linear.y) > 0.4):
-            #     msg.linear.y = MAX_VEL *(msg.linear.y) / abs(msg.linear.y)
-            # else:
-            msg.linear.y = self.map(msg.linear.y, -1.0, 1.0, -MAX_VEL, MAX_VEL)
+            if msg.linear.y > 0.3:
+                # if( abs(msg.linear.y) > 0.4):
+                #     msg.linear.y = MAX_VEL *(msg.linear.y) / abs(msg.linear.y)
+                # else:
+                msg.linear.y = self.map(msg.linear.y, -1.0, 1.0, -MAX_VEL, MAX_VEL)
            
         twist_array.data = [
             float(msg.linear.x),

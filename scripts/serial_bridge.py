@@ -29,14 +29,13 @@ START_BYTE = 0b10100101
 RECIEVE_SIZE = 1 + 24 + 24 + 1
 TRANSMIT_SIZE = 1 + 15 + 1
 serial_baudrate = 115200
+
 serial_apil = "/dev/ttyUSB0"
 serial_port_address_FTDI = (
-    "/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A50285BI-if00-port0"
+    "/dev/serial/by-id/usb-Prolific_Technology_Inc._USB-Serial_Controller-if00-port0"
 )
 serial_port_address_black = "/dev/serial/by-id/usb-1a86_USB2.0-Serial-if00-port0"
-serial_port_address_bluepill = (
-    "/dev/serial/by-id/usb-freepill_STM32_Virtual_ComPort_6D9130825749-if00"
-)
+serial_port_address_bluepill = "/dev/serial/by-id/usb-freepill_STM32_Virtual_ComPort_6D72358E5756-if00"
 
 
 """
@@ -59,8 +58,19 @@ MIRROR_L_JUNCTIO = 10
 class Serial_comms_TX_node(Node):
     def __init__(self):
         super().__init__("serial_bridge")
-        self.serial_port = serial_comms(
-            serial_port_address_black, serial_baudrate, RECIEVE_SIZE, TRANSMIT_SIZE, "CRC"
+        self.write_serial_port = serial_comms(
+            serial_port_address_black,
+            serial_baudrate,
+            RECIEVE_SIZE,
+            TRANSMIT_SIZE,
+            "CRC",
+        )
+        self.read_serial_port = serial_comms(
+            serial_port_address_bluepill,
+            serial_baudrate,
+            RECIEVE_SIZE,
+            TRANSMIT_SIZE,
+            "CRC",
         )
 
         qos_profile = QoSProfile(depth=10)
@@ -92,7 +102,7 @@ class Serial_comms_TX_node(Node):
         self.act_vel_rx_flag = False
         self.act_vel_msg.data = [0, 0, 0]
 
-        self.timer2 = self.create_timer(0.01, self.Send_Data_CallBack)
+        self.timer2 = self.create_timer(0.015, self.Send_Data_CallBack)
         self.timer1 = self.create_timer(0.001, self.serial_read_callback)
 
         self.rx_data = [0.0] * 24
@@ -111,8 +121,6 @@ class Serial_comms_TX_node(Node):
     def Send_Data_CallBack(self):
         # if not self.act_vel_rx_flag:
         #     self.act_vel_msg.data = [0,0,0]
-        # if not self.cmd_vel_rx_flag:
-        #     self.cmd_vel_msg.data = [0.0, 0.0, 0.0]
 
         now = time.time()
         if now - self.cmd_vel_last_rx_time >= 0.5:
@@ -132,12 +140,13 @@ class Serial_comms_TX_node(Node):
         ]
         DataToSend = b"".join(DataToSend)
         data_hash = self.calculate_crc(DataToSend[1:])
-        # print(f"{data_hash =}")
         DataToSend = [DataToSend, bytes(struct.pack("B", data_hash))]
         DataToSend = b"".join(DataToSend)
+        # print(f"{data_hash =}")
+        # print(f"{self.cmd_vel_msg.data[2]}")
         diff_tx = time.time() - self.last_transmit_time
         self.last_transmit_time = time.time()
-        self.serial_port.write_data(DataToSend)
+        self.write_serial_port.write_data(DataToSend)
         self.cmd_vel_rx_flag = False
         self.act_vel_rx_flag = False
 
@@ -145,9 +154,9 @@ class Serial_comms_TX_node(Node):
         self.act_vel_msg.data[0] = act_vel_msg_.data[0]
         self.act_vel_msg.data[1] = act_vel_msg_.data[1]
         self.act_vel_msg.data[2] = act_vel_msg_.data[2]
-        print(
-            f"act_vel: {act_vel_msg_.data[0]}, {act_vel_msg_.data[1]},{act_vel_msg_.data[2]}"
-        )
+        # print(
+        #     f"act_vel: {act_vel_msg_.data[0]}, {act_vel_msg_.data[1]},{act_vel_msg_.data[2]}"
+        # )
         self.act_vel_last_rx_time = time.time()
 
         self.act_vel_rx_flag = True
@@ -156,12 +165,13 @@ class Serial_comms_TX_node(Node):
         self.cmd_vel_msg.data[0] = cmd_vel_msg_.data[0]
         self.cmd_vel_msg.data[1] = cmd_vel_msg_.data[1]
         self.cmd_vel_msg.data[2] = cmd_vel_msg_.data[2]
+        
         self.cmd_vel_last_rx_time = time.time()
 
         self.cmd_vel_rx_flag = True
 
     def serial_read_callback(self):
-        _data = self.serial_port.read_data()
+        _data = self.read_serial_port.read_data()
         if _data is not None:
             """data = [x, y, theta, vx, vy, omega, imu_data[6]]"""
             data = struct.unpack("ffffffffffff", _data[0:-1])
@@ -171,7 +181,7 @@ class Serial_comms_TX_node(Node):
             self.process_imu(self.rx_data[6:])
             now = time.time()
             diff = now - self.last_published_time
-            # print(f"{diff =}")
+            # print(f"{data =}")
             self.last_published_time = time.time()
 
     """

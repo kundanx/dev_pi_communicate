@@ -25,7 +25,8 @@ IR_LEFT_TIMEOUT = 0x08
 IR_RIGHT_TIMEOUT = 0X10
 TF_TIMEOUT = 0x20
 
-sensor_bluepill = '/dev/serial/by-id/usb-STMicroelectronics_STM32_Virtual_ComPort_6D9130825749-if00'
+sensor_bluepill_1 = '/dev/serial/by-id/usb-STMicroelectronics_STM32_Virtual_ComPort_4147395C3737-if00'
+sensor_bluepill = '/dev/serial/by-id/usb-STMicroelectronics_STM32_Virtual_ComPort_00517C4B4D34-if00'
     
 class color_ir_tfmini_serial_node(Node):
     
@@ -57,10 +58,10 @@ class color_ir_tfmini_serial_node(Node):
         """ Status, lf_ir, rt_ir, color_sensor, tf_dist, tf_strength """
         data = struct.unpack("BBBBHH", _data[0:8])
 
+        ir_sensor_data = UInt16()
 
         if not (data[0] & IR_LEFT_TIMEOUT ):
             if not (data[0] & IR_RIGHT_TIMEOUT):
-                ir_sensor_data = UInt16()
                 ir_sensor_data.data = 0x00
                 ir_sensor_data.data = ir_sensor_data.data |  int(data[2]) |  int(data[1] << 8)
                 self.ir_sensor_pub.publish(ir_sensor_data)
