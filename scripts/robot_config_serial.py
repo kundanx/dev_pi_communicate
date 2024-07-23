@@ -148,7 +148,8 @@ class robot_config_serial(Node):
         else:
             teamcolor.data = BLUE
             config_team = "blue"
-        teamcolor.data = RED
+
+        # teamcolor.data = RED
 
         if self.write_config:
             self.yaml_data["/**"]["ros__parameters"]["team_color"] = config_team

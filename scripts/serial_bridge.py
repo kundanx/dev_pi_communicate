@@ -35,7 +35,9 @@ serial_port_address_FTDI = (
     "/dev/serial/by-id/usb-Prolific_Technology_Inc._USB-Serial_Controller-if00-port0"
 )
 serial_port_address_black = "/dev/serial/by-id/usb-1a86_USB2.0-Serial-if00-port0"
-serial_port_address_bluepill = "/dev/serial/by-id/usb-freepill_STM32_Virtual_ComPort_6D72358E5756-if00"
+serial_port_address_bluepill = (
+    "/dev/serial/by-id/usb-freepill_STM32_Virtual_ComPort_6D72358E5756-if00"
+)
 
 
 """
@@ -165,13 +167,13 @@ class Serial_comms_TX_node(Node):
         self.cmd_vel_msg.data[0] = cmd_vel_msg_.data[0]
         self.cmd_vel_msg.data[1] = cmd_vel_msg_.data[1]
         self.cmd_vel_msg.data[2] = cmd_vel_msg_.data[2]
-        
+
         self.cmd_vel_last_rx_time = time.time()
 
         self.cmd_vel_rx_flag = True
 
     def serial_read_callback(self):
-        _data = self.read_serial_port.read_data()
+        _data = self.write_serial_port.read_data()
         if _data is not None:
             """data = [x, y, theta, vx, vy, omega, imu_data[6]]"""
             data = struct.unpack("ffffffffffff", _data[0:-1])
