@@ -133,8 +133,8 @@ controller_server:
       plugin: "nav2_controller::StoppedGoalChecker"
       trans_stopped_velocity: 0.04
       rot_stopped_velocity: 0.04
-      xy_goal_tolerance: 0.10
-      yaw_goal_tolerance: 2.57
+      xy_goal_tolerance: 0.01
+      yaw_goal_tolerance: 3.0
       stateful: True
 
 
@@ -380,7 +380,7 @@ behavior_server:
   ros__parameters:
     costmap_topic: local_costmap/costmap_raw
     footprint_topic: local_costmap/published_footprint
-    cycle_frequency: 10.0
+    cycle_frequency: 20.0
     behavior_plugins: ["spin", "backup", "drive_on_heading", "assisted_teleop", "wait"]
     spin:
       plugin: "nav2_behaviors/Spin"

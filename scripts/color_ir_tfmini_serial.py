@@ -45,6 +45,9 @@ class color_ir_tfmini_serial_node(Node):
         self.tfmini_pub = self.create_publisher(UInt16, 'tfmini_distance', qos_profile)
 
         self.timer1 = self.create_timer(0.001, self.serial_read_callback)
+
+        self.ball_inside_detect_counter = 100
+        self.only_ball_detect_counter = 100
         self.ball_inside_counter = 100
         self.only_ball_counter = 100
 
@@ -70,9 +73,9 @@ class color_ir_tfmini_serial_node(Node):
         else:
             print(f"Left IR timeout")
 
+        tf_distance = UInt16()
 
         if not ( data[0] & TF_TIMEOUT):
-            tf_distance = UInt16()
             tf_distance.data = data[4]
             self.tfmini_pub.publish(tf_distance)
         else:   
@@ -82,19 +85,27 @@ class color_ir_tfmini_serial_node(Node):
         out_ball_status = UInt8()
         
         byte = data[3]
-        if byte & 0x0f == 0x0f:
+        if (byte & 0x0f) == 0x0f:
             self.ball_inside_counter = 0
         
-        if byte & 0xf0 == 0xf0:
+        # if  self.ball_inside_detect_counter >= 2:
+        #     self.ball_inside_detect_counter = 0
+        #     self.ball_inside_counter = 0
+        
+        if (byte & 0xf0) == 0xf0:
             self.only_ball_counter = 0
         
-        if self.ball_inside_counter < 70:
+        # if  self.only_ball_detect_counter >= 2:
+        #     self.only_ball_detect_counter = 0
+        #     self.only_ball_counter = 0
+        
+        if self.ball_inside_counter < 50:
             self.ball_inside_counter += 1
             in_ball_status.data = 1
         else:
-                in_ball_status.data = 0
+            in_ball_status.data = 0
         
-        if self.only_ball_counter < 70:
+        if self.only_ball_counter < 50:
             self.only_ball_counter +=1
             out_ball_status.data = 1
         else:

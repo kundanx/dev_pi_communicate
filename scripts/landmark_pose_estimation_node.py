@@ -52,9 +52,9 @@ class landmarkPoseEstimation(Node):
         self.filtered_odometry_subs = self.create_subscription(
             Odometry, "odometry/filtered", self.odometry_callback, qos_profile
         )
-        self.silo_number_subs = self.create_subscription(
-            UInt8, "silo_number", self.siloNum_subscriber_callback, qos_profile
-        )
+        # self.silo_number_subs = self.create_subscription(
+        #     UInt8, "silo_number", self.siloNum_subscriber_callback, qos_profile
+        # )
         self.team_color_subs = self.create_subscription(
             Int8, "team_color", self.teamColor_subscriber_callback, qos_profile
         )
@@ -84,7 +84,7 @@ class landmarkPoseEstimation(Node):
         self.silo_number: UInt8 = 0
         # self.line_pose: Int8 = 0
         self.is_on_silo_region: bool = False
-        self.is_on_area3: bool = False
+        self.is_on_area3: bool = True
         self.ball_store_just_now: bool = False
         self.origin_reset_once: bool = False
         # self.in_between_x_horz_and_storage_zone : bool = False
@@ -125,8 +125,8 @@ class landmarkPoseEstimation(Node):
         self.raw_odom_msg = msg
         # print(f"raw_y: {self.raw_odom_msg.pose.pose.position.y}")
 
-    def siloNum_subscriber_callback(self, msg: UInt8) -> None:
-        self.silo_number = msg.data
+    # def siloNum_subscriber_callback(self, msg: UInt8) -> None:
+    #     self.silo_number = msg.data
     
     def teamColor_subscriber_callback( self, msg:Int8):
         self.team_color = msg.data
@@ -146,6 +146,8 @@ class landmarkPoseEstimation(Node):
 
         elif msg.data == 5:
             self.pose2D = self.data_loaded["landmark_pose_estimation_node"]["silo_5"]
+        
+        print(f"LANDMARK_UPDATE:: aligned_silo {msg.data}")
 
         self.ball_store_just_now = True
         # breakpoint()
@@ -227,19 +229,19 @@ class landmarkPoseEstimation(Node):
         if self.is_on_area3:
             ready_to_publish = False
 
-            if self.is_on_silo_region:
-                junc_type: float = 0.0
+            # if self.is_on_silo_region:
+            junc_type: float = 0.0
                 # if self.landMark_detected:
                 #     ready_to_publish = True
                 #     self.landMark_detected = False
                 #     junc_type = float(self.junction_type.data)
                 #     print("landmark_detected")
 
-                if self.ball_store_just_now:
-                    ready_to_publish = True
-                    self.ball_store_just_now = False
-                    junc_type = float(CROSS_JUNCTION)
-                    print("ball_stored_just_now")
+            if self.ball_store_just_now:
+                ready_to_publish = True
+                self.ball_store_just_now = False
+                junc_type = float(CROSS_JUNCTION)
+                print("LANDMAKR_UPDATE::ball_stored_just_now")
                 
             if self.origin_reset_once == True:
                 ready_to_publish = True

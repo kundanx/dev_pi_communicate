@@ -25,7 +25,8 @@ RECIEVE_SIZE = 1
 TRANSMIT_SIZE = 1
 serial_baudrate = 115200
 
-serial_port_pico = "/dev/serial/by-id/usb-Raspberry_Pi_Pico_E6611CB71F34112A-if00"
+serial_port_pico_ = "/dev/serial/by-id/usb-Raspberry_Pi_Pico_E6611CB71F34112A-if00"
+serial_port_pico = "/dev/serial/by-id/usb-Raspberry_Pi_Pico_E6614103E74E4E36-if00"
 
 """
   Recieve data:
@@ -188,15 +189,15 @@ class robot_config_serial(Node):
         now = time.time() * 1000
         if now - self.lf_last_rx > 100:
             self.lf_color = 0
-            print("ERROR: Linefollow node")
+            # print("ERROR: Linefollow node")
 
         if now - self.ballPose_last_rx > 100:
             self.ballPose_color = 0
-            print("ERROR: GoToBallPose node")
+            # print("ERROR: GoToBallPose node")
 
         if now - self.silo_last_rx > 100:
             self.silo_color = 0
-            print("ERROR: GoToSiloPose node")
+            # print("ERROR: GoToSiloPose node")
 
         # if now - self.origin_last_rx > 100:
         #     self.origin_color = 0
@@ -204,27 +205,23 @@ class robot_config_serial(Node):
 
         if now - self.middle_last_rx > 100:
             self.middle_color = 0
-            print("ERROR: GoToMiddle node")
+            # print("ERROR: GoToMiddle node")
 
         if now - self.recovery_last_rx > 100:
             self.recovery_color = 0
-            print("ERROR: RecoveryNode node")
+            # print("ERROR: RecoveryNode node")
 
         if (
             self.lf_color
-            & self.ballPose_color
             & self.silo_color
-            & self.middle_color
-            & self.recovery_color
+            # & self.middle_color
         ) == 1:
             self.team_color.data = BLUE_
 
         elif (
             self.lf_color
-            & self.ballPose_color
             & self.silo_color
-            & self.middle_color
-            & self.recovery_color
+            # & self.middle_color
         ) == -1:
             self.team_color.data = RED_
 

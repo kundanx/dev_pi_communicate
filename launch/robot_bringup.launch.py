@@ -93,13 +93,13 @@ def generate_launch_description():
                 )
             ),
 
-            RegisterEventHandler(
-            OnExecutionComplete(
-                target_action=linefollower,
-                on_completion=[
-                    nav2_launch,
-                ]
-                )
-            ),
+            # RegisterEventHandler(
+            # OnExecutionComplete(
+            #     target_action=linefollower,
+            #     on_completion=[
+            #         nav2_launch,
+            #     ]
+            #     )
+            # ),
         ]
     )

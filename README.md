@@ -81,6 +81,13 @@ The executables and transforms are listed as follows:
     ros2 run nav2_map_server map_saver_cli -f /filename
   ```
 
+  * To change to cyclone dds:
+  ```
+    sudo apt install ros-${distro}-rmw-cyclonedds-cpp
+    export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+    export RMW_CYCLONEDDS_USE_UDP=1
+  ```
+
 
 ## ***Resources***
 

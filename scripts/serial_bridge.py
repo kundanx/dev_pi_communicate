@@ -35,11 +35,13 @@ serial_port_address_FTDI = (
     "/dev/serial/by-id/usb-Prolific_Technology_Inc._USB-Serial_Controller-if00-port0"
 )
 serial_port_address_black = "/dev/serial/by-id/usb-1a86_USB2.0-Serial-if00-port0"
+serial_port_address_blue = "/dev/serial/by-id/usb-Prolific_Technology_Inc._USB-Serial_Controller-if00-port0"
 serial_port_address_bluepill = (
     "/dev/serial/by-id/usb-freepill_STM32_Virtual_ComPort_6D72358E5756-if00"
 )
 
 
+serial_port_stm ="/dev/serial/by-id/usb-STMicroelectronics_STM32_Virtual_ComPort_324B30633331-if00"
 """
 Junction euivalent Int ----------------------------
 """
@@ -67,13 +69,13 @@ class Serial_comms_TX_node(Node):
             TRANSMIT_SIZE,
             "CRC",
         )
-        self.read_serial_port = serial_comms(
-            serial_port_address_bluepill,
-            serial_baudrate,
-            RECIEVE_SIZE,
-            TRANSMIT_SIZE,
-            "CRC",
-        )
+        # self.read_serial_port = serial_comms(
+        #     serial_port_stm,
+        #     serial_baudrate,
+        #     RECIEVE_SIZE,
+        #     TRANSMIT_SIZE,
+        #     "CRC",
+        # )
 
         qos_profile = QoSProfile(depth=10)
         qos_profile.reliability = QoSReliabilityPolicy.BEST_EFFORT
@@ -104,7 +106,7 @@ class Serial_comms_TX_node(Node):
         self.act_vel_rx_flag = False
         self.act_vel_msg.data = [0, 0, 0]
 
-        self.timer2 = self.create_timer(0.015, self.Send_Data_CallBack)
+        self.timer2 = self.create_timer(0.01, self.Send_Data_CallBack)
         self.timer1 = self.create_timer(0.001, self.serial_read_callback)
 
         self.rx_data = [0.0] * 24
@@ -117,6 +119,7 @@ class Serial_comms_TX_node(Node):
         self.last_transmit_time = time.time()
         self.last_published_time = time.time()
 
+
         self.get_logger().info("Serial bridge ready...")
 
     # Joystick read callback function
@@ -124,12 +127,15 @@ class Serial_comms_TX_node(Node):
         # if not self.act_vel_rx_flag:
         #     self.act_vel_msg.data = [0,0,0]
 
+
         now = time.time()
-        if now - self.cmd_vel_last_rx_time >= 0.5:
+        if now - self.cmd_vel_last_rx_time >= 0.3:
             self.cmd_vel_msg.data = [0.0, 0.0, 0.0]
 
+        # self.cmd_vel_msg.data = [0.0, 0.0, 1.0]
+
         # if now - self.act_vel_last_rx_time >= 0.05:
-        #     self.act_vel_msg.data = [0,0,0]
+        # self.act_vel_msg.data = [40,50,7]
 
         DataToSend = [
             bytes(struct.pack("B", START_BYTE)),
@@ -148,6 +154,7 @@ class Serial_comms_TX_node(Node):
         # print(f"{self.cmd_vel_msg.data[2]}")
         diff_tx = time.time() - self.last_transmit_time
         self.last_transmit_time = time.time()
+        
         self.write_serial_port.write_data(DataToSend)
         self.cmd_vel_rx_flag = False
         self.act_vel_rx_flag = False
@@ -182,9 +189,17 @@ class Serial_comms_TX_node(Node):
             self.process_odom(self.rx_data[0:9])
             self.process_imu(self.rx_data[6:])
             now = time.time()
-            diff = now - self.last_published_time
+
+            delay = now  - self.last_published_time
+            if delay >= 0.02:
+                print(f"{delay = }")
             # print(f"{data =}")
+            
             self.last_published_time = time.time()
+
+            
+        # else:
+        #     print("data none")
 
     """
     data:[pos_x, pose_y, theta, vel_x, vel_y, vel_z]
@@ -292,11 +307,6 @@ class Serial_comms_TX_node(Node):
         odom_msg.pose.pose.position.x = data[0] - self.x_offset
         odom_msg.pose.pose.position.y = data[1] - self.y_offset
         self.odom_publisher.publish(odom_msg)
-
-        now = time.time()
-        diff = now - self.last_published_time
-        self.last_published_time = now
-        # print(f"{diff=}")
 
     """
     data: [yaw, pitch, roll, accel_x, accel_y,accel-z]
