@@ -133,7 +133,7 @@ controller_server:
       plugin: "nav2_controller::StoppedGoalChecker"
       trans_stopped_velocity: 0.04
       rot_stopped_velocity: 0.04
-      xy_goal_tolerance: 0.01
+      xy_goal_tolerance: 0.1
       yaw_goal_tolerance: 3.0
       stateful: True
 

@@ -31,6 +31,7 @@ TRANSMIT_SIZE = 1 + 15 + 1
 serial_baudrate = 115200
 
 serial_apil = "/dev/ttyUSB0"
+serial_port_pico = "/dev/serial/by-id/usb-Raspberry_Pi_Pico_E661AC88633E5127-if00"
 serial_port_address_FTDI = (
     "/dev/serial/by-id/usb-Prolific_Technology_Inc._USB-Serial_Controller-if00-port0"
 )
@@ -63,7 +64,7 @@ class Serial_comms_TX_node(Node):
     def __init__(self):
         super().__init__("serial_bridge")
         self.write_serial_port = serial_comms(
-            serial_port_address_black,
+            serial_port_pico,
             serial_baudrate,
             RECIEVE_SIZE,
             TRANSMIT_SIZE,
@@ -106,7 +107,7 @@ class Serial_comms_TX_node(Node):
         self.act_vel_rx_flag = False
         self.act_vel_msg.data = [0, 0, 0]
 
-        self.timer2 = self.create_timer(0.01, self.Send_Data_CallBack)
+        # self.timer2 = self.create_timer(0.015, self.Send_Data_CallBack)
         self.timer1 = self.create_timer(0.001, self.serial_read_callback)
 
         self.rx_data = [0.0] * 24
@@ -124,18 +125,18 @@ class Serial_comms_TX_node(Node):
 
     # Joystick read callback function
     def Send_Data_CallBack(self):
-        # if not self.act_vel_rx_flag:
-        #     self.act_vel_msg.data = [0,0,0]
-
-
+        
         now = time.time()
+        if ( now - self.last_transmit_time < 0.01):
+            return
+        
         if now - self.cmd_vel_last_rx_time >= 0.3:
             self.cmd_vel_msg.data = [0.0, 0.0, 0.0]
 
         # self.cmd_vel_msg.data = [0.0, 0.0, 1.0]
 
         # if now - self.act_vel_last_rx_time >= 0.05:
-        # self.act_vel_msg.data = [40,50,7]
+        # self.act_vel_msg.data = [50,50,7]
 
         DataToSend = [
             bytes(struct.pack("B", START_BYTE)),
@@ -152,7 +153,6 @@ class Serial_comms_TX_node(Node):
         DataToSend = b"".join(DataToSend)
         # print(f"{data_hash =}")
         # print(f"{self.cmd_vel_msg.data[2]}")
-        diff_tx = time.time() - self.last_transmit_time
         self.last_transmit_time = time.time()
         
         self.write_serial_port.write_data(DataToSend)
@@ -180,6 +180,7 @@ class Serial_comms_TX_node(Node):
         self.cmd_vel_rx_flag = True
 
     def serial_read_callback(self):
+        self.Send_Data_CallBack()
         _data = self.write_serial_port.read_data()
         if _data is not None:
             """data = [x, y, theta, vx, vy, omega, imu_data[6]]"""

@@ -45,6 +45,11 @@ def generate_launch_description():
     )
     nav2_launch = IncludeLaunchDescription(PythonLaunchDescriptionSource([nav2_path]))
 
+    bt_path = os.path.join(
+        get_package_share_directory('behaviour_plugins'), 'launch/bt.launch.py'
+    )
+    bt_launch = IncludeLaunchDescription(PythonLaunchDescriptionSource([bt_path]))
+
     landmark_pose_estimation_node = Node(
         package="dev_pi_communicate",
         executable="landmark_pose_estimation_node",
@@ -98,6 +103,14 @@ def generate_launch_description():
             #     target_action=linefollower,
             #     on_completion=[
             #         nav2_launch,
+            #     ]
+            #     )
+            # ),
+            # RegisterEventHandler(
+            # OnExecutionComplete(
+            #     target_action=nav2_launch,
+            #     on_completion=[
+            #         bt_launch,
             #     ]
             #     )
             # ),

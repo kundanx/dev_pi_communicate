@@ -26,7 +26,8 @@ IR_RIGHT_TIMEOUT = 0X10
 TF_TIMEOUT = 0x20
 
 sensor_bluepill_1 = '/dev/serial/by-id/usb-STMicroelectronics_STM32_Virtual_ComPort_4147395C3737-if00'
-sensor_bluepill = '/dev/serial/by-id/usb-STMicroelectronics_STM32_Virtual_ComPort_00517C4B4D34-if00'
+sensor_bluepill_2 = '/dev/serial/by-id/usb-STMicroelectronics_STM32_Virtual_ComPort_00517C4B4D34-if00'
+sensor_bluepill = '/dev/serial/by-id/usb-STMicroelectronics_STM32_Virtual_ComPort_4D3A453D3030-if00'
     
 class color_ir_tfmini_serial_node(Node):
     

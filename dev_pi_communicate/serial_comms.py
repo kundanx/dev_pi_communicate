@@ -28,8 +28,12 @@ class serial_comms:
         self.start_byte_found = False
         
     def write_data(self,data):
-        self.serial.write(data)
-        self.serial.reset_output_buffer()
+        try:
+            self.serial.write(data)
+        except serial.SerialException as e:
+            logger.error(f"Erros as: {e}")
+            
+        # self.serial.reset_output_buffer()
         
     def read_data(self):  
         if not self.start_byte_found:
@@ -43,7 +47,7 @@ class serial_comms:
                 else:
                     # print("[Serial_coms]:timeoutwaiting for start byte")
                     return
-            except serial.SerialException as e:
+            except (serial.SerialException, OSError) as e:
                 logger.error(f"[Serial_coms]::Serial port error: {e}")
                 self._reopen_serial_port()
 
@@ -69,7 +73,7 @@ class serial_comms:
                     return
 
                 
-            except serial.SerialException as e:
+            except (serial.SerialException, OSError) as e:
                 logger.error(f"[Serial_coms]:Serial port error: {e}")
                 self._reopen_serial_port()
     
@@ -82,7 +86,7 @@ class serial_comms:
             self.serial.close()
             self.serial = serial.Serial(self.serial_port, self.serial_baudrate, timeout=1.0)
             logger.info("[Serial_coms]::Serial port reopened successfully")
-        except serial.SerialException as e:
+        except (serial.SerialException, OSError) as e:
             logger.error(f"[Serial_coms]:Failed to reopen serial port: {e}")
         except Exception as e:
             logger.error(f"[Serial_coms]:Serial port unknown error: {e}")
