@@ -26,14 +26,16 @@ TRANSMIT_SIZE = 1
 serial_baudrate = 115200
 
 serial_port_pico_ = "/dev/serial/by-id/usb-Raspberry_Pi_Pico_E6611CB71F34112A-if00"
-serial_port_pico = "/dev/serial/by-id/usb-Raspberry_Pi_Pico_E6614103E74E4E36-if00"
+serial_port_pico__= "/dev/serial/by-id/usb-Raspberry_Pi_Pico_E6614103E74E4E36-if00"
+serial_port_pico = "/dev/serial/by-id/usb-Raspberry_Pi_Pico_E661AC886355C027-if00"
+
 
 """
   Recieve data:
-    B7: Red/Blue team_color
+    B7: Blue/RED team_color
     B6: Start/Retry Zone
     B5: Start signal
-    B5: Wait signal
+    B4: Wait signal
     0000
 
   Transmit data: 
@@ -98,6 +100,11 @@ class robot_config_serial(Node):
             Int8, "color_feedback/RecoveryNode", self.RecoveryNode, qos_profile
         )
 
+        self.aligned_silo_subs = self.create_subscription(
+            UInt8, "aligned_silo", self.silo_number_callback, 10
+        )
+        
+        self.aligned_silo = UInt8()
         self.lf_color: int = 0
         self.ballPose_color: int = 0
         self.origin_color: int = 0
@@ -144,13 +151,17 @@ class robot_config_serial(Node):
         config_team = ""
         teamcolor = Int8()
         if byte & 0b10000000:
-            teamcolor.data = RED
-            config_team = "red"
-        else:
             teamcolor.data = BLUE
             config_team = "blue"
+        else:
+            teamcolor.data = RED
+            config_team = "red"
+
+        # teamcolor.data = BLUE
+        # config_team = "blue"
 
         # teamcolor.data = RED
+        # config_team = "red"
 
         if self.write_config:
             self.yaml_data["/**"]["ros__parameters"]["team_color"] = config_team
@@ -164,6 +175,9 @@ class robot_config_serial(Node):
             zone.data = START_ZONE
         else:
             zone.data = RETRY_ZONE
+        
+        # zone.data = START_ZONE
+
 
         """ Start Wait """
         start_or_wait = UInt8()
@@ -174,62 +188,89 @@ class robot_config_serial(Node):
         else:
             start_or_wait.data = 0x00
 
+        # start_or_wait.data = START
+        
+
         self.team_color_pub.publish(teamcolor)
         self.zone_pub.publish(zone)
         self.start_wait_pub.publish(start_or_wait)
 
         self.serial_transmit_callback()
-        # print(f"{bin(byte)}")
-        # print(
-        #     f"team_color: {teamcolor.data}, zone: {zone.data}, start_wait: {hex(start_or_wait.data)}"
-        # )
+
+        # print(f"team_color: {teamcolor.data}, zone: {zone.data}, start_wait: {hex(start_or_wait.data)}")
 
     def serial_transmit_callback(self):
-        self.team_color = UInt8()
+        # self.team_color = UInt8()
+        transmit_data = UInt8()
+
         now = time.time() * 1000
         if now - self.lf_last_rx > 100:
             self.lf_color = 0
-            # print("ERROR: Linefollow node")
+            print("ERROR: Linefollow node")
 
         if now - self.ballPose_last_rx > 100:
             self.ballPose_color = 0
-            # print("ERROR: GoToBallPose node")
+            print("ERROR: GoToBallPose node")
 
         if now - self.silo_last_rx > 100:
             self.silo_color = 0
-            # print("ERROR: GoToSiloPose node")
+            print("ERROR: GoToSiloPose node")
 
-        # if now - self.origin_last_rx > 100:
-        #     self.origin_color = 0
-            # print("ERROR: GoToOrigin node")
-
+        if now - self.origin_last_rx > 100:
+            self.origin_color = 0
+            print("ERROR: GoToOrigin node")
+# 
         if now - self.middle_last_rx > 100:
             self.middle_color = 0
-            # print("ERROR: GoToMiddle node")
+            print("ERROR: GoToMiddle node")
 
         if now - self.recovery_last_rx > 100:
             self.recovery_color = 0
-            # print("ERROR: RecoveryNode node")
+            print("ERROR: RecoveryNode node")
+
+        """
+          0x01 = Green + Blue
+          0x02 = Green + Red
+          0x03 = Blue + Red
+          0x04 = Green + Blue + Red
+          0x05 = Green
+          0x06 = Red
+          0x07 = Blue
+          0x08 = Green
+        """
 
         if (
             self.lf_color
             & self.silo_color
-            # & self.middle_color
-        ) == 1:
-            self.team_color.data = BLUE_
-
+            & self.middle_color 
+            & self.ballPose_color
+            & self.recovery_color
+        ) == -1:
+            # Team color = RED
+            transmit_data.data = 0x06
         elif (
             self.lf_color
             & self.silo_color
-            # & self.middle_color
-        ) == -1:
-            self.team_color.data = RED_
+            & self.middle_color 
+            & self.ballPose_color
+            & self.recovery_color
+        ) == 1:
+            # Team color = BLUE
+            transmit_data.data = 0x07
 
         else:
-            self.team_color.data = GREEN_
+            # Nodes not ready yet, color = GREEN
+            transmit_data.data = 0x08
+        
 
-        data = bytes(struct.pack("B", self.team_color.data))
+        if self.aligned_silo.data != 0x00:
+            transmit_data.data = self.aligned_silo.data
+        
+
+        data = bytes(struct.pack("B", transmit_data.data))
+        # print(f"{transmit_data.data = }")
         # data = b"".join(data)
+        # print(f"{data = }")
 
         self.serial.write(data)
         self.serial.reset_output_buffer()
@@ -257,13 +298,16 @@ class robot_config_serial(Node):
     def RecoveryNode(self, msg: Int8):
         self.recovery_color = msg.data
         self.recovery_last_rx = time.time() * 1000
+    
+    def silo_number_callback(self, msg: UInt8):
+        self.aligned_silo = msg
 
     def _reopen_serial_port(self):
         try:
             time.sleep(2)
             self.serial.close()
             self.serial = serial.Serial(
-                serial_port_address_stm32, serial_baudrate, timeout=1.0
+                serial_port_pico, serial_baudrate, timeout=1.0
             )
             logger.info("Serial port reopened successfully")
 
