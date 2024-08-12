@@ -136,7 +136,6 @@ class Serial_comms_TX_node(Node):
         # self.cmd_vel_msg.data = [0.0, 0.0, 1.0]
 
         # if now - self.act_vel_last_rx_time >= 0.05:
-        # self.act_vel_msg.data = [50,50,7]
 
         DataToSend = [
             bytes(struct.pack("B", START_BYTE)),
