@@ -36,13 +36,17 @@ serial_port_address_FTDI = (
     "/dev/serial/by-id/usb-Prolific_Technology_Inc._USB-Serial_Controller-if00-port0"
 )
 serial_port_address_black = "/dev/serial/by-id/usb-1a86_USB2.0-Serial-if00-port0"
-serial_port_address_blue = "/dev/serial/by-id/usb-Prolific_Technology_Inc._USB-Serial_Controller-if00-port0"
+serial_port_address_blue = (
+    "/dev/serial/by-id/usb-Prolific_Technology_Inc._USB-Serial_Controller-if00-port0"
+)
 serial_port_address_bluepill = (
     "/dev/serial/by-id/usb-freepill_STM32_Virtual_ComPort_6D72358E5756-if00"
 )
 
 
-serial_port_stm ="/dev/serial/by-id/usb-STMicroelectronics_STM32_Virtual_ComPort_324B30633331-if00"
+serial_port_stm = (
+    "/dev/serial/by-id/usb-STMicroelectronics_STM32_Virtual_ComPort_324B30633331-if00"
+)
 """
 Junction euivalent Int ----------------------------
 """
@@ -120,20 +124,20 @@ class Serial_comms_TX_node(Node):
         self.last_transmit_time = time.time()
         self.last_published_time = time.time()
 
-
         self.get_logger().info("Serial bridge ready...")
 
     # Joystick read callback function
     def Send_Data_CallBack(self):
-        
         now = time.time()
-        if ( now - self.last_transmit_time < 0.01):
+        if now - self.last_transmit_time < 0.01:
             return
-        
+
         if now - self.cmd_vel_last_rx_time >= 0.3:
             self.cmd_vel_msg.data = [0.0, 0.0, 0.0]
 
         # self.cmd_vel_msg.data = [0.0, 0.0, 1.0]
+        # self.act_vel_msg.data = [70, 0, 1]
+
 
         # if now - self.act_vel_last_rx_time >= 0.05:
 
@@ -153,7 +157,7 @@ class Serial_comms_TX_node(Node):
         # print(f"{data_hash =}")
         # print(f"{self.cmd_vel_msg.data[2]}")
         self.last_transmit_time = time.time()
-        
+
         self.write_serial_port.write_data(DataToSend)
         self.cmd_vel_rx_flag = False
         self.act_vel_rx_flag = False
@@ -185,19 +189,19 @@ class Serial_comms_TX_node(Node):
             """data = [x, y, theta, vx, vy, omega, imu_data[6]]"""
             data = struct.unpack("ffffffffffff", _data[0:-1])
             self.rx_data = data
+            # self.rx_data[1] = self.rx_data[1]
 
             self.process_odom(self.rx_data[0:9])
             self.process_imu(self.rx_data[6:])
             now = time.time()
 
-            delay = now  - self.last_published_time
+            delay = now - self.last_published_time
             if delay >= 0.02:
                 print(f"{delay = }")
             # print(f"{data =}")
-            
+
             self.last_published_time = time.time()
 
-            
         # else:
         #     print("data none")
 

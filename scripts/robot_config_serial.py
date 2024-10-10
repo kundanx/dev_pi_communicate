@@ -26,7 +26,7 @@ TRANSMIT_SIZE = 1
 serial_baudrate = 115200
 
 serial_port_pico_ = "/dev/serial/by-id/usb-Raspberry_Pi_Pico_E6611CB71F34112A-if00"
-serial_port_pico__= "/dev/serial/by-id/usb-Raspberry_Pi_Pico_E6614103E74E4E36-if00"
+serial_port_pico__ = "/dev/serial/by-id/usb-Raspberry_Pi_Pico_E6614103E74E4E36-if00"
 serial_port_pico = "/dev/serial/by-id/usb-Raspberry_Pi_Pico_E661AC886355C027-if00"
 
 
@@ -103,7 +103,7 @@ class robot_config_serial(Node):
         self.aligned_silo_subs = self.create_subscription(
             UInt8, "aligned_silo", self.silo_number_callback, 10
         )
-        
+
         self.aligned_silo = UInt8()
         self.lf_color: int = 0
         self.ballPose_color: int = 0
@@ -157,8 +157,8 @@ class robot_config_serial(Node):
             teamcolor.data = RED
             config_team = "red"
 
-        # teamcolor.data = BLUE
-        # config_team = "blue"
+        teamcolor.data = BLUE
+        config_team = "blue"
 
         # teamcolor.data = RED
         # config_team = "red"
@@ -175,9 +175,8 @@ class robot_config_serial(Node):
             zone.data = START_ZONE
         else:
             zone.data = RETRY_ZONE
-        
-        # zone.data = START_ZONE
 
+        # zone.data = START_ZONE
 
         """ Start Wait """
         start_or_wait = UInt8()
@@ -189,7 +188,6 @@ class robot_config_serial(Node):
             start_or_wait.data = 0x00
 
         # start_or_wait.data = START
-        
 
         self.team_color_pub.publish(teamcolor)
         self.zone_pub.publish(zone)
@@ -219,7 +217,7 @@ class robot_config_serial(Node):
         if now - self.origin_last_rx > 100:
             self.origin_color = 0
             print("ERROR: GoToOrigin node")
-# 
+        #
         if now - self.middle_last_rx > 100:
             self.middle_color = 0
             print("ERROR: GoToMiddle node")
@@ -242,7 +240,7 @@ class robot_config_serial(Node):
         if (
             self.lf_color
             & self.silo_color
-            & self.middle_color 
+            & self.middle_color
             & self.ballPose_color
             & self.recovery_color
         ) == -1:
@@ -251,7 +249,7 @@ class robot_config_serial(Node):
         elif (
             self.lf_color
             & self.silo_color
-            & self.middle_color 
+            & self.middle_color
             & self.ballPose_color
             & self.recovery_color
         ) == 1:
@@ -261,11 +259,9 @@ class robot_config_serial(Node):
         else:
             # Nodes not ready yet, color = GREEN
             transmit_data.data = 0x08
-        
 
         if self.aligned_silo.data != 0x00:
             transmit_data.data = self.aligned_silo.data
-        
 
         data = bytes(struct.pack("B", transmit_data.data))
         # print(f"{transmit_data.data = }")
@@ -298,7 +294,7 @@ class robot_config_serial(Node):
     def RecoveryNode(self, msg: Int8):
         self.recovery_color = msg.data
         self.recovery_last_rx = time.time() * 1000
-    
+
     def silo_number_callback(self, msg: UInt8):
         self.aligned_silo = msg
 
@@ -306,9 +302,7 @@ class robot_config_serial(Node):
         try:
             time.sleep(2)
             self.serial.close()
-            self.serial = serial.Serial(
-                serial_port_pico, serial_baudrate, timeout=1.0
-            )
+            self.serial = serial.Serial(serial_port_pico, serial_baudrate, timeout=1.0)
             logger.info("Serial port reopened successfully")
 
         except serial.SerialException as e:

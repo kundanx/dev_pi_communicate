@@ -1,18 +1,14 @@
 #! /usr/bin/env python3
 
 import math
+
 import numpy as np
 import rclpy
-
-from rclpy.node import Node
-
-from tf2_ros import TransformBroadcaster
-from geometry_msgs.msg import TransformStamped
-from geometry_msgs.msg import Pose
+from geometry_msgs.msg import Pose, TransformStamped
 from nav_msgs.msg import Odometry
-from rclpy.qos import QoSReliabilityPolicy, QoSProfile
-
-
+from rclpy.node import Node
+from rclpy.qos import QoSProfile, QoSReliabilityPolicy
+from tf2_ros import TransformBroadcaster
 
 
 def quaternion_from_euler(ai, aj, ak):
@@ -25,48 +21,48 @@ def quaternion_from_euler(ai, aj, ak):
     sj = math.sin(aj)
     ck = math.cos(ak)
     sk = math.sin(ak)
-    cc = ci*ck
-    cs = ci*sk
-    sc = si*ck
-    ss = si*sk
+    cc = ci * ck
+    cs = ci * sk
+    sc = si * ck
+    ss = si * sk
 
-    q = np.empty((4, ))
-    q[0] = cj*sc - sj*cs
-    q[1] = cj*ss + sj*cc
-    q[2] = cj*cs - sj*sc
-    q[3] = cj*cc + sj*ss
+    q = np.empty((4,))
+    q[0] = cj * sc - sj * cs
+    q[1] = cj * ss + sj * cc
+    q[2] = cj * cs - sj * sc
+    q[3] = cj * cc + sj * ss
 
     return q
 
 
 class odom_base_tf(Node):
-
     def __init__(self):
-        super().__init__('odom_base_link_tf2_broadcaster')
+        super().__init__("odom_base_link_tf2_broadcaster")
 
         # Initialize the transform broadcaster
         self.tf_broadcaster = TransformBroadcaster(self)
 
-        qos_profile = QoSProfile(depth= 10)
+        qos_profile = QoSProfile(depth=10)
         qos_profile.reliability = QoSReliabilityPolicy.BEST_EFFORT
         # callback function on each message
         self.subscription = self.create_subscription(
             Odometry,
-            'odometry/filtered', #base_odom_topic'
+            "odometry/filtered",  # base_odom_topic'
             self.handle_odom,
-            qos_profile)
-        
+            qos_profile,
+        )
+
         self.get_logger().info(str("odom to baseLink transform ready."))
         self.subscription  # prevent unused variable warning
 
-    def handle_odom(self, msg:Odometry):
+    def handle_odom(self, msg: Odometry):
         t = TransformStamped()
 
         # Read message content and assign it to
         # corresponding tf variables
         t.header.stamp = self.get_clock().now().to_msg()
-        t.header.frame_id = 'odom'
-        t.child_frame_id = 'base_link'
+        t.header.frame_id = "odom"
+        t.child_frame_id = "base_link"
 
         # RObot moves only in 2D, thus we get x and y translation
         # coordinates from the message and set the z coordinate to 0
@@ -86,6 +82,7 @@ class odom_base_tf(Node):
         # Send the transformation
         self.tf_broadcaster.sendTransform(t)
         # self.get_logger().info(str("Odom to base_link transform published."))
+
 
 def main():
     rclpy.init()
